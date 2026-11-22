@@ -92,22 +92,19 @@
     }
     .brand-group { display: flex; align-items: center; gap: 12px; }
     .brand-mark {
-      width: 30px;
-      height: 30px;
-      border-radius: 8px;
-      background: var(--brand-blue);
+      width: 34px;
+      height: 32px;
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
       flex-shrink: 0;
     }
-    .brand-mark::after {
-      content: "";
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--brand-yellow-bright);
+    .brand-mark img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
     }
     .brand-title { font-size: 14px; font-weight: 700; letter-spacing: -0.02em; }
     .brand-sub { font-size: 11px; color: var(--text-muted); font-weight: 500; }
@@ -856,6 +853,25 @@
       color: #854D0E;
       border: 1px solid #FDE68A;
     }
+    .manual-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 500;
+      color: #92400E;
+      background: rgba(254, 243, 199, 0.55);
+      border: 1px dashed #FCD34D;
+      padding: 2px 7px;
+      border-radius: 99px;
+      white-space: nowrap;
+    }
+    .manual-hint svg {
+      width: 11px;
+      height: 11px;
+      flex-shrink: 0;
+      opacity: 0.85;
+    }
     .comments-panel .card-header { margin-bottom: 12px; }
     .comments-grid {
       display: grid;
@@ -1027,7 +1043,7 @@
   <div class="app-shell" id="appShell">
     <header class="topbar">
       <div class="brand-group">
-        <div class="brand-mark" aria-hidden="true"></div>
+        <div class="brand-mark"><img src="data:image/png;base64,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" alt="Logo oficial Ipiranga" /></div>
         <div>
           <div class="brand-title">Ipiranga • Planejamento Integrado (IBP)</div>
           <div class="brand-sub">Torre de Controle — Visão Executiva do Ciclo</div>
@@ -1049,14 +1065,14 @@
             <button type="button" id="btnRestoreData" role="menuitem" class="danger">Restaurar dados originais</button>
           </div>
         </div>
-        <span class="pill-neutral pill-cycle"><span class="dot-live" aria-hidden="true"></span> <span data-bind="ciclo_pill">Ciclo Ago/2026 — Em andamento</span></span>
+        <span class="pill-neutral pill-cycle"><span class="dot-live" aria-hidden="true"></span> <span data-bind="ciclo_pill">Ciclo Dez/2026 — Fechamento Anual</span></span>
         <span class="pill-neutral pill-snap" data-bind="snapshot_pill">Snapshot: 18/08/2026</span>
         <span class="pill-neutral pill-horizon" data-bind="horizonte_pill">Horizonte: 8 meses</span>
       </div>
     </header>
 
     <div class="demo-banner" role="status">
-      <span data-bind="demo_banner_txt">TORRE DE CONTROLE IBP • DEMONSTRATIVO • Ciclo Ago/2026 (Em andamento) • Snapshot 18/08/2026</span>
+      <span data-bind="demo_banner_txt">TORRE DE CONTROLE IBP • BASE ATUALIZADA DEZ/2026 • Ciclo Dez/2026 (Fechamento Anual) • Snapshot 15/12/2026</span>
     </div>
 
     <nav class="mobile-nav" id="mobileNav" aria-label="Navegação mobile">
@@ -1085,8 +1101,8 @@
           <span>Cronograma IBP</span>
           <span id="sideAderencia" style="font-family:var(--font-mono);color:var(--brand-blue);">50%</span>
         </div>
-        <div class="prog-track"><div class="prog-fill" id="sideProgFill" style="width:50%;"></div></div>
-        <div id="sideEtapa" style="color:var(--text-secondary);font-size:10.5px;">Etapa atual: Supply &amp; Execução (50%)</div>
+        <div class="prog-track"><div class="prog-fill" id="sideProgFill" style="width:100%;"></div></div>
+        <div id="sideEtapa" style="color:var(--text-secondary);font-size:10.5px;">Ciclo encerrado — Reunião Executiva IBP (100%)</div>
       </div>
     </aside>
 
@@ -1119,31 +1135,31 @@
         <div class="grid-5">
           <div class="kpi-card kpi-primary">
             <div class="kpi-label"><span>VOLUME CONSENSADO</span><span class="info-tip" data-tip="Demanda consensada entre Comercial, Marketing e Planejamento para o ciclo.">i</span></div>
-            <div class="kpi-value" data-kpi="volume_mm_m3">3,92 <span class="kpi-unit">MM m³</span></div>
-            <div class="kpi-meta"><span data-bind="vs_aop_pct" style="color:var(--ok);font-weight:600;">+3,3% vs AOP</span><span data-bind="vol_gap">Gap: +125k m³</span></div>
+            <div class="kpi-value" data-kpi="volume_mm_m3">4,18 <span class="kpi-unit">MM m³</span></div>
+            <div class="kpi-meta"><span data-bind="vs_aop_pct" style="color:var(--ok);font-weight:600;">+4,0% vs AOP</span><span data-bind="vol_gap">Gap: +160k m³</span></div>
           </div>
 
           <div class="kpi-card">
             <div class="kpi-label"><span>EBITDA PROJETADO</span><span class="info-tip" data-tip="Resultado operacional projetado já considerando o plano restrito de supply.">i</span></div>
-            <div class="kpi-value" data-kpi="ebitda_mm">R$ 718,5 <span class="kpi-unit">MM</span></div>
+            <div class="kpi-value" data-kpi="ebitda_mm">R$ 782,4 <span class="kpi-unit">MM</span></div>
             <div class="kpi-meta"><span data-bind="aop_ebitda_pct" style="color:var(--ok);font-weight:600;">102,6% do AOP</span><span data-bind="margem_pct">Margem: 6,08%</span></div>
           </div>
 
           <div class="kpi-card">
             <div class="kpi-label"><span>COBERTURA MÉDIA</span><span class="info-tip" data-tip="Autonomia média de estoque nas bases primárias frente à demanda diária.">i</span></div>
-            <div class="kpi-value" data-kpi="cobertura_dias">6,31 <span class="kpi-unit">dias</span></div>
+            <div class="kpi-value" data-kpi="cobertura_dias">7,12 <span class="kpi-unit">dias</span></div>
             <div class="kpi-meta"><span data-bind="meta_cobertura">Meta: 7,0 dias</span><span data-bind="cobertura_alerta" style="color:var(--crit);font-weight:600;">1 base(s) &lt; ANP</span></div>
           </div>
 
           <div class="kpi-card">
             <div class="kpi-label"><span>OTIF OPERACIONAL</span><span class="info-tip" data-tip="On-Time In-Full: entregas realizadas no prazo e na quantidade exata.">i</span></div>
-            <div class="kpi-value" data-kpi="otif_pct">62,5<span class="kpi-unit">%</span></div>
-            <div class="kpi-meta"><span data-bind="meta_otif">Meta: 97,0%</span><span data-bind="amostra_viagens">Amostra: 8 viagens</span></div>
+            <div class="kpi-value" data-kpi="otif_pct">90,0<span class="kpi-unit">%</span></div>
+            <div class="kpi-meta"><span data-bind="meta_otif">Meta: 97,0%</span><span data-bind="amostra_viagens">Amostra: 10 viagens</span></div>
           </div>
 
           <div class="kpi-card">
             <div class="kpi-label"><span>CRONOGRAMA IBP</span><span class="info-tip" data-tip="Percentual de conclusão das etapas formais do rito mensal IBP.">i</span></div>
-            <div class="kpi-value" data-kpi="aderencia_cronograma_pct">50<span class="kpi-unit">%</span></div>
+            <div class="kpi-value" data-kpi="aderencia_cronograma_pct">100<span class="kpi-unit">%</span></div>
             <div class="kpi-meta"><span data-bind="crono_etapas_txt">2 de 4 etapas</span><span data-bind="crono_status_txt" style="color:var(--brand-blue);font-weight:600;">Em execução</span></div>
           </div>
         </div>
@@ -1151,10 +1167,10 @@
         <div class="card">
           <div class="card-header">
             <div>
-              <div class="card-title" data-bind="crono_card_title">Status do Cronograma IBP — Ciclo Ago/2026</div>
+              <div class="card-title" data-bind="crono_card_title">Status do Cronograma IBP — Ciclo Dez/2026</div>
               <div class="card-sub">Evolução das 4 etapas formais até a reunião executiva de fechamento.</div>
             </div>
-            <span class="badge badge-blue" data-bind="crono_badge">50% Concluído</span>
+            <span class="badge badge-blue" data-bind="crono_badge">100% Concluído</span>
           </div>
           <div class="timeline" id="timelineHost"></div>
         </div>
@@ -1193,27 +1209,27 @@
           </div>
           <div class="comments-grid">
             <div class="comment-block">
-              <div class="comment-label"><span>1. Leitura de Mercado</span><span class="comment-tag manual">MANUAL</span></div>
+              <div class="comment-label"><span>1. Leitura de Mercado</span><span style="display:inline-flex;align-items:center;gap:5px;"><span class="manual-hint" title="Edite este texto na aba Comentarios do template Excel e reimporte"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.5 2.5a1.414 1.414 0 0 1 2 2L5 13l-3 1 1-3 8.5-8.5Z"/></svg></span><span class="comment-tag manual">MANUAL</span></span></div>
               <div class="comment-body" data-bind="com_mercado">—</div>
             </div>
             <div class="comment-block">
-              <div class="comment-label"><span>2. Consenso &amp; Demanda</span><span class="comment-tag manual">MANUAL</span></div>
+              <div class="comment-label"><span>2. Consenso &amp; Demanda</span><span style="display:inline-flex;align-items:center;gap:5px;"><span class="manual-hint" title="Edite este texto na aba Comentarios do template Excel e reimporte"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.5 2.5a1.414 1.414 0 0 1 2 2L5 13l-3 1 1-3 8.5-8.5Z"/></svg></span><span class="comment-tag manual">MANUAL</span></span></div>
               <div class="comment-body" data-bind="com_demanda">—</div>
             </div>
             <div class="comment-block">
-              <div class="comment-label"><span>3. Supply &amp; Restrições</span><span class="comment-tag manual">MANUAL</span></div>
+              <div class="comment-label"><span>3. Supply &amp; Restrições</span><span style="display:inline-flex;align-items:center;gap:5px;"><span class="manual-hint" title="Edite este texto na aba Comentarios do template Excel e reimporte"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.5 2.5a1.414 1.414 0 0 1 2 2L5 13l-3 1 1-3 8.5-8.5Z"/></svg></span><span class="comment-tag manual">MANUAL</span></span></div>
               <div class="comment-body" data-bind="com_supply">—</div>
             </div>
             <div class="comment-block">
-              <div class="comment-label"><span>4. Execução S&amp;OE</span><span class="comment-tag manual">MANUAL</span></div>
+              <div class="comment-label"><span>4. Execução S&amp;OE</span><span style="display:inline-flex;align-items:center;gap:5px;"><span class="manual-hint" title="Edite este texto na aba Comentarios do template Excel e reimporte"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.5 2.5a1.414 1.414 0 0 1 2 2L5 13l-3 1 1-3 8.5-8.5Z"/></svg></span><span class="comment-tag manual">MANUAL</span></span></div>
               <div class="comment-body" data-bind="com_execucao">—</div>
             </div>
             <div class="comment-block">
-              <div class="comment-label"><span>5. Aprendizado Institucional (PDCAL)</span><span class="comment-tag manual">MANUAL</span></div>
+              <div class="comment-label"><span>5. Aprendizado Institucional (PDCAL)</span><span style="display:inline-flex;align-items:center;gap:5px;"><span class="manual-hint" title="Edite este texto na aba Comentarios do template Excel e reimporte"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.5 2.5a1.414 1.414 0 0 1 2 2L5 13l-3 1 1-3 8.5-8.5Z"/></svg></span><span class="comment-tag manual">MANUAL</span></span></div>
               <div class="comment-body" data-bind="com_pdcal">—</div>
             </div>
             <div class="comment-block">
-              <div class="comment-label"><span>6. Diretriz Executiva do Ciclo</span><span class="comment-tag manual">MANUAL</span></div>
+              <div class="comment-label"><span>6. Diretriz Executiva do Ciclo</span><span style="display:inline-flex;align-items:center;gap:5px;"><span class="manual-hint" title="Edite este texto na aba Comentarios do template Excel e reimporte"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.5 2.5a1.414 1.414 0 0 1 2 2L5 13l-3 1 1-3 8.5-8.5Z"/></svg></span><span class="comment-tag manual">MANUAL</span></span></div>
               <div class="comment-body" data-bind="com_decisao_contexto">—</div>
             </div>
           </div>
@@ -1240,7 +1256,7 @@
         <div class="grid-5">
           <div class="kpi-card">
             <div class="kpi-label"><span>WMAPE CONSOLIDADO</span><span class="info-tip" data-tip="WMAPE: erro percentual absoluto ponderado pelo volume. Meta <= 4,0%.">i</span></div>
-            <div class="kpi-value" data-kpi="wmape_pct">5,3<span class="kpi-unit">%</span></div>
+            <div class="kpi-value" data-kpi="wmape_pct">3,4<span class="kpi-unit">%</span></div>
             <div class="kpi-meta"><span data-bind="meta_wmape">Meta: ≤ 4,0%</span><span data-bind="wmape_status" style="color:var(--warn);font-weight:600;">+1,3 p.p. acima</span></div>
           </div>
 
@@ -1252,8 +1268,8 @@
 
           <div class="kpi-card kpi-primary">
             <div class="kpi-label"><span>DEMANDA CONSENSADA</span><span class="info-tip" data-tip="Consenso S&OP: número fechado entre Comercial, Marketing e Planejamento.">i</span></div>
-            <div class="kpi-value" data-kpi="volume_mm_m3">3,92 <span class="kpi-unit">MM m³</span></div>
-            <div class="kpi-meta"><span data-bind="vs_aop_pct" style="color:var(--ok);font-weight:600;">+3,3% vs AOP</span><span data-bind="consenso_delta_base">+96k m³ vs Base</span></div>
+            <div class="kpi-value" data-kpi="volume_mm_m3">4,18 <span class="kpi-unit">MM m³</span></div>
+            <div class="kpi-meta"><span data-bind="vs_aop_pct" style="color:var(--ok);font-weight:600;">+4,0% vs AOP</span><span data-bind="consenso_delta_base">+96k m³ vs Base</span></div>
           </div>
 
           <div class="kpi-card">
@@ -1346,7 +1362,7 @@
         <div class="grid-5">
           <div class="kpi-card">
             <div class="kpi-label"><span>PLANO IRRESTRITO</span><span class="info-tip" data-tip="Demanda comercial total antes de aplicar limites físicos de infraestrutura.">i</span></div>
-            <div class="kpi-value" data-kpi="plano_irrestrito_mm_m3">3,92 <span class="kpi-unit">MM m³</span></div>
+            <div class="kpi-value" data-kpi="plano_irrestrito_mm_m3">4,18 <span class="kpi-unit">MM m³</span></div>
             <div class="kpi-meta"><span>100% da demanda</span><span>Consenso S&amp;OP</span></div>
           </div>
 
@@ -1438,7 +1454,7 @@
         <div class="grid-5">
           <div class="kpi-card">
             <div class="kpi-label"><span>OTIF OPERACIONAL</span><span class="info-tip" data-tip="Entregas realizadas no prazo e quantidade exata na janela do ciclo.">i</span></div>
-            <div class="kpi-value" data-kpi="otif_pct">62,5<span class="kpi-unit">%</span></div>
+            <div class="kpi-value" data-kpi="otif_pct">90,0<span class="kpi-unit">%</span></div>
             <div class="kpi-meta"><span data-bind="meta_otif">Meta: 97,0%</span><span data-bind="otif_gap_txt" style="color:var(--crit);font-weight:600;">—</span></div>
           </div>
 
@@ -1514,7 +1530,7 @@
               <div class="card-title">Rastreamento de Cargas &amp; Viagens Críticas (Amostra Operacional)</div>
               <div class="card-sub">Detalhamento por origem, destino, produto, janela prevista e causa-raiz de desvio.</div>
             </div>
-            <span class="badge badge-neutral" data-bind="viagens_badge">8 viagens</span>
+            <span class="badge badge-neutral" data-bind="viagens_badge">10 viagens</span>
           </div>
           <div class="table-wrap">
             <table>
@@ -1665,7 +1681,7 @@
 
     <footer class="footer">
       <span data-bind="footer_left">Ipiranga • Torre de Controle IBP — Modelo Demonstrativo</span>
-      <span data-bind="footer_right">Ciclo Ago/2026 • Snapshot 18/08/2026 • Todos os cálculos sincronizados em tempo real</span>
+      <span data-bind="footer_right">Ciclo Dez/2026 • Snapshot 15/12/2026 • Todos os cálculos sincronizados em tempo real</span>
     </footer>
   </div>
 
@@ -1679,113 +1695,351 @@
          1. ESTADO PADRÃO (DEMONSTRATIVO AGO/2026)
          ===================================================================== */
       const DEFAULT_STATE = {
-        meta: {
-          ciclo: "Ago/2026",
-          status_ciclo: "Em andamento",
-          snapshot: "18/08/2026",
-          fonte: "Demonstrativo"
-        },
-        kpis: {
-          volume_mm_m3: 3.92,
-          aop_mm_m3: 3.795,
-          forecast_base_k_m3: 3824,
-          ajuste_comercial_k_m3: 68,
-          efeito_promocional_k_m3: 28,
-          ebitda_mm: 718.5,
-          aop_ebitda_mm: 700.3,
-          margem_pct: 6.08,
-          cobertura_dias: 6.31,
-          meta_cobertura_dias: 7.0,
-          otif_pct: 62.5,
-          meta_otif_pct: 97.0,
-          aderencia_cronograma_pct: 50,
-          wmape_pct: 5.3,
-          meta_wmape_pct: 4.0,
-          bias_pct: 1.8,
-          market_share_pct: 18.4,
-          share_var_pp: 0.3,
-          mercado_yoy_pct: 2.9,
-          plano_irrestrito_mm_m3: 3.92,
-          plano_restrito_mm_m3: 3.74,
-          impacto_receita_mm: 542.0,
-          impacto_ebitda_mm: -32.9,
-          ocupacao_tancagem_pct: 84.2,
-          dwell_horas: 3.4,
-          demurrage_mm: 1.85,
-          budget_demurrage_mm: 1.20
-        },
-        series_mensais: [
-          { mes: "Jan/26", realizado_mm: 3.61, consenso_mm: 3.68, wmape_pct: 4.4 },
-          { mes: "Fev/26", realizado_mm: 3.48, consenso_mm: 3.55, wmape_pct: 4.1 },
-          { mes: "Mar/26", realizado_mm: 3.79, consenso_mm: 3.74, wmape_pct: 3.8 },
-          { mes: "Abr/26", realizado_mm: 3.72, consenso_mm: 3.81, wmape_pct: 4.5 },
-          { mes: "Mai/26", realizado_mm: 3.85, consenso_mm: 3.83, wmape_pct: 3.9 },
-          { mes: "Jun/26", realizado_mm: 3.88, consenso_mm: 3.95, wmape_pct: 4.7 },
-          { mes: "Jul/26", realizado_mm: 3.91, consenso_mm: 4.06, wmape_pct: 5.1 },
-          { mes: "Ago/26", realizado_mm: 3.92, consenso_mm: 3.92, wmape_pct: 5.3 }
-        ],
-        regionais: [
-          { regional: "Sudeste", realizado_k: 1640, consenso_k: 1610, bias_pct: 1.1 },
-          { regional: "Sul", realizado_k: 790, consenso_k: 825, bias_pct: 2.4 },
-          { regional: "Nordeste", realizado_k: 615, consenso_k: 668, bias_pct: 3.6 },
-          { regional: "Centro-Oeste", realizado_k: 565, consenso_k: 522, bias_pct: -2.1 },
-          { regional: "Norte", realizado_k: 310, consenso_k: 295, bias_pct: -0.9 }
-        ],
-        restricoes: [
-          {
-            titulo: "Cabotagem & Janela de Berço — Terminal Suape (PE)",
-            severidade: "Crítica",
-            impacto_k_m3: 95,
-            detalhe: "Congestionamento portuário e janela de atracação reduzida limitam reposição de Diesel S10 e Gasolina C no Nordeste."
-          },
-          {
-            titulo: "Capacidade de Tancagem & Bombeio — Paulínia / OSPLAN (SP)",
-            severidade: "Alta",
-            impacto_k_m3: 55,
-            detalhe: "Pico de recebimento de hidratado e manutenção programada de duto restringem transferência para o interior de SP."
-          },
-          {
-            titulo: "Malha Ferroviária — Corredor Rondonópolis (MT)",
-            severidade: "Moderada",
-            impacto_k_m3: 30,
-            detalhe: "Concorrência de slots ferroviários com escoamento de safra agrícola reduz cadência de vagões-tanque."
-          }
-        ],
-        cenarios_tradeoff: [
-          { cenario: "Base Restrito", volume_mm: 3.74, ebitda_mm: 718.5, custo_extra_mm: 0.0 },
-          { cenario: "Frete Spot Rodov.", volume_mm: 3.85, ebitda_mm: 709.2, custo_extra_mm: 24.8 },
-          { cenario: "Prioriz. Mix Nobre", volume_mm: 3.79, ebitda_mm: 726.4, custo_extra_mm: 6.5 }
-        ],
-        bases: [
-          { base: "Suape (PE)", regiao: "Nordeste", cobertura_dias: 3.2, minimo_anp: 4.5, estoque_k_m3: 38.4 },
-          { base: "Paulínia (SP)", regiao: "Sudeste", cobertura_dias: 5.8, minimo_anp: 4.0, estoque_k_m3: 142.0 },
-          { base: "Duque de Caxias (RJ)", regiao: "Sudeste", cobertura_dias: 6.4, minimo_anp: 4.0, estoque_k_m3: 98.5 },
-          { base: "Araucária (PR)", regiao: "Sul", cobertura_dias: 6.9, minimo_anp: 4.5, estoque_k_m3: 84.2 },
-          { base: "Rondonópolis (MT)", regiao: "Centro-Oeste", cobertura_dias: 7.2, minimo_anp: 5.0, estoque_k_m3: 64.8 },
-          { base: "Belém (PA)", regiao: "Norte", cobertura_dias: 8.4, minimo_anp: 5.0, estoque_k_m3: 41.0 }
-        ],
-        viagens: [
-          { id: "VG-8841", rota: "Suape (PE) → Recife Metrop.", produto: "Diesel S10", volume_m3: 420, status: "Atrasada", atraso_h: 6.5, causa: "Fila de carregamento e retenção de berço" },
-          { id: "VG-8842", rota: "Paulínia (SP) → Ribeirão Preto", produto: "Gasolina C", volume_m3: 380, status: "No Prazo", atraso_h: 0.0, causa: "Operação normal" },
-          { id: "VG-8843", rota: "Suape (PE) → João Pessoa (PB)", produto: "Diesel S10", volume_m3: 310, status: "Ocorrência", atraso_h: 4.0, causa: "Janela de descarga fechada no cliente" },
-          { id: "VG-8844", rota: "Araucária (PR) → Londrina (PR)", produto: "Etanol Hidratado", volume_m3: 290, status: "No Prazo", atraso_h: 0.0, causa: "Operação normal" },
-          { id: "VG-8845", rota: "Caxias (RJ) → Juiz de Fora (MG)", produto: "Gasolina Aditivada", volume_m3: 260, status: "No Prazo", atraso_h: 0.0, causa: "Operação normal" },
-          { id: "VG-8846", rota: "Rondonópolis (MT) → Cuiabá (MT)", produto: "Diesel S10", volume_m3: 510, status: "Atrasada", atraso_h: 3.5, causa: "Atraso na liberação de composição ferroviária" },
-          { id: "VG-8847", rota: "Paulínia (SP) → Campinas (SP)", produto: "Diesel S500", volume_m3: 340, status: "No Prazo", atraso_h: 0.0, causa: "Operação normal" },
-          { id: "VG-8848", rota: "Belém (PA) → Castanhal (PA)", produto: "Gasolina C", volume_m3: 215, status: "No Prazo", atraso_h: 0.0, causa: "Operação normal" }
-        ],
-        /* APENAS 6 COMENTÁRIOS QUALITATIVOS SÃO MANUAIS */
-        comentarios: {
-          mercado: "Demanda nacional de Ciclo Otto sustenta alta moderada com paridade favorável ao etanol hidratado no Sudeste/Centro-Oeste; Diesel segue firme pelo escoamento agrícola.",
-          demanda: "Revisão comercial elevou o consenso em +68k m³ concentrados no Sudeste e Centro-Oeste, enquanto o Nordeste apresentou realização abaixo da projeção.",
-          supply: "Malha opera com 95,4% de atendimento físico; principal ponto de atenção é o equilíbrio entre custo de frete spot rodoviário e margem de contribuição.",
-          execucao: "Torre S&OE prioriza janelas críticas de abastecimento no Nordeste e redistribuição de frota dedicada para conter dwell time nas bases primárias.",
-          pdcal: "Padronizar gatilho automático de revisão de consenso sempre que o desvio regional acumulado na 1ª quinzena superar ±3,0%, evitando superestimativa de alocação.",
-          decisao_contexto: "Aprovar realocação tática de mix para produtos de maior margem nas praças restritas e acionar contingência de cabotagem apenas para cobrir o piso regulatório ANP."
-        }
-      };
+  "meta": {
+    "ciclo": "Dez/2026",
+    "status_ciclo": "Fechamento Anual",
+    "snapshot": "15/12/2026",
+    "fonte": "Base Atualizada Dez/2026"
+  },
+  "kpis": {
+    "volume_mm_m3": 4.18,
+    "aop_mm_m3": 4.02,
+    "forecast_base_k_m3": 4050,
+    "ajuste_comercial_k_m3": 85,
+    "efeito_promocional_k_m3": 45,
+    "ebitda_mm": 782.4,
+    "aop_ebitda_mm": 745,
+    "margem_pct": 6.32,
+    "cobertura_dias": 7.12,
+    "meta_cobertura_dias": 7,
+    "otif_pct": 90,
+    "meta_otif_pct": 97,
+    "aderencia_cronograma_pct": 100,
+    "wmape_pct": 3.4,
+    "meta_wmape_pct": 4,
+    "bias_pct": 0.8,
+    "market_share_pct": 18.9,
+    "share_var_pp": 0.5,
+    "mercado_yoy_pct": 3.6,
+    "plano_irrestrito_mm_m3": 4.18,
+    "plano_restrito_mm_m3": 4.06,
+    "impacto_receita_mm": 368,
+    "impacto_ebitda_mm": -21.4,
+    "ocupacao_tancagem_pct": 86.5,
+    "dwell_horas": 2.3,
+    "demurrage_mm": 1.05,
+    "budget_demurrage_mm": 1.2
+  },
+  "series_mensais": [
+    {
+      "mes": "Jan/26",
+      "realizado_mm": 3.64,
+      "consenso_mm": 3.7,
+      "wmape_pct": 4.3
+    },
+    {
+      "mes": "Fev/26",
+      "realizado_mm": 3.51,
+      "consenso_mm": 3.56,
+      "wmape_pct": 4
+    },
+    {
+      "mes": "Mar/26",
+      "realizado_mm": 3.81,
+      "consenso_mm": 3.76,
+      "wmape_pct": 3.7
+    },
+    {
+      "mes": "Abr/26",
+      "realizado_mm": 3.74,
+      "consenso_mm": 3.82,
+      "wmape_pct": 4.4
+    },
+    {
+      "mes": "Mai/26",
+      "realizado_mm": 3.86,
+      "consenso_mm": 3.84,
+      "wmape_pct": 3.8
+    },
+    {
+      "mes": "Jun/26",
+      "realizado_mm": 3.9,
+      "consenso_mm": 3.96,
+      "wmape_pct": 4.6
+    },
+    {
+      "mes": "Jul/26",
+      "realizado_mm": 3.94,
+      "consenso_mm": 4.05,
+      "wmape_pct": 4.9
+    },
+    {
+      "mes": "Ago/26",
+      "realizado_mm": 3.92,
+      "consenso_mm": 3.98,
+      "wmape_pct": 4.8
+    },
+    {
+      "mes": "Set/26",
+      "realizado_mm": 3.99,
+      "consenso_mm": 4.02,
+      "wmape_pct": 4.1
+    },
+    {
+      "mes": "Out/26",
+      "realizado_mm": 4.07,
+      "consenso_mm": 4.04,
+      "wmape_pct": 3.6
+    },
+    {
+      "mes": "Nov/26",
+      "realizado_mm": 4.12,
+      "consenso_mm": 4.15,
+      "wmape_pct": 3.5
+    },
+    {
+      "mes": "Dez/26",
+      "realizado_mm": 4.18,
+      "consenso_mm": 4.18,
+      "wmape_pct": 3.4
+    }
+  ],
+  "regionais": [
+    {
+      "regional": "Sudeste",
+      "realizado_k": 1765,
+      "consenso_k": 1750,
+      "bias_pct": 0.9
+    },
+    {
+      "regional": "Sul",
+      "realizado_k": 845,
+      "consenso_k": 855,
+      "bias_pct": 1.2
+    },
+    {
+      "regional": "Nordeste",
+      "realizado_k": 670,
+      "consenso_k": 685,
+      "bias_pct": 2.2
+    },
+    {
+      "regional": "Centro-Oeste",
+      "realizado_k": 575,
+      "consenso_k": 568,
+      "bias_pct": -1.2
+    },
+    {
+      "regional": "Norte",
+      "realizado_k": 325,
+      "consenso_k": 322,
+      "bias_pct": -0.9
+    }
+  ],
+  "restricoes": [
+    {
+      "titulo": "Pico Sazonal de Verão & Escoamento Litoral — Cubatão / Santos (SP)",
+      "severidade": "Crítica",
+      "impacto_k_m3": 60,
+      "detalhe": "Alta demanda de Ciclo Otto no litoral paulista e fila de descarga marítima limitam janela de reposição de Gasolina Aditivada."
+    },
+    {
+      "titulo": "Restrição de Janela Ferroviária & Chuvas — Corredor Rondonópolis (MT)",
+      "severidade": "Alta",
+      "impacto_k_m3": 40,
+      "detalhe": "Início do período chuvoso no Centro-Oeste reduz velocidade operacional de composições-tanque de Diesel S10."
+    },
+    {
+      "titulo": "Manutenção Programada de Esfera & Bombeio — Araucária (PR)",
+      "severidade": "Moderada",
+      "impacto_k_m3": 20,
+      "detalhe": "Parada técnica preventiva de 72h em linha de transferência reduz cadência de expedição para o interior do Paraná."
+    }
+  ],
+  "cenarios_tradeoff": [
+    {
+      "cenario": "Base Restrito",
+      "volume_mm": 4.06,
+      "ebitda_mm": 782.4,
+      "custo_extra_mm": 0
+    },
+    {
+      "cenario": "Frete Spot Rodov.",
+      "volume_mm": 4.15,
+      "ebitda_mm": 774.8,
+      "custo_extra_mm": 19.6
+    },
+    {
+      "cenario": "Prioriz. Mix Nobre",
+      "volume_mm": 4.11,
+      "ebitda_mm": 791.2,
+      "custo_extra_mm": 5.2
+    }
+  ],
+  "bases": [
+    {
+      "base": "Paulínia (SP)",
+      "regiao": "Sudeste",
+      "cobertura_dias": 6.8,
+      "minimo_anp": 4,
+      "estoque_k_m3": 168.5
+    },
+    {
+      "base": "Duque de Caxias (RJ)",
+      "regiao": "Sudeste",
+      "cobertura_dias": 7.1,
+      "minimo_anp": 4,
+      "estoque_k_m3": 112
+    },
+    {
+      "base": "Araucária (PR)",
+      "regiao": "Sul",
+      "cobertura_dias": 7.4,
+      "minimo_anp": 4.5,
+      "estoque_k_m3": 92.4
+    },
+    {
+      "base": "Rondonópolis (MT)",
+      "regiao": "Centro-Oeste",
+      "cobertura_dias": 6.5,
+      "minimo_anp": 5,
+      "estoque_k_m3": 61.2
+    },
+    {
+      "base": "Suape (PE)",
+      "regiao": "Nordeste",
+      "cobertura_dias": 7.2,
+      "minimo_anp": 4.5,
+      "estoque_k_m3": 54.8
+    },
+    {
+      "base": "Belém (PA)",
+      "regiao": "Norte",
+      "cobertura_dias": 8.6,
+      "minimo_anp": 5,
+      "estoque_k_m3": 44.5
+    }
+  ],
+  "viagens": [
+    {
+      "id": "VG-9101",
+      "rota": "Paulínia (SP) → Santos (SP)",
+      "produto": "Gasolina Aditivada",
+      "volume_m3": 450,
+      "status": "No Prazo",
+      "atraso_h": 0,
+      "causa": "Operação normal — corredor verão"
+    },
+    {
+      "id": "VG-9102",
+      "rota": "Rondonópolis (MT) → Cuiabá (MT)",
+      "produto": "Diesel S10",
+      "volume_m3": 480,
+      "status": "Atrasada",
+      "atraso_h": 3,
+      "causa": "Chuva intensa na BR-364 e retenção de comboio"
+    },
+    {
+      "id": "VG-9103",
+      "rota": "Caxias (RJ) → Cabo Frio (RJ)",
+      "produto": "Gasolina C",
+      "volume_m3": 390,
+      "status": "No Prazo",
+      "atraso_h": 0,
+      "causa": "Operação normal"
+    },
+    {
+      "id": "VG-9104",
+      "rota": "Araucária (PR) → Joinville (SC)",
+      "produto": "Diesel S10",
+      "volume_m3": 410,
+      "status": "No Prazo",
+      "atraso_h": 0,
+      "causa": "Operação normal"
+    },
+    {
+      "id": "VG-9105",
+      "rota": "Suape (PE) → Fortaleza (CE)",
+      "produto": "Gasolina C",
+      "volume_m3": 360,
+      "status": "No Prazo",
+      "atraso_h": 0,
+      "causa": "Cabotagem descarregada dentro da janela"
+    },
+    {
+      "id": "VG-9106",
+      "rota": "Paulínia (SP) → S. J. Campos (SP)",
+      "produto": "Etanol Hidratado",
+      "volume_m3": 340,
+      "status": "No Prazo",
+      "atraso_h": 0,
+      "causa": "Operação normal"
+    },
+    {
+      "id": "VG-9107",
+      "rota": "Belém (PA) → Santarém (PA)",
+      "produto": "Diesel S500",
+      "volume_m3": 290,
+      "status": "No Prazo",
+      "atraso_h": 0,
+      "causa": "Navegação fluvial sem ocorrências"
+    },
+    {
+      "id": "VG-9108",
+      "rota": "Paulínia (SP) → Ribeirão Preto",
+      "produto": "Gasolina Aditivada",
+      "volume_m3": 375,
+      "status": "No Prazo",
+      "atraso_h": 0,
+      "causa": "Operação normal"
+    },
+    {
+      "id": "VG-9109",
+      "rota": "Araucária (PR) → Curitiba (PR)",
+      "produto": "Etanol Hidratado",
+      "volume_m3": 310,
+      "status": "No Prazo",
+      "atraso_h": 0,
+      "causa": "Operação normal"
+    },
+    {
+      "id": "VG-9110",
+      "rota": "Caxias (RJ) → Belo Horizonte (MG)",
+      "produto": "Diesel S10",
+      "volume_m3": 430,
+      "status": "No Prazo",
+      "atraso_h": 0,
+      "causa": "Operação normal"
+    }
+  ],
+  "comentarios": {
+    "mercado": "Pico sazonal de dezembro impulsiona Ciclo Otto (+3,6% YoY) com forte fluxo turístico no litoral Sudeste/Sul e ganho de +0,5 p.p. em market share nacional.",
+    "demanda": "Consenso fechou em 4,18 MM m³ (+4,0% vs AOP) após ajuste comercial de +85k m³ e ações promocionais (+45k m³); WMAPE recuou para 3,4%, melhor marca do ano.",
+    "supply": "Atendimento físico atingiu 97,1% do plano irrestrito (4,06 MM m³); gargalo residual de 120k m³ concentrado em Cubatão/Santos e no corredor ferroviário do MT.",
+    "execucao": "Todas as 6 bases operam acima do piso regulatório ANP (cobertura média ponderada de 7,12 dias), OTIF subiu para 90,0% e demurrage encerrou 12,5% abaixo do budget.",
+    "pdcal": "A integração semanal entre S&OP e S&OE implementada a partir de setembro reduziu o WMAPE de 5,3% (Ago) para 3,4% (Dez) e eliminou rupturas de piso ANP.",
+    "decisao_contexto": "Aprovar priorização de mix nobre (+R$ 8,8 MM em EBITDA incremental vs base restrita) para virada de ano e encerrar formalmente o ciclo IBP 2026."
+  }
+};
 
-      let IBP_STATE = JSON.parse(JSON.stringify(DEFAULT_STATE));
+      const STORAGE_KEY = "IPIRANGA_IBP_STATE_V1";
+      function loadSavedState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed && parsed.kpis && parsed.series_mensais) return parsed;
+          }
+        } catch (e) {}
+        return JSON.parse(JSON.stringify(DEFAULT_STATE));
+      }
+      function saveState(st) {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(st));
+        } catch (e) {}
+      }
+
+      let IBP_STATE = loadSavedState();
       window.IBP_STATE = IBP_STATE;
 
       /* =====================================================================
@@ -2583,7 +2837,7 @@
           { letter: "D", color: "#0284C7", title: "Do (Executar)", text: `Programação diária S&OE acompanhando ${s.bases.length} bases primárias e ${s.viagens.length} rotas críticas monitoradas.` },
           { letter: "C", color: "#D97706", title: "Check (Verificar)", text: `WMAPE em ${fmt.num(k.wmape_pct)}%, OTIF em ${fmt.num(k.otif_pct)}% e ${m.basesAbaixo.length} base(s) abaixo do mínimo ANP.` },
           { letter: "A", color: "#059669", title: "Act (Agir)", text: `Priorização econômica (${m.melhorCenario.cenario}: R$ ${fmt.num(m.melhorCenario.ebitda_mm)} MM EBITDA) e proteção de estoque regulatório.` },
-          { letter: "L", color: "#7C3AED", title: "Learn (Aprender • Manual)", text: s.comentarios.pdcal }
+          { letter: "L", color: "#7C3AED", title: `Learn (Aprender) <span class="manual-hint" style="margin-left:6px;vertical-align:middle;"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.5 2.5a1.414 1.414 0 0 1 2 2L5 13l-3 1 1-3 8.5-8.5Z"/></svg></span>`, text: s.comentarios.pdcal }
         ];
         const host = document.getElementById("pdcalGridHost");
         if (!host) return;
@@ -2920,6 +3174,7 @@
 
             IBP_STATE = next;
             window.IBP_STATE = IBP_STATE;
+            saveState(IBP_STATE);
             renderAll();
           } catch (err) {
             alert("Erro ao ler planilha: " + err.message);
@@ -2996,6 +3251,7 @@
         });
 
         document.getElementById("btnRestoreData")?.addEventListener("click", () => {
+          try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
           IBP_STATE = JSON.parse(JSON.stringify(DEFAULT_STATE));
           window.IBP_STATE = IBP_STATE;
           renderAll();
