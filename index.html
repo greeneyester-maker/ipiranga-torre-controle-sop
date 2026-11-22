@@ -961,6 +961,168 @@
       margin-top: 4px;
     }
 
+    /* MODAL DE PRÉ-IMPORTAÇÃO E VALIDAÇÃO */
+    .import-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.58);
+      backdrop-filter: blur(2px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 500;
+    }
+    .import-modal-backdrop.open { display: flex; }
+    .import-modal {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-hairline);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-float);
+      width: 100%;
+      max-width: 920px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .import-modal-head {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-hairline);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: var(--bg-canvas);
+    }
+    .import-modal-title { font-size: 15px; font-weight: 700; color: var(--text-primary); }
+    .import-modal-sub { font-size: 11.5px; color: var(--text-secondary); margin-top: 2px; }
+    .import-modal-close {
+      background: transparent;
+      border: 1px solid var(--border-hairline);
+      border-radius: 6px;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      font-size: 15px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .import-modal-close:hover { background: var(--bg-subtle); color: var(--text-primary); }
+    .import-modal-body {
+      padding: 18px 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .import-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    .import-meta-item {
+      background: var(--bg-canvas);
+      border: 1px solid var(--border-hairline);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+    }
+    .import-meta-lbl {
+      font-size: 10px;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .import-meta-val {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-top: 3px;
+      word-break: break-word;
+    }
+    .import-validation-box {
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      font-size: 12px;
+      border: 1px solid var(--border-hairline);
+    }
+    .import-validation-box.valid {
+      background: var(--ok-soft);
+      border-color: #A7F3D0;
+      color: #065F46;
+    }
+    .import-validation-box.warn {
+      background: var(--warn-soft);
+      border-color: #FDE68A;
+      color: #92400E;
+    }
+    .import-validation-box.error {
+      background: var(--crit-soft);
+      border-color: #FECACA;
+      color: #991B1B;
+    }
+    .import-validation-list {
+      margin-top: 6px;
+      padding-left: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      font-size: 11.5px;
+    }
+    .import-sheet-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--border-hairline);
+      padding-bottom: 8px;
+    }
+    .import-sheet-btn {
+      padding: 5px 10px;
+      border-radius: 99px;
+      border: 1px solid var(--border-hairline);
+      background: var(--bg-subtle);
+      font-size: 11px;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+    .import-sheet-btn.active {
+      background: var(--brand-blue);
+      color: #fff;
+      border-color: var(--brand-blue);
+    }
+    .import-modal-foot {
+      padding: 14px 20px;
+      border-top: 1px solid var(--border-hairline);
+      background: var(--bg-canvas);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn-secondary {
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      border: 1px solid var(--border-strong);
+      padding: 9px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-secondary:hover { background: var(--bg-subtle); }
+    .btn-export:disabled {
+      background: var(--text-muted);
+      cursor: not-allowed;
+      opacity: 0.65;
+      transform: none;
+    }
+
     .mobile-nav {
       display: none;
       grid-column: 1 / -1;
@@ -1018,7 +1180,7 @@
       .main-area { padding: 16px 14px 32px; }
     }
     @media (max-width: 720px) {
-      .grid-5, .grid-4, .grid-2, .glossary-grid, .comments-grid { grid-template-columns: 1fr; }
+      .grid-5, .grid-4, .grid-2, .glossary-grid, .comments-grid, .import-meta-grid { grid-template-columns: 1fr; }
       .pill-cycle { display: none; }
       .data-source-badge { display: none; }
       .brand-title { font-size: 12.5px; }
@@ -1050,7 +1212,7 @@
         </div>
       </div>
       <div class="topbar-right">
-        <span id="dataSourceBadge" class="data-source-badge">Fonte: Demonstrativo</span>
+        <span id="dataSourceBadge" class="data-source-badge">Fonte: Base Atualizada Dez/2026</span>
         <div class="data-menu-wrap">
           <button type="button" id="btnDataMenu" class="btn-data-menu" aria-haspopup="true" aria-expanded="false">
             Dados <span class="caret" aria-hidden="true">▼</span>
@@ -1065,14 +1227,14 @@
             <button type="button" id="btnRestoreData" role="menuitem" class="danger">Restaurar dados originais</button>
           </div>
         </div>
-        <span class="pill-neutral pill-cycle"><span class="dot-live" aria-hidden="true"></span> <span data-bind="ciclo_pill">Ciclo Dez/2026 — Fechamento Anual</span></span>
-        <span class="pill-neutral pill-snap" data-bind="snapshot_pill">Snapshot: 18/08/2026</span>
-        <span class="pill-neutral pill-horizon" data-bind="horizonte_pill">Horizonte: 8 meses</span>
+        <span class="pill-neutral pill-cycle"><span class="dot-live" aria-hidden="true"></span> <span data-bind="ciclo_pill">Ciclo Dez/2026 — Concluído</span></span>
+        <span class="pill-neutral pill-snap" data-bind="snapshot_pill">Snapshot: 15/12/2026</span>
+        <span class="pill-neutral pill-horizon" data-bind="horizonte_pill">Horizonte: 12 meses</span>
       </div>
     </header>
 
     <div class="demo-banner" role="status">
-      <span data-bind="demo_banner_txt">TORRE DE CONTROLE IBP • BASE ATUALIZADA DEZ/2026 • Ciclo Dez/2026 (Fechamento Anual) • Snapshot 15/12/2026</span>
+      <span data-bind="demo_banner_txt">TORRE DE CONTROLE IBP • BASE ATUALIZADA DEZ/2026 • Ciclo Dez/2026 (Concluído) • Snapshot 15/12/2026</span>
     </div>
 
     <nav class="mobile-nav" id="mobileNav" aria-label="Navegação mobile">
@@ -1099,10 +1261,10 @@
       <div class="sidebar-policy">
         <div style="display:flex;justify-content:space-between;font-weight:600;">
           <span>Cronograma IBP</span>
-          <span id="sideAderencia" style="font-family:var(--font-mono);color:var(--brand-blue);">50%</span>
+          <span id="sideAderencia" style="font-family:var(--font-mono);color:var(--brand-blue);">100%</span>
         </div>
         <div class="prog-track"><div class="prog-fill" id="sideProgFill" style="width:100%;"></div></div>
-        <div id="sideEtapa" style="color:var(--text-secondary);font-size:10.5px;">Ciclo encerrado — Reunião Executiva IBP (100%)</div>
+        <div id="sideEtapa" style="color:var(--text-secondary);font-size:10.5px;">Todas as etapas concluídas no prazo</div>
       </div>
     </aside>
 
@@ -1142,17 +1304,17 @@
           <div class="kpi-card">
             <div class="kpi-label"><span>EBITDA PROJETADO</span><span class="info-tip" data-tip="Resultado operacional projetado já considerando o plano restrito de supply.">i</span></div>
             <div class="kpi-value" data-kpi="ebitda_mm">R$ 782,4 <span class="kpi-unit">MM</span></div>
-            <div class="kpi-meta"><span data-bind="aop_ebitda_pct" style="color:var(--ok);font-weight:600;">102,6% do AOP</span><span data-bind="margem_pct">Margem: 6,08%</span></div>
+            <div class="kpi-meta"><span data-bind="aop_ebitda_pct" style="color:var(--ok);font-weight:600;">105,0% do AOP</span><span data-bind="margem_pct">Margem: 6,32%</span></div>
           </div>
 
           <div class="kpi-card">
-            <div class="kpi-label"><span>COBERTURA MÉDIA</span><span class="info-tip" data-tip="Autonomia média de estoque nas bases primárias frente à demanda diária.">i</span></div>
-            <div class="kpi-value" data-kpi="cobertura_dias">7,12 <span class="kpi-unit">dias</span></div>
-            <div class="kpi-meta"><span data-bind="meta_cobertura">Meta: 7,0 dias</span><span data-bind="cobertura_alerta" style="color:var(--crit);font-weight:600;">1 base(s) &lt; ANP</span></div>
+            <div class="kpi-label"><span>COBERTURA MÉDIA</span><span class="info-tip" data-tip="Autonomia média ponderada de estoque nas bases primárias frente à demanda diária.">i</span></div>
+            <div class="kpi-value" data-kpi="cobertura_dias">7,09 <span class="kpi-unit">dias</span></div>
+            <div class="kpi-meta"><span data-bind="meta_cobertura">Meta: 7,0 dias</span><span data-bind="cobertura_alerta" style="color:var(--ok);font-weight:600;">Todas > piso ANP</span></div>
           </div>
 
           <div class="kpi-card">
-            <div class="kpi-label"><span>OTIF OPERACIONAL</span><span class="info-tip" data-tip="On-Time In-Full: entregas realizadas no prazo e na quantidade exata.">i</span></div>
+            <div class="kpi-label"><span data-otif-label>PONTUALIDADE (PROXY OTIF)</span><span class="info-tip" data-otif-tip data-tip="Esta base demonstra pontualidade por status. Para OTIF real, também são necessários volume pedido, volume entregue e datas prometida e realizada.">i</span></div>
             <div class="kpi-value" data-kpi="otif_pct">90,0<span class="kpi-unit">%</span></div>
             <div class="kpi-meta"><span data-bind="meta_otif">Meta: 97,0%</span><span data-bind="amostra_viagens">Amostra: 10 viagens</span></div>
           </div>
@@ -1160,7 +1322,7 @@
           <div class="kpi-card">
             <div class="kpi-label"><span>CRONOGRAMA IBP</span><span class="info-tip" data-tip="Percentual de conclusão das etapas formais do rito mensal IBP.">i</span></div>
             <div class="kpi-value" data-kpi="aderencia_cronograma_pct">100<span class="kpi-unit">%</span></div>
-            <div class="kpi-meta"><span data-bind="crono_etapas_txt">2 de 4 etapas</span><span data-bind="crono_status_txt" style="color:var(--brand-blue);font-weight:600;">Em execução</span></div>
+            <div class="kpi-meta"><span data-bind="crono_etapas_txt">4 de 4 etapas</span><span data-bind="crono_status_txt" style="color:var(--brand-blue);font-weight:600;">Ciclo no prazo</span></div>
           </div>
         </div>
 
@@ -1257,30 +1419,30 @@
           <div class="kpi-card">
             <div class="kpi-label"><span>WMAPE CONSOLIDADO</span><span class="info-tip" data-tip="WMAPE: erro percentual absoluto ponderado pelo volume. Meta <= 4,0%.">i</span></div>
             <div class="kpi-value" data-kpi="wmape_pct">3,4<span class="kpi-unit">%</span></div>
-            <div class="kpi-meta"><span data-bind="meta_wmape">Meta: ≤ 4,0%</span><span data-bind="wmape_status" style="color:var(--warn);font-weight:600;">+1,3 p.p. acima</span></div>
+            <div class="kpi-meta"><span data-bind="meta_wmape">Meta: ≤ 4,0%</span><span data-bind="wmape_status" style="color:var(--ok);font-weight:600;">Dentro da meta</span></div>
           </div>
 
           <div class="kpi-card">
-            <div class="kpi-label"><span>BIAS DE PREVISÃO</span><span class="info-tip" data-tip="Bias: tendência sistemática. Positivo = superestimativa; negativo = subestimativa.">i</span></div>
-            <div class="kpi-value" data-kpi="bias_pct">+1,8<span class="kpi-unit">%</span></div>
+            <div class="kpi-label"><span>BIAS DE PREVISÃO</span><span class="info-tip" data-tip="Bias: tendência sistemática calculada como Σ(Consenso - Realizado) ÷ Σ Realizado. Positivo = superestimativa; negativo = subestimativa.">i</span></div>
+            <div class="kpi-value" data-kpi="bias_pct">0,0<span class="kpi-unit">%</span></div>
             <div class="kpi-meta"><span data-bind="meta_bias">Faixa: ± 2,0%</span><span data-bind="bias_status" style="color:var(--ok);font-weight:600;">Dentro da banda</span></div>
           </div>
 
           <div class="kpi-card kpi-primary">
             <div class="kpi-label"><span>DEMANDA CONSENSADA</span><span class="info-tip" data-tip="Consenso S&OP: número fechado entre Comercial, Marketing e Planejamento.">i</span></div>
             <div class="kpi-value" data-kpi="volume_mm_m3">4,18 <span class="kpi-unit">MM m³</span></div>
-            <div class="kpi-meta"><span data-bind="vs_aop_pct" style="color:var(--ok);font-weight:600;">+4,0% vs AOP</span><span data-bind="consenso_delta_base">+96k m³ vs Base</span></div>
+            <div class="kpi-meta"><span data-bind="vs_aop_pct" style="color:var(--ok);font-weight:600;">+4,0% vs AOP</span><span data-bind="consenso_delta_base">+130k m³ vs Base</span></div>
           </div>
 
           <div class="kpi-card">
             <div class="kpi-label"><span>MARKET SHARE BRASIL</span><span class="info-tip" data-tip="Market Share: participação Ipiranga no volume total comercializado (fonte ANP).">i</span></div>
-            <div class="kpi-value" data-kpi="market_share_pct">18,4<span class="kpi-unit">%</span></div>
-            <div class="kpi-meta"><span data-bind="share_var" style="color:var(--ok);font-weight:600;">+0,3 p.p. vs M-1</span><span>Fonte: ANP</span></div>
+            <div class="kpi-value" data-kpi="market_share_pct">18,9<span class="kpi-unit">%</span></div>
+            <div class="kpi-meta"><span data-bind="share_var" style="color:var(--ok);font-weight:600;">+0,5 p.p. vs M-1</span><span>Fonte: ANP</span></div>
           </div>
 
           <div class="kpi-card">
             <div class="kpi-label"><span>VARIAÇÃO MERCADO TOTAL</span><span class="info-tip" data-tip="Crescimento YoY do mercado brasileiro de ciclo Otto e Diesel.">i</span></div>
-            <div class="kpi-value" data-kpi="mercado_yoy_pct">+2,9<span class="kpi-unit">%</span></div>
+            <div class="kpi-value" data-kpi="mercado_yoy_pct">+3,6<span class="kpi-unit">%</span></div>
             <div class="kpi-meta"><span>Ciclo Otto + Diesel</span><span>Base ANP</span></div>
           </div>
         </div>
@@ -1317,9 +1479,9 @@
           <div class="card-header">
             <div>
               <div class="card-title">Desempenho Regional — Realizado, Consenso, Desvio e Bias</div>
-              <div class="card-sub">Visão desagregada por diretoria regional para identificar onde está o erro de previsão.</div>
+              <div class="card-sub">Visão desagregada por diretoria regional conforme padrão oficial Bias = (Consenso - Realizado) ÷ Realizado.</div>
             </div>
-            <span class="badge badge-neutral">5 Regionais</span>
+            <span class="badge badge-neutral" data-bind="regionais_badge">5 Regionais</span>
           </div>
           <div class="table-wrap">
             <table>
@@ -1328,8 +1490,8 @@
                   <th>Regional</th>
                   <th class="num">Realizado (k m³)</th>
                   <th class="num">Consenso (k m³)</th>
-                  <th class="num">Desvio (%)</th>
-                  <th class="num">Bias (%)</th>
+                  <th class="num">Desvio Real vs Cons. (%)</th>
+                  <th class="num">Bias Oficial (%)</th>
                   <th>Status</th>
                 </tr>
               </thead>
@@ -1342,7 +1504,8 @@
           </div>
         </div>
       </div>
-<!-- ============================================================
+
+      <!-- ============================================================
            BLOCO 3: SUPPLY RESTRITO
            ============================================================ -->
       <div id="tab3" class="tab-content">
@@ -1368,25 +1531,25 @@
 
           <div class="kpi-card kpi-primary">
             <div class="kpi-label"><span>PLANO RESTRITO VIÁVEL</span><span class="info-tip" data-tip="Volume máximo que a cadeia logística consegue entregar com segurança.">i</span></div>
-            <div class="kpi-value" data-kpi="plano_restrito_mm_m3">3,74 <span class="kpi-unit">MM m³</span></div>
-            <div class="kpi-meta"><span data-bind="atendimento_pct" style="color:var(--ok);font-weight:600;">95,4% atendido</span><span>Capacidade real</span></div>
+            <div class="kpi-value" data-kpi="plano_restrito_mm_m3">4,06 <span class="kpi-unit">MM m³</span></div>
+            <div class="kpi-meta"><span data-bind="atendimento_pct" style="color:var(--ok);font-weight:600;">97,1% atendido</span><span>Capacidade real</span></div>
           </div>
 
           <div class="kpi-card">
             <div class="kpi-label"><span>GAP POR RESTRIÇÃO</span><span class="info-tip" data-tip="Volume comercial cortado por gargalos de tancagem, cabotagem ou modal.">i</span></div>
-            <div class="kpi-value" data-kpi="gap_restricao_k_m3" style="color:var(--crit);">180 <span class="kpi-unit">k m³</span></div>
-            <div class="kpi-meta"><span data-bind="gap_restricao_pct" style="color:var(--crit);font-weight:600;">4,6% do consenso</span><span>Corte físico</span></div>
+            <div class="kpi-value" data-kpi="gap_restricao_k_m3" style="color:var(--crit);">120 <span class="kpi-unit">k m³</span></div>
+            <div class="kpi-meta"><span data-bind="gap_restricao_pct" style="color:var(--crit);font-weight:600;">2,9% do consenso</span><span>Corte físico</span></div>
           </div>
 
           <div class="kpi-card">
             <div class="kpi-label"><span>RECEITA BRUTA EM RISCO</span><span class="info-tip" data-tip="Impacto financeiro direto do volume não atendido no plano restrito.">i</span></div>
-            <div class="kpi-value" data-kpi="impacto_receita_mm" style="color:var(--crit);">R$ 542 <span class="kpi-unit">MM</span></div>
-            <div class="kpi-meta"><span data-bind="impacto_ebitda_mm">EBITDA: -R$ 32,9 MM</span><span>Custo de ruptura</span></div>
+            <div class="kpi-value" data-kpi="impacto_receita_mm" style="color:var(--crit);">R$ 368 <span class="kpi-unit">MM</span></div>
+            <div class="kpi-meta"><span data-bind="impacto_ebitda_mm">EBITDA: -R$ 21,4 MM</span><span>Custo de ruptura</span></div>
           </div>
 
           <div class="kpi-card">
             <div class="kpi-label"><span>UTILIZAÇÃO DE TANCAGEM</span><span class="info-tip" data-tip="Ocupação média dos tanques primários. Acima de 88% reduz flexibilidade operacional.">i</span></div>
-            <div class="kpi-value" data-kpi="ocupacao_tancagem_pct">84,2<span class="kpi-unit">%</span></div>
+            <div class="kpi-value" data-kpi="ocupacao_tancagem_pct">86,5<span class="kpi-unit">%</span></div>
             <div class="kpi-meta"><span>Limite ótimo: ≤ 88%</span><span data-bind="tancagem_status" style="color:var(--ok);font-weight:600;">Operação segura</span></div>
           </div>
         </div>
@@ -1400,8 +1563,8 @@
             <span class="badge badge-blue" data-bind="balanco_badge">—</span>
           </div>
           <div class="gap-bar" id="gapBarHost">
-            <div class="gap-ok" id="gapBarOk" style="width:95.4%;">Atendido: 3,74 MM m³ (95,4%)</div>
-            <div class="gap-gap" id="gapBarGap" style="width:4.6%;">180k</div>
+            <div class="gap-ok" id="gapBarOk" style="width:97.1%;">Atendido: 4,06 MM m³ (97,1%)</div>
+            <div class="gap-gap" id="gapBarGap" style="width:2.9%;">120k</div>
           </div>
         </div>
 
@@ -1433,8 +1596,7 @@
           </div>
         </div>
       </div>
-
-      <!-- ============================================================
+<!-- ============================================================
            BLOCO 4: EXECUÇÃO & GARGALOS (S&OE)
            ============================================================ -->
       <div id="tab4" class="tab-content">
@@ -1453,33 +1615,33 @@
 
         <div class="grid-5">
           <div class="kpi-card">
-            <div class="kpi-label"><span>OTIF OPERACIONAL</span><span class="info-tip" data-tip="Entregas realizadas no prazo e quantidade exata na janela do ciclo.">i</span></div>
+            <div class="kpi-label"><span data-otif-label>PONTUALIDADE (PROXY OTIF)</span><span class="info-tip" data-otif-tip data-tip="Esta base demonstra pontualidade por status. Para OTIF real, também são necessários volume pedido, volume entregue e datas prometida e realizada.">i</span></div>
             <div class="kpi-value" data-kpi="otif_pct">90,0<span class="kpi-unit">%</span></div>
             <div class="kpi-meta"><span data-bind="meta_otif">Meta: 97,0%</span><span data-bind="otif_gap_txt" style="color:var(--crit);font-weight:600;">—</span></div>
           </div>
 
           <div class="kpi-card kpi-primary">
             <div class="kpi-label"><span>BASES ABAIXO DO ANP</span><span class="info-tip" data-tip="Bases primárias com cobertura inferior ao estoque mínimo obrigatório da ANP.">i</span></div>
-            <div class="kpi-value" data-kpi="bases_abaixo_anp" style="color:var(--crit);">1 <span class="kpi-unit">de 6</span></div>
-            <div class="kpi-meta"><span data-bind="bases_criticas_nomes">—</span><span style="color:var(--crit);font-weight:600;">Ação imediata</span></div>
+            <div class="kpi-value" data-kpi="bases_abaixo_anp" style="color:var(--ok);">0 <span class="kpi-unit">de 6</span></div>
+            <div class="kpi-meta"><span data-bind="bases_criticas_nomes">Nenhuma crítica</span><span data-bind="bases_criticas_status" style="color:var(--ok);font-weight:600;">Conformidade ANP</span></div>
           </div>
 
           <div class="kpi-card">
             <div class="kpi-label"><span>EXCEÇÕES ATIVAS HOJE</span><span class="info-tip" data-tip="Viagens com atraso, ocorrência em cliente ou janela estourada.">i</span></div>
-            <div class="kpi-value" data-kpi="excecoes_ativas">3 <span class="kpi-unit">ocorrências</span></div>
+            <div class="kpi-value" data-kpi="excecoes_ativas">1 <span class="kpi-unit">ocorrências</span></div>
             <div class="kpi-meta"><span data-bind="excecoes_resumo">—</span><span style="color:var(--warn);font-weight:600;">Monitorar</span></div>
           </div>
 
           <div class="kpi-card">
             <div class="kpi-label"><span>DWELL TIME MÉDIO</span><span class="info-tip" data-tip="Tempo médio de permanência dos caminhões-tanque nas bases de carregamento.">i</span></div>
-            <div class="kpi-value" data-kpi="dwell_horas">3,4 <span class="kpi-unit">horas</span></div>
-            <div class="kpi-meta"><span>Meta: ≤ 2,5 h</span><span data-bind="dwell_status" style="color:var(--warn);font-weight:600;">+0,9h acima</span></div>
+            <div class="kpi-value" data-kpi="dwell_horas">2,3 <span class="kpi-unit">horas</span></div>
+            <div class="kpi-meta"><span>Meta: ≤ 2,5 h</span><span data-bind="dwell_status" style="color:var(--ok);font-weight:600;">Dentro da meta</span></div>
           </div>
 
           <div class="kpi-card">
             <div class="kpi-label"><span>CUSTO DE DEMURRAGE</span><span class="info-tip" data-tip="Multa acumulada por sobre-estadia de navios/vagões no mês.">i</span></div>
-            <div class="kpi-value" data-kpi="demurrage_mm">R$ 1,85 <span class="kpi-unit">MM</span></div>
-            <div class="kpi-meta"><span>Budget: R$ 1,20 MM</span><span data-bind="demurrage_status" style="color:var(--crit);font-weight:600;">+54% vs budget</span></div>
+            <div class="kpi-value" data-kpi="demurrage_mm">R$ 1,05 <span class="kpi-unit">MM</span></div>
+            <div class="kpi-meta"><span data-bind="budget_demurrage_txt">Budget: R$ 1,20 MM</span><span data-bind="demurrage_status" style="color:var(--ok);font-weight:600;">-13% vs budget</span></div>
           </div>
         </div>
 
@@ -1554,7 +1716,8 @@
           </div>
         </div>
       </div>
-<!-- ============================================================
+
+      <!-- ============================================================
            BLOCO 5: INDICADORES & PDCAL
            ============================================================ -->
       <div id="tab5" class="tab-content">
@@ -1577,7 +1740,7 @@
               <div class="card-title">Evolução Histórica — Volume Consensado vs. Realizado e WMAPE</div>
               <div class="card-sub">Barras azuis: Volume Realizado (MM m³) • Linha tracejada: Consenso (MM m³) • Linha amarela: WMAPE (%).</div>
             </div>
-            <span class="badge badge-blue" data-bind="horizonte_badge">8 meses</span>
+            <span class="badge badge-blue" data-bind="horizonte_badge">12 meses</span>
           </div>
           <div id="chartEvolucao"></div>
           <div class="auto-footnote">
@@ -1680,371 +1843,358 @@
     </main>
 
     <footer class="footer">
-      <span data-bind="footer_left">Ipiranga • Torre de Controle IBP — Modelo Demonstrativo</span>
+      <span data-bind="footer_left">Ipiranga • Torre de Controle IBP — Fonte: Base Atualizada Dez/2026</span>
       <span data-bind="footer_right">Ciclo Dez/2026 • Snapshot 15/12/2026 • Todos os cálculos sincronizados em tempo real</span>
     </footer>
   </div>
 
-  <div id="chartTooltip" class="chart-tooltip" role="tooltip"></div>
+  <!-- MODAL DE VALIDAÇÃO E PRÉ-VISUALIZAÇÃO DE IMPORTAÇÃO -->
+  <div id="importModalBackdrop" class="import-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="importModalTitle">
+    <div class="import-modal">
+      <div class="import-modal-head">
+        <div>
+          <div id="importModalTitle" class="import-modal-title">Validação &amp; Pré-Visualização de Importação</div>
+          <div class="import-modal-sub">Auditoria estrutural de colunas, tipos numéricos e integridade antes de atualizar o painel IBP.</div>
+        </div>
+        <button type="button" id="btnCloseImportModal" class="import-modal-close" aria-label="Fechar pré-visualização">✕</button>
+      </div>
+      <div class="import-modal-body">
+        <div class="import-meta-grid" id="importMetaGrid"></div>
+        <div id="importValidationBox" class="import-validation-box"></div>
+        <div id="importStatsBar" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+        <div>
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--text-secondary);margin-bottom:8px;">
+            Pré-Visualização das Bases (Primeiras 5 linhas por aba)
+          </div>
+          <div class="import-sheet-tabs" id="importSheetTabs"></div>
+          <div class="table-wrap" id="importPreviewTableHost" style="margin-top:10px;border:1px solid var(--border-hairline);border-radius:8px;"></div>
+        </div>
+      </div>
+      <div class="import-modal-foot">
+        <span id="importFooterHint" style="font-size:11.5px;color:var(--text-secondary);">Verifique os dados acima antes de confirmar.</span>
+        <div style="display:flex;gap:10px;">
+          <button type="button" id="btnCancelImport" class="btn-secondary">Cancelar</button>
+          <button type="button" id="btnConfirmImport" class="btn-export" disabled>Confirmar Importação</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <script>
+  <div id="chartTooltip" class="chart-tooltip" role="tooltip"></div>
+<script>
     (function () {
       "use strict";
 
       /* =====================================================================
-         1. ESTADO PADRÃO (DEMONSTRATIVO AGO/2026)
+         1. ESTADO PADRÃO HOMOLOGADO (CICLO DEZ/2026)
          ===================================================================== */
       const DEFAULT_STATE = {
-  "meta": {
-    "ciclo": "Dez/2026",
-    "status_ciclo": "Fechamento Anual",
-    "snapshot": "15/12/2026",
-    "fonte": "Base Atualizada Dez/2026"
-  },
-  "kpis": {
-    "volume_mm_m3": 4.18,
-    "aop_mm_m3": 4.02,
-    "forecast_base_k_m3": 4050,
-    "ajuste_comercial_k_m3": 85,
-    "efeito_promocional_k_m3": 45,
-    "ebitda_mm": 782.4,
-    "aop_ebitda_mm": 745,
-    "margem_pct": 6.32,
-    "cobertura_dias": 7.12,
-    "meta_cobertura_dias": 7,
-    "otif_pct": 90,
-    "meta_otif_pct": 97,
-    "aderencia_cronograma_pct": 100,
-    "wmape_pct": 3.4,
-    "meta_wmape_pct": 4,
-    "bias_pct": 0.8,
-    "market_share_pct": 18.9,
-    "share_var_pp": 0.5,
-    "mercado_yoy_pct": 3.6,
-    "plano_irrestrito_mm_m3": 4.18,
-    "plano_restrito_mm_m3": 4.06,
-    "impacto_receita_mm": 368,
-    "impacto_ebitda_mm": -21.4,
-    "ocupacao_tancagem_pct": 86.5,
-    "dwell_horas": 2.3,
-    "demurrage_mm": 1.05,
-    "budget_demurrage_mm": 1.2
-  },
-  "series_mensais": [
-    {
-      "mes": "Jan/26",
-      "realizado_mm": 3.64,
-      "consenso_mm": 3.7,
-      "wmape_pct": 4.3
-    },
-    {
-      "mes": "Fev/26",
-      "realizado_mm": 3.51,
-      "consenso_mm": 3.56,
-      "wmape_pct": 4
-    },
-    {
-      "mes": "Mar/26",
-      "realizado_mm": 3.81,
-      "consenso_mm": 3.76,
-      "wmape_pct": 3.7
-    },
-    {
-      "mes": "Abr/26",
-      "realizado_mm": 3.74,
-      "consenso_mm": 3.82,
-      "wmape_pct": 4.4
-    },
-    {
-      "mes": "Mai/26",
-      "realizado_mm": 3.86,
-      "consenso_mm": 3.84,
-      "wmape_pct": 3.8
-    },
-    {
-      "mes": "Jun/26",
-      "realizado_mm": 3.9,
-      "consenso_mm": 3.96,
-      "wmape_pct": 4.6
-    },
-    {
-      "mes": "Jul/26",
-      "realizado_mm": 3.94,
-      "consenso_mm": 4.05,
-      "wmape_pct": 4.9
-    },
-    {
-      "mes": "Ago/26",
-      "realizado_mm": 3.92,
-      "consenso_mm": 3.98,
-      "wmape_pct": 4.8
-    },
-    {
-      "mes": "Set/26",
-      "realizado_mm": 3.99,
-      "consenso_mm": 4.02,
-      "wmape_pct": 4.1
-    },
-    {
-      "mes": "Out/26",
-      "realizado_mm": 4.07,
-      "consenso_mm": 4.04,
-      "wmape_pct": 3.6
-    },
-    {
-      "mes": "Nov/26",
-      "realizado_mm": 4.12,
-      "consenso_mm": 4.15,
-      "wmape_pct": 3.5
-    },
-    {
-      "mes": "Dez/26",
-      "realizado_mm": 4.18,
-      "consenso_mm": 4.18,
-      "wmape_pct": 3.4
-    }
-  ],
-  "regionais": [
-    {
-      "regional": "Sudeste",
-      "realizado_k": 1765,
-      "consenso_k": 1750,
-      "bias_pct": 0.9
-    },
-    {
-      "regional": "Sul",
-      "realizado_k": 845,
-      "consenso_k": 855,
-      "bias_pct": 1.2
-    },
-    {
-      "regional": "Nordeste",
-      "realizado_k": 670,
-      "consenso_k": 685,
-      "bias_pct": 2.2
-    },
-    {
-      "regional": "Centro-Oeste",
-      "realizado_k": 575,
-      "consenso_k": 568,
-      "bias_pct": -1.2
-    },
-    {
-      "regional": "Norte",
-      "realizado_k": 325,
-      "consenso_k": 322,
-      "bias_pct": -0.9
-    }
-  ],
-  "restricoes": [
-    {
-      "titulo": "Pico Sazonal de Verão & Escoamento Litoral — Cubatão / Santos (SP)",
-      "severidade": "Crítica",
-      "impacto_k_m3": 60,
-      "detalhe": "Alta demanda de Ciclo Otto no litoral paulista e fila de descarga marítima limitam janela de reposição de Gasolina Aditivada."
-    },
-    {
-      "titulo": "Restrição de Janela Ferroviária & Chuvas — Corredor Rondonópolis (MT)",
-      "severidade": "Alta",
-      "impacto_k_m3": 40,
-      "detalhe": "Início do período chuvoso no Centro-Oeste reduz velocidade operacional de composições-tanque de Diesel S10."
-    },
-    {
-      "titulo": "Manutenção Programada de Esfera & Bombeio — Araucária (PR)",
-      "severidade": "Moderada",
-      "impacto_k_m3": 20,
-      "detalhe": "Parada técnica preventiva de 72h em linha de transferência reduz cadência de expedição para o interior do Paraná."
-    }
-  ],
-  "cenarios_tradeoff": [
-    {
-      "cenario": "Base Restrito",
-      "volume_mm": 4.06,
-      "ebitda_mm": 782.4,
-      "custo_extra_mm": 0
-    },
-    {
-      "cenario": "Frete Spot Rodov.",
-      "volume_mm": 4.15,
-      "ebitda_mm": 774.8,
-      "custo_extra_mm": 19.6
-    },
-    {
-      "cenario": "Prioriz. Mix Nobre",
-      "volume_mm": 4.11,
-      "ebitda_mm": 791.2,
-      "custo_extra_mm": 5.2
-    }
-  ],
-  "bases": [
-    {
-      "base": "Paulínia (SP)",
-      "regiao": "Sudeste",
-      "cobertura_dias": 6.8,
-      "minimo_anp": 4,
-      "estoque_k_m3": 168.5
-    },
-    {
-      "base": "Duque de Caxias (RJ)",
-      "regiao": "Sudeste",
-      "cobertura_dias": 7.1,
-      "minimo_anp": 4,
-      "estoque_k_m3": 112
-    },
-    {
-      "base": "Araucária (PR)",
-      "regiao": "Sul",
-      "cobertura_dias": 7.4,
-      "minimo_anp": 4.5,
-      "estoque_k_m3": 92.4
-    },
-    {
-      "base": "Rondonópolis (MT)",
-      "regiao": "Centro-Oeste",
-      "cobertura_dias": 6.5,
-      "minimo_anp": 5,
-      "estoque_k_m3": 61.2
-    },
-    {
-      "base": "Suape (PE)",
-      "regiao": "Nordeste",
-      "cobertura_dias": 7.2,
-      "minimo_anp": 4.5,
-      "estoque_k_m3": 54.8
-    },
-    {
-      "base": "Belém (PA)",
-      "regiao": "Norte",
-      "cobertura_dias": 8.6,
-      "minimo_anp": 5,
-      "estoque_k_m3": 44.5
-    }
-  ],
-  "viagens": [
-    {
-      "id": "VG-9101",
-      "rota": "Paulínia (SP) → Santos (SP)",
-      "produto": "Gasolina Aditivada",
-      "volume_m3": 450,
-      "status": "No Prazo",
-      "atraso_h": 0,
-      "causa": "Operação normal — corredor verão"
-    },
-    {
-      "id": "VG-9102",
-      "rota": "Rondonópolis (MT) → Cuiabá (MT)",
-      "produto": "Diesel S10",
-      "volume_m3": 480,
-      "status": "Atrasada",
-      "atraso_h": 3,
-      "causa": "Chuva intensa na BR-364 e retenção de comboio"
-    },
-    {
-      "id": "VG-9103",
-      "rota": "Caxias (RJ) → Cabo Frio (RJ)",
-      "produto": "Gasolina C",
-      "volume_m3": 390,
-      "status": "No Prazo",
-      "atraso_h": 0,
-      "causa": "Operação normal"
-    },
-    {
-      "id": "VG-9104",
-      "rota": "Araucária (PR) → Joinville (SC)",
-      "produto": "Diesel S10",
-      "volume_m3": 410,
-      "status": "No Prazo",
-      "atraso_h": 0,
-      "causa": "Operação normal"
-    },
-    {
-      "id": "VG-9105",
-      "rota": "Suape (PE) → Fortaleza (CE)",
-      "produto": "Gasolina C",
-      "volume_m3": 360,
-      "status": "No Prazo",
-      "atraso_h": 0,
-      "causa": "Cabotagem descarregada dentro da janela"
-    },
-    {
-      "id": "VG-9106",
-      "rota": "Paulínia (SP) → S. J. Campos (SP)",
-      "produto": "Etanol Hidratado",
-      "volume_m3": 340,
-      "status": "No Prazo",
-      "atraso_h": 0,
-      "causa": "Operação normal"
-    },
-    {
-      "id": "VG-9107",
-      "rota": "Belém (PA) → Santarém (PA)",
-      "produto": "Diesel S500",
-      "volume_m3": 290,
-      "status": "No Prazo",
-      "atraso_h": 0,
-      "causa": "Navegação fluvial sem ocorrências"
-    },
-    {
-      "id": "VG-9108",
-      "rota": "Paulínia (SP) → Ribeirão Preto",
-      "produto": "Gasolina Aditivada",
-      "volume_m3": 375,
-      "status": "No Prazo",
-      "atraso_h": 0,
-      "causa": "Operação normal"
-    },
-    {
-      "id": "VG-9109",
-      "rota": "Araucária (PR) → Curitiba (PR)",
-      "produto": "Etanol Hidratado",
-      "volume_m3": 310,
-      "status": "No Prazo",
-      "atraso_h": 0,
-      "causa": "Operação normal"
-    },
-    {
-      "id": "VG-9110",
-      "rota": "Caxias (RJ) → Belo Horizonte (MG)",
-      "produto": "Diesel S10",
-      "volume_m3": 430,
-      "status": "No Prazo",
-      "atraso_h": 0,
-      "causa": "Operação normal"
-    }
-  ],
-  "comentarios": {
-    "mercado": "Pico sazonal de dezembro impulsiona Ciclo Otto (+3,6% YoY) com forte fluxo turístico no litoral Sudeste/Sul e ganho de +0,5 p.p. em market share nacional.",
-    "demanda": "Consenso fechou em 4,18 MM m³ (+4,0% vs AOP) após ajuste comercial de +85k m³ e ações promocionais (+45k m³); WMAPE recuou para 3,4%, melhor marca do ano.",
-    "supply": "Atendimento físico atingiu 97,1% do plano irrestrito (4,06 MM m³); gargalo residual de 120k m³ concentrado em Cubatão/Santos e no corredor ferroviário do MT.",
-    "execucao": "Todas as 6 bases operam acima do piso regulatório ANP (cobertura média ponderada de 7,12 dias), OTIF subiu para 90,0% e demurrage encerrou 12,5% abaixo do budget.",
-    "pdcal": "A integração semanal entre S&OP e S&OE implementada a partir de setembro reduziu o WMAPE de 5,3% (Ago) para 3,4% (Dez) e eliminou rupturas de piso ANP.",
-    "decisao_contexto": "Aprovar priorização de mix nobre (+R$ 8,8 MM em EBITDA incremental vs base restrita) para virada de ano e encerrar formalmente o ciclo IBP 2026."
-  }
-};
+        meta: {
+          ciclo: "Dez/2026",
+          status_ciclo: "Fechamento Anual",
+          snapshot: "15/12/2026",
+          fonte: "Base Atualizada Dez/2026"
+        },
+        kpis: {
+          volume_mm_m3: 4.18,
+          aop_mm_m3: 4.02,
+          forecast_base_k_m3: 4050,
+          ajuste_comercial_k_m3: 85,
+          efeito_promocional_k_m3: 45,
+          ebitda_mm: 782.4,
+          aop_ebitda_mm: 745,
+          margem_pct: 6.32,
+          cobertura_dias: 7.09,
+          meta_cobertura_dias: 7,
+          otif_pct: 90,
+          meta_otif_pct: 97,
+          aderencia_cronograma_pct: 100,
+          wmape_pct: 3.4,
+          meta_wmape_pct: 4,
+          bias_pct: 0.0,
+          market_share_pct: 18.9,
+          share_var_pp: 0.5,
+          mercado_yoy_pct: 3.6,
+          plano_irrestrito_mm_m3: 4.18,
+          plano_restrito_mm_m3: 4.06,
+          impacto_receita_mm: 368,
+          impacto_ebitda_mm: -21.4,
+          ocupacao_tancagem_pct: 86.5,
+          dwell_horas: 2.3,
+          demurrage_mm: 1.05,
+          budget_demurrage_mm: 1.2
+        },
+        series_mensais: [
+          { mes: "Jan/26", realizado_mm: 3.64, consenso_mm: 3.70, wmape_pct: 4.3 },
+          { mes: "Fev/26", realizado_mm: 3.51, consenso_mm: 3.56, wmape_pct: 4.0 },
+          { mes: "Mar/26", realizado_mm: 3.81, consenso_mm: 3.76, wmape_pct: 3.7 },
+          { mes: "Abr/26", realizado_mm: 3.74, consenso_mm: 3.82, wmape_pct: 4.4 },
+          { mes: "Mai/26", realizado_mm: 3.86, consenso_mm: 3.84, wmape_pct: 3.8 },
+          { mes: "Jun/26", realizado_mm: 3.90, consenso_mm: 3.96, wmape_pct: 4.6 },
+          { mes: "Jul/26", realizado_mm: 3.94, consenso_mm: 4.05, wmape_pct: 4.9 },
+          { mes: "Ago/26", realizado_mm: 3.92, consenso_mm: 3.98, wmape_pct: 4.8 },
+          { mes: "Set/26", realizado_mm: 3.99, consenso_mm: 4.02, wmape_pct: 4.1 },
+          { mes: "Out/26", realizado_mm: 4.07, consenso_mm: 4.04, wmape_pct: 3.6 },
+          { mes: "Nov/26", realizado_mm: 4.12, consenso_mm: 4.15, wmape_pct: 3.5 },
+          { mes: "Dez/26", realizado_mm: 4.18, consenso_mm: 4.18, wmape_pct: 3.4 }
+        ],
+        regionais: [
+          { regional: "Sudeste", realizado_k: 1765, consenso_k: 1750, bias_pct: -0.85 },
+          { regional: "Sul", realizado_k: 845, consenso_k: 855, bias_pct: 1.18 },
+          { regional: "Nordeste", realizado_k: 670, consenso_k: 685, bias_pct: 2.24 },
+          { regional: "Centro-Oeste", realizado_k: 575, consenso_k: 568, bias_pct: -1.22 },
+          { regional: "Norte", realizado_k: 325, consenso_k: 322, bias_pct: -0.92 }
+        ],
+        restricoes: [
+          {
+            titulo: "Pico Sazonal de Verão & Escoamento Litoral — Cubatão / Santos (SP)",
+            severidade: "Crítica",
+            impacto_k_m3: 60,
+            detalhe: "Alta demanda de Ciclo Otto no litoral paulista e fila de descarga marítima limitam janela de reposição de Gasolina Aditivada."
+          },
+          {
+            titulo: "Restrição de Janela Ferroviária & Chuvas — Corredor Rondonópolis (MT)",
+            severidade: "Alta",
+            impacto_k_m3: 40,
+            detalhe: "Início do período chuvoso no Centro-Oeste reduz velocidade operacional de composições-tanque de Diesel S10."
+          },
+          {
+            titulo: "Manutenção Programada de Esfera & Bombeio — Araucária (PR)",
+            severidade: "Moderada",
+            impacto_k_m3: 20,
+            detalhe: "Parada técnica preventiva de 72h em linha de transferência reduz cadência de expedição para o interior do Paraná."
+          }
+        ],
+        cenarios_tradeoff: [
+          { cenario: "Base Restrito", volume_mm: 4.06, ebitda_mm: 782.4, custo_extra_mm: 0 },
+          { cenario: "Frete Spot Rodov.", volume_mm: 4.15, ebitda_mm: 774.8, custo_extra_mm: 19.6 },
+          { cenario: "Prioriz. Mix Nobre", volume_mm: 4.11, ebitda_mm: 791.2, custo_extra_mm: 5.2 }
+        ],
+        bases: [
+          { base: "Paulínia (SP)", regiao: "Sudeste", cobertura_dias: 6.8, minimo_anp: 4, estoque_k_m3: 168.5 },
+          { base: "Duque de Caxias (RJ)", regiao: "Sudeste", cobertura_dias: 7.1, minimo_anp: 4, estoque_k_m3: 112 },
+          { base: "Araucária (PR)", regiao: "Sul", cobertura_dias: 7.4, minimo_anp: 4.5, estoque_k_m3: 92.4 },
+          { base: "Rondonópolis (MT)", regiao: "Centro-Oeste", cobertura_dias: 6.5, minimo_anp: 5, estoque_k_m3: 61.2 },
+          { base: "Suape (PE)", regiao: "Nordeste", cobertura_dias: 7.2, minimo_anp: 4.5, estoque_k_m3: 54.8 },
+          { base: "Belém (PA)", regiao: "Norte", cobertura_dias: 8.6, minimo_anp: 5, estoque_k_m3: 44.5 }
+        ],
+        viagens: [
+          { id: "VG-9101", rota: "Paulínia (SP) → Santos (SP)", produto: "Gasolina Aditivada", volume_m3: 450, status: "No Prazo", atraso_h: 0, causa: "Operação normal — corredor verão" },
+          { id: "VG-9102", rota: "Rondonópolis (MT) → Cuiabá (MT)", produto: "Diesel S10", volume_m3: 480, status: "Atrasada", atraso_h: 3, causa: "Chuva intensa na BR-364 e retenção de comboio" },
+          { id: "VG-9103", rota: "Caxias (RJ) → Cabo Frio (RJ)", produto: "Gasolina C", volume_m3: 390, status: "No Prazo", atraso_h: 0, causa: "Operação normal" },
+          { id: "VG-9104", rota: "Araucária (PR) → Joinville (SC)", produto: "Diesel S10", volume_m3: 410, status: "No Prazo", atraso_h: 0, causa: "Operação normal" },
+          { id: "VG-9105", rota: "Suape (PE) → Fortaleza (CE)", produto: "Gasolina C", volume_m3: 360, status: "No Prazo", atraso_h: 0, causa: "Cabotagem descarregada dentro da janela" },
+          { id: "VG-9106", rota: "Paulínia (SP) → S. J. Campos (SP)", produto: "Etanol Hidratado", volume_m3: 340, status: "No Prazo", atraso_h: 0, causa: "Operação normal" },
+          { id: "VG-9107", rota: "Belém (PA) → Santarém (PA)", produto: "Diesel S500", volume_m3: 290, status: "No Prazo", atraso_h: 0, causa: "Navegação fluvial sem ocorrências" },
+          { id: "VG-9108", rota: "Paulínia (SP) → Ribeirão Preto", produto: "Gasolina Aditivada", volume_m3: 375, status: "No Prazo", atraso_h: 0, causa: "Operação normal" },
+          { id: "VG-9109", rota: "Araucária (PR) → Curitiba (PR)", produto: "Etanol Hidratado", volume_m3: 310, status: "No Prazo", atraso_h: 0, causa: "Operação normal" },
+          { id: "VG-9110", rota: "Caxias (RJ) → Belo Horizonte (MG)", produto: "Diesel S10", volume_m3: 430, status: "No Prazo", atraso_h: 0, causa: "Operação normal" }
+        ],
+        comentarios: {
+          mercado: "Pico sazonal de dezembro impulsiona Ciclo Otto (+3,6% YoY) com forte fluxo turístico no litoral Sudeste/Sul e ganho de +0,5 p.p. em market share nacional.",
+          demanda: "Consenso fechou em 4,18 MM m³ (+4,0% vs AOP) após ajuste comercial de +85k m³ e ações promocionais (+45k m³); WMAPE recuou para 3,4%, melhor marca do ano.",
+          supply: "Atendimento físico atingiu 97,1% do plano irrestrito (4,06 MM m³); gargalo residual de 120k m³ concentrado em Cubatão/Santos e no corredor ferroviário do MT.",
+          execucao: "Todas as 6 bases operam acima do piso regulatório ANP (cobertura média ponderada de 7,09 dias), pontualidade proxy atingiu 90,0% e demurrage encerrou 12,5% abaixo do budget.",
+          pdcal: "A integração semanal entre S&OP e S&OE implementada a partir de setembro reduziu o WMAPE de 4,8% (Ago) para 3,4% (Dez) e eliminou rupturas de piso ANP.",
+          decisao_contexto: "Aprovar priorização de mix nobre (+R$ 8,8 MM em EBITDA incremental vs base restrita) para virada de ano e encerrar formalmente o ciclo IBP 2026."
+        }
+      };
 
-      const STORAGE_KEY = "IPIRANGA_IBP_STATE_V1";
+      const STORAGE_KEY = "IPIRANGA_IBP_STATE_V2";
+
+      function cloneState(value) {
+        return JSON.parse(JSON.stringify(value));
+      }
+
+      function mergeDefaultShape(defaults, candidate) {
+        if (Array.isArray(defaults)) return Array.isArray(candidate) ? candidate : cloneState(defaults);
+        if (defaults && typeof defaults === "object") {
+          const source = candidate && typeof candidate === "object" && !Array.isArray(candidate) ? candidate : {};
+          const result = {};
+          Object.keys(defaults).forEach((key) => {
+            result[key] = mergeDefaultShape(defaults[key], source[key]);
+          });
+          return result;
+        }
+        return candidate === undefined || candidate === null ? defaults : candidate;
+      }
+
+      function isValidIBPStateShape(st) {
+        if (!st || typeof st !== "object" || !st.meta || !st.kpis || !st.comentarios) return false;
+        const arrayKeys = ["series_mensais", "regionais", "restricoes", "cenarios_tradeoff", "bases", "viagens"];
+        if (!arrayKeys.every((key) => Array.isArray(st[key]) && st[key].length > 0)) return false;
+        if (!["ciclo", "status_ciclo", "snapshot", "fonte"].every((key) => typeof st.meta[key] === "string")) return false;
+        if (!Object.keys(DEFAULT_STATE.kpis).every((key) => parsePtNumber(st.kpis[key]) !== null)) return false;
+        if (!Object.keys(DEFAULT_STATE.comentarios).every((key) => typeof st.comentarios[key] === "string")) return false;
+
+        if (!st.series_mensais.every((r) => r && periodSortKey(r.mes) !== null &&
+          [r.realizado_mm, r.consenso_mm, r.wmape_pct].every((v) => parsePtNumber(v) !== null && parsePtNumber(v) >= 0))) return false;
+        if (!st.regionais.every((r) => r && String(r.regional || "").trim() &&
+          [r.realizado_k, r.consenso_k].every((v) => parsePtNumber(v) !== null && parsePtNumber(v) >= 0))) return false;
+        if (st.regionais.reduce((sum, r) => sum + (parsePtNumber(r.realizado_k) ?? 0), 0) <= 0) return false;
+        if (!st.restricoes.every((r) => r && String(r.titulo || "").trim() &&
+          parsePtNumber(r.impacto_k_m3) !== null && parsePtNumber(r.impacto_k_m3) >= 0)) return false;
+        if (!st.cenarios_tradeoff.every((r) => r && String(r.cenario || "").trim() &&
+          parsePtNumber(r.volume_mm) !== null && parsePtNumber(r.volume_mm) >= 0 &&
+          parsePtNumber(r.ebitda_mm) !== null && parsePtNumber(r.custo_extra_mm) !== null)) return false;
+        if (!st.bases.every((r) => r && String(r.base || "").trim() &&
+          [r.cobertura_dias, r.minimo_anp, r.estoque_k_m3].every((v) => parsePtNumber(v) !== null && parsePtNumber(v) >= 0) &&
+          (parsePtNumber(r.estoque_k_m3) === 0 || parsePtNumber(r.cobertura_dias) > 0))) return false;
+        if (!st.viagens.every((r) => r && String(r.id || "").trim() && String(r.status || "").trim() &&
+          parsePtNumber(r.volume_m3) !== null && parsePtNumber(r.volume_m3) >= 0)) return false;
+        return true;
+      }
+
       function loadSavedState() {
         try {
           const raw = localStorage.getItem(STORAGE_KEY);
           if (raw) {
             const parsed = JSON.parse(raw);
-            if (parsed && parsed.kpis && parsed.series_mensais) return parsed;
+            const merged = mergeDefaultShape(DEFAULT_STATE, parsed);
+            if (isValidIBPStateShape(merged)) return merged;
+            console.warn("Estado local inválido ou incompatível; carregando a base padrão IBP.");
           }
-        } catch (e) {}
-        return JSON.parse(JSON.stringify(DEFAULT_STATE));
+        } catch (e) {
+          console.warn("Não foi possível recuperar o estado local IBP:", e);
+        }
+        return cloneState(DEFAULT_STATE);
       }
+
       function saveState(st) {
         try {
           localStorage.setItem(STORAGE_KEY, JSON.stringify(st));
-        } catch (e) {}
+          return true;
+        } catch (e) {
+          console.warn("Não foi possível persistir o estado IBP:", e);
+          return false;
+        }
       }
 
-      let IBP_STATE = loadSavedState();
-      window.IBP_STATE = IBP_STATE;
+      let IBP_STATE;
 
       /* =====================================================================
-         2. UTILITÁRIOS DE FORMATAÇÃO & DOM
+         2. UTILITÁRIOS DE FORMATAÇÃO, SEGURANÇA & PARSER NUMÉRICO
          ===================================================================== */
+      function esc(str) {
+        return String(str ?? "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function parsePtNumber(val) {
+        if (val === null || val === undefined || val === "") return null;
+        if (typeof val === "number") return Number.isFinite(val) ? val : null;
+        if (typeof val !== "string") return null;
+
+        let raw = val.trim().replace(/[\u00A0\u202F\s]/g, "");
+        if (!raw) return null;
+        const negativeByParentheses = /^\(.*\)$/.test(raw);
+        raw = raw.replace(/[()]/g, "").replace(/R\$/gi, "").replace(/%/g, "")
+          .replace(/MM|m³|m3|k/gi, "");
+        if (!raw || !/^[+-]?[\d.,]+$/.test(raw)) return null;
+
+        const comma = raw.lastIndexOf(",");
+        const dot = raw.lastIndexOf(".");
+        if (comma >= 0 && dot >= 0) {
+          // O último separador é decimal; os anteriores são separadores de milhar.
+          if (comma > dot) raw = raw.replace(/\./g, "").replace(/,/g, ".");
+          else raw = raw.replace(/,/g, "");
+        } else if (comma >= 0) {
+          // Convenção pt-BR: vírgula decimal.
+          const lastComma = raw.lastIndexOf(",");
+          raw = raw.slice(0, lastComma).replace(/,/g, "") + "." + raw.slice(lastComma + 1);
+        } else if (dot >= 0) {
+          // Ponto seguido por três dígitos em grupos é interpretado como milhar pt-BR.
+          if (/^[+-]?\d{1,3}(\.\d{3})+$/.test(raw)) raw = raw.replace(/\./g, "");
+        }
+
+        let number = Number(raw);
+        if (!Number.isFinite(number)) return null;
+        if (negativeByParentheses) number = -Math.abs(number);
+        return number;
+      }
+
+      function toNum(val, fallback = 0) {
+        const parsed = parsePtNumber(val);
+        return parsed === null ? fallback : parsed;
+      }
+
+      const MONTHS = {
+        jan: 1, janeiro: 1, january: 1,
+        fev: 2, feb: 2, fevereiro: 2, february: 2,
+        mar: 3, marco: 3, março: 3, march: 3,
+        abr: 4, apr: 4, abril: 4, april: 4,
+        mai: 5, may: 5, maio: 5,
+        jun: 6, junho: 6, june: 6,
+        jul: 7, julho: 7, july: 7,
+        ago: 8, aug: 8, agosto: 8, august: 8,
+        set: 9, sep: 9, setembro: 9, september: 9,
+        out: 10, oct: 10, outubro: 10, october: 10,
+        nov: 11, novembro: 11, november: 11,
+        dez: 12, dec: 12, dezembro: 12, december: 12
+      };
+
+      function periodSortKey(value) {
+        const text = String(value ?? "").trim().toLowerCase();
+        if (!text) return null;
+        let match = text.match(/^(\d{4})[-/.](\d{1,2})(?:[-/.]\d{1,2})?$/);
+        if (match) return Number(match[1]) * 12 + Number(match[2]);
+        match = text.match(/^(\d{1,2})[-/.](\d{4})$/);
+        if (match) return Number(match[2]) * 12 + Number(match[1]);
+        match = text.match(/^([a-záéíóúçãõ]{3,})[\s/-]+(\d{2,4})$/i);
+        if (match) {
+          const month = MONTHS[match[1].normalize("NFD").replace(/[\u0300-\u036f]/g, "")];
+          let year = Number(match[2]);
+          if (year < 100) year += 2000;
+          return month ? year * 12 + month : null;
+        }
+        return null;
+      }
+
+      function getChronologicalSeries(series) {
+        return (Array.isArray(series) ? series : []).map((row, index) => ({ row, index, key: periodSortKey(row?.mes) }))
+          .sort((a, b) => {
+            if (a.key === null && b.key === null) return a.index - b.index;
+            if (a.key === null) return 1;
+            if (b.key === null) return -1;
+            return a.key - b.key || a.index - b.index;
+          }).map((item) => item.row);
+      }
+
+      function parseIBPDate(value) {
+        if (value instanceof Date && Number.isFinite(value.getTime())) return value;
+        if (typeof value === "number" && Number.isFinite(value)) {
+          // Serial Excel (sistema 1900).
+          const date = new Date(Date.UTC(1899, 11, 30) + value * 86400000);
+          return Number.isFinite(date.getTime()) ? date : null;
+        }
+        const text = String(value ?? "").trim();
+        if (!text) return null;
+        let match = text.match(/^(\d{1,2})[/.](\d{1,2})[/.](\d{2,4})$/);
+        if (match) {
+          const day = Number(match[1]), month = Number(match[2]);
+          let year = Number(match[3]);
+          if (match[3].length === 2) year += year < 50 ? 2000 : 1900;
+          const date = new Date(year, month - 1, day);
+          return date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day ? date : null;
+        }
+        match = text.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        if (match) {
+          const year = Number(match[1]), month = Number(match[2]), day = Number(match[3]);
+          const date = new Date(year, month - 1, day);
+          return date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day ? date : null;
+        }
+        const date = new Date(text);
+        return Number.isFinite(date.getTime()) ? date : null;
+      }
+
+      // Inicializa o estado somente após os validadores e os parsers estarem prontos.
+      IBP_STATE = loadSavedState();
+      window.IBP_STATE = IBP_STATE;
+
       const fmt = {
         num: (v, d = 1) => Number(v || 0).toLocaleString("pt-BR", { minimumFractionDigits: d, maximumFractionDigits: d }),
         int: (v) => Math.round(Number(v || 0)).toLocaleString("pt-BR"),
@@ -2070,8 +2220,8 @@
       function showTooltip(evt, title, rows) {
         const tt = document.getElementById("chartTooltip");
         if (!tt) return;
-        tt.innerHTML = `<div class="tt-title">${title}</div>` +
-          rows.map(([k, v]) => `<div class="tt-row"><span>${k}</span><strong>${v}</strong></div>`).join("");
+        tt.innerHTML = `<div class="tt-title">${esc(title)}</div>` +
+          rows.map(([k, v]) => `<div class="tt-row"><span>${esc(k)}</span><strong>${esc(v)}</strong></div>`).join("");
         tt.style.display = "block";
         moveTooltip(evt);
       }
@@ -2095,53 +2245,129 @@
       }
 
       /* =====================================================================
-         3. CÁLCULOS DERIVADOS & TEXTOS 100% AUTOMÁTICOS
+         3. CÁLCULOS DERIVADOS OFICIAIS (ELIMINA HARDCODES E RECONCILIA BASES)
          ===================================================================== */
       function computeMetrics(s) {
         const k = s.kpis;
-        const volGapK = Math.round((k.volume_mm_m3 - k.aop_mm_m3) * 1000);
-        const vsAopPct = k.aop_mm_m3 ? ((k.volume_mm_m3 / k.aop_mm_m3) - 1) * 100 : 0;
-        const aopEbitdaPct = k.aop_ebitda_mm ? (k.ebitda_mm / k.aop_ebitda_mm) * 100 : 0;
-        const gapRestricaoK = Math.max(0, Math.round((k.plano_irrestrito_mm_m3 - k.plano_restrito_mm_m3) * 1000));
-        const atendimentoPct = k.plano_irrestrito_mm_m3 ? (k.plano_restrito_mm_m3 / k.plano_irrestrito_mm_m3) * 100 : 100;
-        const gapRestricaoPct = 100 - atendimentoPct;
 
-        const basesAbaixo = s.bases.filter((b) => b.cobertura_dias < b.minimo_anp);
-        const basesOrdenadas = [...s.bases]
-          .map((b) => ({ ...b, folga: +(b.cobertura_dias - b.minimo_anp).toFixed(2) }))
-          .sort((a, b) => a.folga - b.folga);
+        // 1. Demanda & consenso: o volume consensado é construído pela soma da bridge de demanda.
+        const bridgeInputs = [k.forecast_base_k_m3, k.ajuste_comercial_k_m3, k.efeito_promocional_k_m3];
+        const bridgeTotalK = bridgeInputs.reduce((sum, value) => sum + toNum(value), 0);
+        const bridgeDisponivel = bridgeInputs.every((value) => parsePtNumber(value) !== null);
+        const volumeConsensadoMm = bridgeDisponivel
+          ? +(bridgeTotalK / 1000).toFixed(3)
+          : toNum(k.volume_mm_m3);
+        const volGapK = Math.round((volumeConsensadoMm - toNum(k.aop_mm_m3)) * 1000);
+        const vsAopPct = toNum(k.aop_mm_m3) > 0 ? ((volumeConsensadoMm / toNum(k.aop_mm_m3)) - 1) * 100 : 0;
 
-        const viagensAtrasadas = s.viagens.filter((v) => v.status !== "No Prazo");
-        const otifCalculado = s.viagens.length
-          ? ((s.viagens.length - viagensAtrasadas.length) / s.viagens.length) * 100
-          : k.otif_pct;
+        // 2. EBITDA & orçamento.
+        const aopEbitdaPct = toNum(k.aop_ebitda_mm) > 0 ? (toNum(k.ebitda_mm) / toNum(k.aop_ebitda_mm)) * 100 : 0;
 
-        const regComDesvio = s.regionais.map((r) => {
-          const desvioPct = r.consenso_k ? ((r.realizado_k - r.consenso_k) / r.consenso_k) * 100 : 0;
-          return { ...r, desvioPct };
+        // 3. Supply: restrições ativas são somadas em k m³ e reconciliadas com o plano informado.
+        const activeRestrictions = (Array.isArray(s.restricoes) ? s.restricoes : []).filter((r) => {
+          const status = String(r.status || "").trim().toLowerCase();
+          return r.ativo !== false && !["inativa", "inativo", "cancelada", "cancelado", "encerrada", "encerrado"].includes(status);
         });
-        const maiorDesvioReg = [...regComDesvio].sort((a, b) => Math.abs(b.desvioPct) - Math.abs(a.desvioPct))[0];
-        const melhorCenario = [...s.cenarios_tradeoff].sort((a, b) => b.ebitda_mm - a.ebitda_mm)[0];
-        const maiorRestricao = [...s.restricoes].sort((a, b) => b.impacto_k_m3 - a.impacto_k_m3)[0];
+        const somaRestricoesK = activeRestrictions.reduce((acc, r) => acc + Math.max(0, toNum(r.impacto_k_m3)), 0);
+        const planoIrrestritoMm = toNum(k.plano_irrestrito_mm_m3) > 0 ? toNum(k.plano_irrestrito_mm_m3) : volumeConsensadoMm;
+        const planoRestritoInformado = toNum(k.plano_restrito_mm_m3);
+        const hasActiveRestrictionRows = activeRestrictions.length > 0;
+        const planoRestritoMm = hasActiveRestrictionRows
+          ? Math.max(0, +(planoIrrestritoMm - somaRestricoesK / 1000).toFixed(3))
+          : Math.min(planoIrrestritoMm, Math.max(0, planoRestritoInformado));
+        const gapRestricaoK = Math.max(0, Math.round((planoIrrestritoMm - planoRestritoMm) * 1000));
+        const gapReportadoK = Math.max(0, Math.round((planoIrrestritoMm - planoRestritoInformado) * 1000));
+        const diferencaReconciliacaoK = Math.round(somaRestricoesK - gapReportadoK);
+        const reconciliacaoOK = hasActiveRestrictionRows
+          ? Math.abs(diferencaReconciliacaoK) <= 1
+          : gapReportadoK === 0;
+        const atendimentoPct = planoIrrestritoMm > 0 ? (planoRestritoMm / planoIrrestritoMm) * 100 : 0;
+        const gapRestricaoPct = planoIrrestritoMm > 0 ? (gapRestricaoK / (planoIrrestritoMm * 1000)) * 100 : 0;
+
+        // 4. Bias oficial: Σ(Consenso - Realizado) ÷ Σ Realizado.
+        const regComDesvio = (Array.isArray(s.regionais) ? s.regionais : []).map((r) => {
+          const realizado = toNum(r.realizado_k);
+          const consenso = toNum(r.consenso_k);
+          const desvioPct = consenso > 0 ? ((realizado - consenso) / consenso) * 100 : 0;
+          const biasOficialPct = realizado > 0 ? ((consenso - realizado) / realizado) * 100 : null;
+          return { ...r, desvioPct, biasOficialPct };
+        });
+        const totalRealReg = regComDesvio.reduce((acc, r) => acc + toNum(r.realizado_k), 0);
+        const totalConsReg = regComDesvio.reduce((acc, r) => acc + toNum(r.consenso_k), 0);
+        const biasConsolidadoPct = totalRealReg > 0 ? ((totalConsReg - totalRealReg) / totalRealReg) * 100 : null;
+
+        // 5. WMAPE: sempre usa o registro válido do período cronologicamente mais recente.
+        const seriesOrdenada = getChronologicalSeries(s.series_mensais);
+        const seriesComWmape = seriesOrdenada.filter((r) => parsePtNumber(r.wmape_pct) !== null);
+        const ultimoFechamento = seriesComWmape.length ? seriesComWmape[seriesComWmape.length - 1] : null;
+        const wmapeAtualPct = ultimoFechamento ? toNum(ultimoFechamento.wmape_pct) : null;
+
+        const maiorDesvioReg = [...regComDesvio].sort((a, b) => Math.abs(b.desvioPct) - Math.abs(a.desvioPct))[0] || null;
+
+        // 6. Cobertura ponderada: Σ Estoque ÷ Σ(Estoque / Cobertura).
+        const bases = Array.isArray(s.bases) ? s.bases : [];
+        const basesInvalidasCobertura = bases.filter((b) => toNum(b.estoque_k_m3) > 0 && toNum(b.cobertura_dias) <= 0);
+        const basesAbaixo = bases.filter((b) => toNum(b.cobertura_dias) < toNum(b.minimo_anp));
+        const basesOrdenadas = [...bases]
+          .map((b) => ({ ...b, folga: +(toNum(b.cobertura_dias) - toNum(b.minimo_anp)).toFixed(2) }))
+          .sort((a, b) => a.folga - b.folga);
+        const totalEstoqueK = bases.reduce((acc, b) => acc + Math.max(0, toNum(b.estoque_k_m3)), 0);
+        const totalDemandaDiariaK = bases.reduce((acc, b) => {
+          const estoque = Math.max(0, toNum(b.estoque_k_m3));
+          const cobertura = toNum(b.cobertura_dias);
+          return acc + (estoque > 0 && cobertura > 0 ? estoque / cobertura : 0);
+        }, 0);
+        const coberturaMediaPonderada = basesInvalidasCobertura.length || totalDemandaDiariaK <= 0
+          ? null
+          : +(totalEstoqueK / totalDemandaDiariaK).toFixed(2);
+
+        // 7. OTIF: só é chamado de OTIF quando todas as viagens têm datas e volumes pedido/entregue.
+        const viagens = Array.isArray(s.viagens) ? s.viagens : [];
+        const hasFullFields = viagens.length > 0 && viagens.every((v) => {
+          const promised = parseIBPDate(v.data_prometida);
+          const delivered = parseIBPDate(v.data_entrega);
+          const ordered = parsePtNumber(v.volume_pedido_m3);
+          const deliveredVolume = parsePtNumber(v.volume_entregue_m3);
+          return promised && delivered && ordered !== null && deliveredVolume !== null && ordered >= 0 && deliveredVolume >= 0;
+        });
+        const hasAnyFullFields = viagens.some((v) => v.data_prometida || v.data_entrega || v.volume_pedido_m3 !== undefined || v.volume_entregue_m3 !== undefined);
+        const otifMode = hasFullFields ? "verified" : (hasAnyFullFields ? "proxy-partial" : "proxy");
+        const viagemResultados = {};
+        const viagensComDesvio = [];
+        viagens.forEach((v) => {
+          let ok;
+          if (hasFullFields) {
+            const promised = parseIBPDate(v.data_prometida);
+            const delivered = parseIBPDate(v.data_entrega);
+            const ordered = toNum(v.volume_pedido_m3);
+            const deliveredVolume = toNum(v.volume_entregue_m3);
+            ok = delivered.getTime() <= promised.getTime() && deliveredVolume + 1e-9 >= ordered;
+          } else {
+            ok = String(v.status || "").trim().toLowerCase() === "no prazo" && toNum(v.atraso_h) <= 0;
+          }
+          viagemResultados[String(v.id)] = ok;
+          if (!ok) viagensComDesvio.push(v);
+        });
+        const viagensAtrasadas = viagensComDesvio;
+        const otifOperacionalPct = viagens.length ? ((viagens.length - viagensComDesvio.length) / viagens.length) * 100 : null;
+        const viagensConformes = viagens.filter((v) => viagemResultados[String(v.id)] === true);
+
+        const cenarios = Array.isArray(s.cenarios_tradeoff) ? s.cenarios_tradeoff : [];
+        const melhorCenario = [...cenarios].sort((a, b) => toNum(b.ebitda_mm) - toNum(a.ebitda_mm))[0] || null;
+        const maiorRestricao = [...activeRestrictions].sort((a, b) => toNum(b.impacto_k_m3) - toNum(a.impacto_k_m3))[0] || null;
 
         return {
-          volGapK,
-          vsAopPct,
-          aopEbitdaPct,
-          gapRestricaoK,
-          atendimentoPct,
-          gapRestricaoPct,
-          basesAbaixo,
-          basesOrdenadas,
-          viagensAtrasadas,
-          otifCalculado,
-          regComDesvio,
-          maiorDesvioReg,
-          melhorCenario,
-          maiorRestricao
+          volumeConsensadoMm, volGapK, vsAopPct, aopEbitdaPct,
+          planoIrrestritoMm, planoRestritoMm, gapRestricaoK, atendimentoPct, gapRestricaoPct,
+          somaRestricoesK, gapReportadoK, diferencaReconciliacaoK, reconciliacaoOK,
+          basesAbaixo, basesOrdenadas, basesInvalidasCobertura, coberturaMediaPonderada,
+          viagensAtrasadas, viagensConformes, viagemResultados, otifOperacionalPct, otifMode,
+          regComDesvio, biasConsolidadoPct, wmapeAtualPct, ultimoFechamento, seriesOrdenada,
+          maiorDesvioReg, melhorCenario, maiorRestricao
         };
       }
-/* =====================================================================
+
+      /* =====================================================================
          4. RENDERIZAÇÃO COMPLETA DO PAINEL
          ===================================================================== */
       function renderAll() {
@@ -2149,8 +2375,8 @@
         const k = s.kpis;
         const m = computeMetrics(s);
 
-        // Topbar, Banner & Footer dinâmicos
-        const ultimoMes = s.series_mensais.length ? s.series_mensais[s.series_mensais.length - 1].mes : s.meta.ciclo;
+        const serieCronologica = getChronologicalSeries(s.series_mensais);
+        const ultimoMes = serieCronologica.length ? serieCronologica[serieCronologica.length - 1].mes : s.meta.ciclo;
         const cicloLabel = s.meta.ciclo || ultimoMes;
         const statusCiclo = k.aderencia_cronograma_pct >= 100 ? "Concluído" : (s.meta.status_ciclo || "Em andamento");
         setBind("ciclo_pill", `Ciclo ${cicloLabel} — ${statusCiclo}`);
@@ -2159,31 +2385,34 @@
         setBind("horizonte_badge", `${s.series_mensais.length} meses`);
         setBind("demo_banner_txt", `TORRE DE CONTROLE IBP • ${s.meta.fonte.toUpperCase()} • Ciclo ${cicloLabel} (${statusCiclo}) • Snapshot ${s.meta.snapshot}`);
         setBind("footer_left", `Ipiranga • Torre de Controle IBP — Fonte: ${s.meta.fonte}`);
-        setBind("footer_right", `Ciclo ${cicloLabel} • Snapshot ${s.meta.snapshot} • Todos os textos analíticos sincronizados`);
+        setBind("footer_right", `Ciclo ${cicloLabel} • Snapshot ${s.meta.snapshot} • Todos os cálculos sincronizados em tempo real`);
 
         const badgeSrc = document.getElementById("dataSourceBadge");
         if (badgeSrc) badgeSrc.textContent = `Fonte: ${s.meta.fonte}`;
 
-        // Sidebar cronograma
+        // Sidebar cronograma dinâmica por faixa de progresso
         const sideAd = document.getElementById("sideAderencia");
         const sideFill = document.getElementById("sideProgFill");
         const sideEtapa = document.getElementById("sideEtapa");
-        if (sideAd) sideAd.textContent = `${fmt.int(k.aderencia_cronograma_pct)}%`;
-        if (sideFill) sideFill.style.width = `${Math.min(100, Math.max(0, k.aderencia_cronograma_pct))}%`;
+        const pctCrono = Math.min(100, Math.max(0, k.aderencia_cronograma_pct));
+        if (sideAd) sideAd.textContent = `${fmt.int(pctCrono)}%`;
+        if (sideFill) sideFill.style.width = `${pctCrono}%`;
         if (sideEtapa) {
-          sideEtapa.textContent = k.aderencia_cronograma_pct >= 100
-            ? "Todas as etapas concluídas no prazo"
-            : `Etapa atual: Supply & Execução (${fmt.int(k.aderencia_cronograma_pct)}%)`;
+          if (pctCrono >= 100) sideEtapa.textContent = "Todas as etapas concluídas no prazo";
+          else if (pctCrono >= 75) sideEtapa.textContent = `Etapa atual: Pré-IBP & Executivo (${fmt.int(pctCrono)}%)`;
+          else if (pctCrono >= 50) sideEtapa.textContent = `Etapa atual: Plano Restrito Supply (${fmt.int(pctCrono)}%)`;
+          else if (pctCrono >= 25) sideEtapa.textContent = `Etapa atual: Consenso de Demanda (${fmt.int(pctCrono)}%)`;
+          else sideEtapa.textContent = `Etapa atual: Revisão de Mercado (${fmt.int(pctCrono)}%)`;
         }
 
         // Resumo Executivo Automático (Bloco 1)
         const baseCritTxt = m.basesAbaixo.length
-          ? `${m.basesAbaixo.length} base(s) abaixo do mínimo ANP (${m.basesAbaixo.map((b) => `${b.base}: ${fmt.num(b.cobertura_dias)}d vs ${fmt.num(b.minimo_anp)}d`).join(", ")})`
-          : `todas as ${s.bases.length} bases acima do piso regulatório ANP (menor cobertura: ${m.basesOrdenadas[0]?.base} com ${fmt.num(m.basesOrdenadas[0]?.cobertura_dias)}d)`;
+          ? `${m.basesAbaixo.length} base(s) abaixo do mínimo ANP (${m.basesAbaixo.map((b) => `${esc(b.base)}: ${fmt.num(b.cobertura_dias)}d vs ${fmt.num(b.minimo_anp)}d`).join(", ")})`
+          : `todas as ${s.bases.length} bases acima do piso regulatório ANP (menor cobertura: ${esc(m.basesOrdenadas[0]?.base)} com ${fmt.num(m.basesOrdenadas[0]?.cobertura_dias)}d)`;
 
         setBind(
           "exec_summary",
-          `No ciclo <strong>${cicloLabel}</strong>, o volume consensado fechou em <strong>${fmt.num(k.volume_mm_m3, 2)} MM m³</strong> (${fmt.signed(m.vsAopPct)}% vs. AOP), projetando EBITDA de <strong>R$ ${fmt.num(k.ebitda_mm)} MM</strong> (${fmt.num(m.aopEbitdaPct)}% do orçamento). Restrições físicas limitam o atendimento a <strong>${fmt.num(k.plano_restrito_mm_m3, 2)} MM m³</strong> (gap de <strong>${fmt.int(m.gapRestricaoK)} k m³</strong>), enquanto a operação monitora ${baseCritTxt} e OTIF em <strong>${fmt.num(k.otif_pct)}%</strong>.`,
+          `No ciclo <strong>${esc(cicloLabel)}</strong>, o volume consensado fechou em <strong>${fmt.num(m.volumeConsensadoMm, 2)} MM m³</strong> (${fmt.signed(m.vsAopPct)}% vs. AOP), projetando EBITDA de <strong>R$ ${fmt.num(k.ebitda_mm)} MM</strong> (${fmt.num(m.aopEbitdaPct)}% do orçamento). Restrições físicas limitam o atendimento a <strong>${fmt.num(m.planoRestritoMm, 2)} MM m³</strong> (gap de <strong>${fmt.int(m.gapRestricaoK)} k m³</strong>), enquanto a operação monitora ${baseCritTxt} e ${m.otifMode === "verified" ? "OTIF" : "pontualidade proxy"} em <strong>${fmt.num(m.otifOperacionalPct)}%</strong>.`,
           true
         );
 
@@ -2196,7 +2425,7 @@
         setBind("com_decisao_contexto", s.comentarios.decisao_contexto);
 
         // KPIs Bloco 1, 2, 3, 4
-        setKpi("volume_mm_m3", `${fmt.num(k.volume_mm_m3, 2)} <span class="kpi-unit">MM m³</span>`);
+        setKpi("volume_mm_m3", `${fmt.num(m.volumeConsensadoMm, 2)} <span class="kpi-unit">MM m³</span>`);
         setBind("vs_aop_pct", `${fmt.signed(m.vsAopPct)}% vs AOP`);
         setBind("vol_gap", `Gap: ${m.volGapK >= 0 ? "+" : ""}${fmt.int(m.volGapK)}k m³`);
 
@@ -2204,36 +2433,56 @@
         setBind("aop_ebitda_pct", `${fmt.num(m.aopEbitdaPct)}% do AOP`);
         setBind("margem_pct", `Margem: ${fmt.num(k.margem_pct, 2)}%`);
 
-        setKpi("cobertura_dias", `${fmt.num(k.cobertura_dias, 2)} <span class="kpi-unit">dias</span>`);
+        setKpi("cobertura_dias", `${fmt.num(m.coberturaMediaPonderada, 2)} <span class="kpi-unit">dias</span>`);
         setBind("meta_cobertura", `Meta: ${fmt.num(k.meta_cobertura_dias)} dias`);
-        setBind("cobertura_alerta", m.basesAbaixo.length ? `${m.basesAbaixo.length} base(s) < ANP` : "Todas > piso ANP");
+        const cobAlertaEl = document.querySelector('[data-bind="cobertura_alerta"]');
+        if (cobAlertaEl) {
+          cobAlertaEl.textContent = m.basesAbaixo.length ? `${m.basesAbaixo.length} base(s) < ANP` : "Todas > piso ANP";
+          cobAlertaEl.style.color = m.basesAbaixo.length ? "var(--crit)" : "var(--ok)";
+        }
 
-        setKpi("otif_pct", `${fmt.num(k.otif_pct)}<span class="kpi-unit">%</span>`);
-        setBind("meta_otif", `Meta: ${fmt.num(k.meta_otif_pct)}%`);
-        setBind("amostra_viagens", `Amostra: ${s.viagens.length} viagens`);
-        setBind("otif_gap_txt", `${fmt.num(k.otif_pct - k.meta_otif_pct)} p.p. vs meta`);
+        setKpi("otif_pct", `${m.otifOperacionalPct === null ? "N/D" : fmt.num(m.otifOperacionalPct)}<span class="kpi-unit">${m.otifOperacionalPct === null ? "" : "%"}</span>`);
+        const otifLabel = m.otifMode === "verified" ? "OTIF OPERACIONAL" : "PONTUALIDADE (PROXY OTIF)";
+        document.querySelectorAll("[data-otif-label]").forEach((el) => { el.textContent = otifLabel; });
+        document.querySelectorAll("[data-otif-tip]").forEach((el) => {
+          el.setAttribute("data-tip", m.otifMode === "verified"
+            ? "OTIF calculado por viagem: entrega até a data prometida e volume entregue igual ou superior ao volume pedido."
+            : "Proxy de pontualidade baseado no status da viagem. Esta base não contém, para todas as viagens, data prometida, data de entrega, volume pedido e volume entregue; portanto não comprova In-Full.");
+        });
+        setBind("meta_otif", m.otifMode === "verified"
+          ? `Meta: ${fmt.num(k.meta_otif_pct)}%`
+          : "Meta OTIF: requer In-Full");
+        setBind("amostra_viagens", `Amostra: ${s.viagens.length} viagens${m.otifMode === "verified" ? " • OTIF" : " • proxy"}`);
+        setBind("otif_gap_txt", m.otifMode === "verified"
+          ? `${fmt.signed(m.otifOperacionalPct - k.meta_otif_pct)} p.p. vs meta`
+          : "Não comparável à meta OTIF sem In-Full");
 
-        setKpi("aderencia_cronograma_pct", `${fmt.int(k.aderencia_cronograma_pct)}<span class="kpi-unit">%</span>`);
-        const etapasConcluidas = Math.round((k.aderencia_cronograma_pct / 100) * 4);
+        setKpi("aderencia_cronograma_pct", `${fmt.int(pctCrono)}<span class="kpi-unit">%</span>`);
+        const etapasConcluidas = Math.round((pctCrono / 100) * 4);
         setBind("crono_etapas_txt", `${etapasConcluidas} de 4 etapas`);
-        setBind("crono_status_txt", k.aderencia_cronograma_pct >= 100 ? "Ciclo no prazo" : "Em execução");
+        setBind("crono_status_txt", pctCrono >= 100 ? "Ciclo no prazo" : "Em execução");
 
-        // Timeline Cronograma (Bloco 1)
-        renderTimeline(k.aderencia_cronograma_pct, cicloLabel);
-
-        // Desvios Calculados & Decisões Executivas (Bloco 1)
+        renderTimeline(pctCrono, cicloLabel);
         renderDesviosEDecisoes(s, m);
 
         // Bloco 2: Demanda
-        setKpi("wmape_pct", `${fmt.num(k.wmape_pct)}<span class="kpi-unit">%</span>`);
+        setKpi("wmape_pct", `${fmt.num(m.wmapeAtualPct)}<span class="kpi-unit">%</span>`);
         setBind("meta_wmape", `Meta: ≤ ${fmt.num(k.meta_wmape_pct)}%`);
-        const diffWmape = k.wmape_pct - k.meta_wmape_pct;
-        setBind("wmape_status", diffWmape <= 0 ? "Dentro da meta" : `+${fmt.num(diffWmape)} p.p. acima`);
+        const diffWmape = m.wmapeAtualPct - k.meta_wmape_pct;
+        const wmapeStEl = document.querySelector('[data-bind="wmape_status"]');
+        if (wmapeStEl) {
+          wmapeStEl.textContent = diffWmape <= 0 ? "Dentro da meta" : `+${fmt.num(diffWmape)} p.p. acima`;
+          wmapeStEl.style.color = diffWmape <= 0 ? "var(--ok)" : "var(--warn)";
+        }
 
-        setKpi("bias_pct", `${fmt.signed(k.bias_pct)}<span class="kpi-unit">%</span>`);
-        setBind("bias_status", Math.abs(k.bias_pct) <= 2.0 ? "Dentro da banda" : "Viés fora da banda");
+        setKpi("bias_pct", `${fmt.signed(m.biasConsolidadoPct)}<span class="kpi-unit">%</span>`);
+        const biasStEl = document.querySelector('[data-bind="bias_status"]');
+        if (biasStEl) {
+          biasStEl.textContent = Math.abs(m.biasConsolidadoPct) <= 2.0 ? "Dentro da banda" : "Viés fora da banda";
+          biasStEl.style.color = Math.abs(m.biasConsolidadoPct) <= 2.0 ? "var(--ok)" : "var(--warn)";
+        }
 
-        const deltaBaseK = Math.round(k.volume_mm_m3 * 1000 - k.forecast_base_k_m3);
+        const deltaBaseK = Math.round(m.volumeConsensadoMm * 1000 - k.forecast_base_k_m3);
         setBind("consenso_delta_base", `${deltaBaseK >= 0 ? "+" : ""}${fmt.int(deltaBaseK)}k m³ vs Base`);
 
         setKpi("market_share_pct", `${fmt.num(k.market_share_pct)}<span class="kpi-unit">%</span>`);
@@ -2241,29 +2490,38 @@
         setKpi("mercado_yoy_pct", `${fmt.signed(k.mercado_yoy_pct)}<span class="kpi-unit">%</span>`);
 
         renderChartWmape(s, k.meta_wmape_pct);
-        renderBridge(s);
+        renderBridge(s, m);
         renderRegionais(s, m);
 
         // Bloco 3: Supply
-        setKpi("plano_irrestrito_mm_m3", `${fmt.num(k.plano_irrestrito_mm_m3, 2)} <span class="kpi-unit">MM m³</span>`);
-        setKpi("plano_restrito_mm_m3", `${fmt.num(k.plano_restrito_mm_m3, 2)} <span class="kpi-unit">MM m³</span>`);
+        setKpi("plano_irrestrito_mm_m3", `${fmt.num(m.planoIrrestritoMm, 2)} <span class="kpi-unit">MM m³</span>`);
+        setKpi("plano_restrito_mm_m3", `${fmt.num(m.planoRestritoMm, 2)} <span class="kpi-unit">MM m³</span>`);
         setBind("atendimento_pct", `${fmt.num(m.atendimentoPct)}% atendido`);
         setKpi("gap_restricao_k_m3", `${fmt.int(m.gapRestricaoK)} <span class="kpi-unit">k m³</span>`);
         setBind("gap_restricao_pct", `${fmt.num(m.gapRestricaoPct)}% do consenso`);
         setKpi("impacto_receita_mm", `R$ ${fmt.num(k.impacto_receita_mm, 0)} <span class="kpi-unit">MM</span>`);
         setBind("impacto_ebitda_mm", `EBITDA: R$ ${fmt.num(k.impacto_ebitda_mm)} MM`);
         setKpi("ocupacao_tancagem_pct", `${fmt.num(k.ocupacao_tancagem_pct)}<span class="kpi-unit">%</span>`);
-        setBind("tancagem_status", k.ocupacao_tancagem_pct <= 88 ? "Operação segura" : "Tancagem pressionada");
-        setBind("balanco_badge", `${fmt.num(m.atendimentoPct)}% viável • ${fmt.num(m.gapRestricaoPct)}% restrito`);
+        const tancEl = document.querySelector('[data-bind="tancagem_status"]');
+        if (tancEl) {
+          tancEl.textContent = k.ocupacao_tancagem_pct <= 88 ? "Operação segura" : "Tancagem pressionada";
+          tancEl.style.color = k.ocupacao_tancagem_pct <= 88 ? "var(--ok)" : "var(--warn)";
+        }
+        setBind("balanco_badge", `${fmt.num(m.atendimentoPct)}% viável • ${fmt.num(m.gapRestricaoPct)}% restrito${m.reconciliacaoOK ? " • reconciliado" : ` • divergência ${fmt.int(m.diferencaReconciliacaoK)}k`}`);
+        const balanceBadgeEl = document.querySelector('[data-bind="balanco_badge"]');
+        if (balanceBadgeEl) {
+          balanceBadgeEl.classList.remove("badge-blue", "badge-ok", "badge-crit");
+          balanceBadgeEl.classList.add(m.reconciliacaoOK ? "badge-blue" : "badge-crit");
+        }
 
         const gapOkEl = document.getElementById("gapBarOk");
         const gapGapEl = document.getElementById("gapBarGap");
         if (gapOkEl) {
-          gapOkEl.style.width = `${Math.max(15, m.atendimentoPct)}%`;
-          gapOkEl.textContent = `Atendido: ${fmt.num(k.plano_restrito_mm_m3, 2)} MM m³ (${fmt.num(m.atendimentoPct)}%)`;
+          gapOkEl.style.width = `${Math.min(100, Math.max(0, m.atendimentoPct))}%`;
+          gapOkEl.textContent = `Atendido: ${fmt.num(m.planoRestritoMm, 2)} MM m³ (${fmt.num(m.atendimentoPct)}%)`;
         }
         if (gapGapEl) {
-          gapGapEl.style.width = `${Math.max(5, m.gapRestricaoPct)}%`;
+          gapGapEl.style.width = `${Math.min(100, Math.max(0, m.gapRestricaoPct))}%`;
           gapGapEl.textContent = m.gapRestricaoK > 0 ? `${fmt.int(m.gapRestricaoK)}k` : "0k";
         }
 
@@ -2271,15 +2529,35 @@
         renderChartTradeoff(s, m);
 
         // Bloco 4: Execução S&OE
-        setKpi("bases_abaixo_anp", `${m.basesAbaixo.length} <span class="kpi-unit">de ${s.bases.length}</span>`);
+        const basesAnpValEl = document.querySelector('[data-kpi="bases_abaixo_anp"]');
+        if (basesAnpValEl) {
+          basesAnpValEl.innerHTML = `${m.basesAbaixo.length} <span class="kpi-unit">de ${s.bases.length}</span>`;
+          basesAnpValEl.style.color = m.basesAbaixo.length ? "var(--crit)" : "var(--ok)";
+        }
         setBind("bases_criticas_nomes", m.basesAbaixo.length ? m.basesAbaixo.map((b) => b.base).join(", ") : "Nenhuma crítica");
+        const basesCritStEl = document.querySelector('[data-bind="bases_criticas_status"]');
+        if (basesCritStEl) {
+          basesCritStEl.textContent = m.basesAbaixo.length ? "Ação imediata" : "Conformidade ANP";
+          basesCritStEl.style.color = m.basesAbaixo.length ? "var(--crit)" : "var(--ok)";
+        }
+
         setKpi("excecoes_ativas", `${m.viagensAtrasadas.length} <span class="kpi-unit">ocorrências</span>`);
         setBind("excecoes_resumo", m.viagensAtrasadas.length ? `${m.viagensAtrasadas.length} de ${s.viagens.length} cargas` : "Fluxo normalizado");
         setKpi("dwell_horas", `${fmt.num(k.dwell_horas)} <span class="kpi-unit">horas</span>`);
-        setBind("dwell_status", k.dwell_horas <= 2.5 ? "Dentro da meta" : `+${fmt.num(k.dwell_horas - 2.5)}h acima`);
+        const dwellStEl = document.querySelector('[data-bind="dwell_status"]');
+        if (dwellStEl) {
+          dwellStEl.textContent = k.dwell_horas <= 2.5 ? "Dentro da meta" : `+${fmt.num(k.dwell_horas - 2.5)}h acima`;
+          dwellStEl.style.color = k.dwell_horas <= 2.5 ? "var(--ok)" : "var(--warn)";
+        }
+
         setKpi("demurrage_mm", `R$ ${fmt.num(k.demurrage_mm, 2)} <span class="kpi-unit">MM</span>`);
+        setBind("budget_demurrage_txt", `Budget: R$ ${fmt.num(k.budget_demurrage_mm, 2)} MM`);
         const varDem = k.budget_demurrage_mm ? ((k.demurrage_mm / k.budget_demurrage_mm) - 1) * 100 : 0;
-        setBind("demurrage_status", `${fmt.signed(varDem, 0)}% vs budget`);
+        const demStEl = document.querySelector('[data-bind="demurrage_status"]');
+        if (demStEl) {
+          demStEl.textContent = `${fmt.signed(varDem, 0)}% vs budget`;
+          demStEl.style.color = varDem <= 0 ? "var(--ok)" : "var(--crit)";
+        }
         setBind("viagens_badge", `${s.viagens.length} viagens`);
 
         renderChartAnp(s, m);
@@ -2323,9 +2601,9 @@
           }
           return `
             <div class="timeline-step ${cls}">
-              <div class="step-label">${st.label}</div>
-              <div class="step-title">${st.title}</div>
-              <div class="step-status">${statusTxt}</div>
+              <div class="step-label">${esc(st.label)}</div>
+              <div class="step-title">${esc(st.title)}</div>
+              <div class="step-status">${esc(statusTxt)}</div>
             </div>`;
         }).join("");
       }
@@ -2334,15 +2612,26 @@
         const k = s.kpis;
         const desvios = [];
 
+        if (!m.reconciliacaoOK) {
+          desvios.push({
+            titulo: `Reconciliação do plano restrito divergente (${fmt.int(m.diferencaReconciliacaoK)} k m³)`,
+            badge: "Governança IBP",
+            badgeCls: "badge-crit",
+            indicador: `Impacto cadastrado: ${fmt.int(m.somaRestricoesK)} k m³ • Gap do plano: ${fmt.int(m.gapReportadoK)} k m³`,
+            causa: "A soma das restrições ativas não fecha com a diferença entre Plano Irrestrito e Plano Restrito informado.",
+            acao: "Revisar impactos, status das restrições e plano restrito antes de homologar o ciclo."
+          });
+        }
+
         if (m.basesAbaixo.length) {
           m.basesAbaixo.forEach((b) => {
             desvios.push({
-              titulo: `Cobertura abaixo do piso ANP — ${b.base}`,
+              titulo: `Cobertura abaixo do piso ANP — ${esc(b.base)}`,
               badge: "Crítico • ANP",
               badgeCls: "badge-crit",
               indicador: `${fmt.num(b.cobertura_dias)}d (Mín. ANP: ${fmt.num(b.minimo_anp)}d)`,
-              causa: `Folga negativa de ${fmt.num(b.cobertura_dias - b.minimo_anp)}d na regional ${b.regiao}.`,
-              acao: `Priorizar janela de cabotagem/transferência imediata para ${b.base}.`
+              causa: `Folga negativa de ${fmt.num(b.cobertura_dias - b.minimo_anp)}d na regional ${esc(b.regiao)}.`,
+              acao: `Priorizar janela de cabotagem/transferência imediata para ${esc(b.base)}.`
             });
           });
         }
@@ -2352,31 +2641,40 @@
             titulo: `Corte de Volume por Restrição Física (${fmt.int(m.gapRestricaoK)} k m³)`,
             badge: "Supply • Cap",
             badgeCls: "badge-warn",
-            indicador: `Restrito ${fmt.num(k.plano_restrito_mm_m3, 2)} vs Irrestrito ${fmt.num(k.plano_irrestrito_mm_m3, 2)} MM m³`,
-            causa: m.maiorRestricao ? m.maiorRestricao.titulo : "Limitação logística de malha.",
-            acao: `Avaliar cenário "${m.melhorCenario.cenario}" (EBITDA R$ ${fmt.num(m.melhorCenario.ebitda_mm)} MM).`
+            indicador: `Restrito ${fmt.num(m.planoRestritoMm, 2)} vs Irrestrito ${fmt.num(m.planoIrrestritoMm, 2)} MM m³`,
+            causa: m.maiorRestricao ? esc(m.maiorRestricao.titulo) : "Limitação logística de malha.",
+            acao: m.melhorCenario ? `Avaliar cenário "${esc(m.melhorCenario.cenario)}" (EBITDA R$ ${fmt.num(m.melhorCenario.ebitda_mm)} MM).` : "Avaliar alternativas de escoamento."
           });
         }
 
-        if (k.wmape_pct > k.meta_wmape_pct && m.maiorDesvioReg) {
+        if (m.wmapeAtualPct > k.meta_wmape_pct && m.maiorDesvioReg) {
           desvios.push({
-            titulo: `Erro de Previsão (WMAPE ${fmt.num(k.wmape_pct)}% vs Meta ${fmt.num(k.meta_wmape_pct)}%)`,
+            titulo: `Erro de Previsão (WMAPE ${fmt.num(m.wmapeAtualPct)}% vs Meta ${fmt.num(k.meta_wmape_pct)}%)`,
             badge: "Demanda",
             badgeCls: "badge-warn",
-            indicador: `Maior desvio: ${m.maiorDesvioReg.regional} (${fmt.signed(m.maiorDesvioReg.desvioPct)}%)`,
+            indicador: `Maior desvio: ${esc(m.maiorDesvioReg.regional)} (${fmt.signed(m.maiorDesvioReg.desvioPct)}%)`,
             causa: `Diferença entre realizado (${fmt.int(m.maiorDesvioReg.realizado_k)}k) e consenso (${fmt.int(m.maiorDesvioReg.consenso_k)}k m³).`,
-            acao: `Recalibrar premissas comerciais da regional ${m.maiorDesvioReg.regional} no próximo rito.`
+            acao: `Recalibrar premissas comerciais da regional ${esc(m.maiorDesvioReg.regional)} no próximo rito.`
           });
         }
 
-        if (k.otif_pct < k.meta_otif_pct) {
+        if (m.otifMode !== "verified") {
           desvios.push({
-            titulo: `OTIF abaixo da meta (${fmt.num(k.otif_pct)}% vs ${fmt.num(k.meta_otif_pct)}%)`,
+            titulo: "OTIF não verificável com a base atual",
+            badge: "Qualidade de Dados",
+            badgeCls: "badge-warn",
+            indicador: `${s.viagens.length} viagens • ${fmt.num(m.otifOperacionalPct)}% de pontualidade proxy`,
+            causa: "A tabela atual não contém, para todas as viagens, data prometida, data de entrega, volume pedido e volume entregue.",
+            acao: "Incluir os quatro campos por viagem para calcular OTIF (On-Time & In-Full) e compará-lo corretamente à meta."
+          });
+        } else if (m.otifOperacionalPct < k.meta_otif_pct) {
+          desvios.push({
+            titulo: `OTIF abaixo da meta (${fmt.num(m.otifOperacionalPct)}% vs ${fmt.num(k.meta_otif_pct)}%)`,
             badge: "Execução S&OE",
             badgeCls: "badge-crit",
             indicador: `${m.viagensAtrasadas.length} de ${s.viagens.length} cargas com desvio`,
-            causa: m.viagensAtrasadas[0] ? m.viagensAtrasadas[0].causa : "Atrasos operacionais de carregamento.",
-            acao: `Reprogramar slots críticos e reduzir dwell time médio (atual ${fmt.num(k.dwell_horas)}h).`
+            causa: m.viagensAtrasadas[0] ? esc(m.viagensAtrasadas[0].causa) : "Atrasos ou entregas incompletas.",
+            acao: `Reprogramar slots críticos e monitorar dwell time médio (atual ${fmt.num(k.dwell_horas)}h).`
           });
         }
 
@@ -2411,10 +2709,12 @@
         if (decHost) {
           const baseFoco = m.basesOrdenadas[0];
           const decs = [
-            `<strong>1. Travar Consenso do Ciclo:</strong> Homologar volume de <strong>${fmt.num(k.volume_mm_m3, 2)} MM m³</strong> (${fmt.signed(m.vsAopPct)}% vs AOP) com plano físico viável de <strong>${fmt.num(k.plano_restrito_mm_m3, 2)} MM m³</strong>.`,
-            `<strong>2. Otimização Econômica de Supply:</strong> Adotar estratégia <strong>${m.melhorCenario.cenario}</strong>, projetando EBITDA de <strong>R$ ${fmt.num(m.melhorCenario.ebitda_mm)} MM</strong> frente ao corte de ${fmt.int(m.gapRestricaoK)} k m³.`,
+            `<strong>1. Travar Consenso do Ciclo:</strong> Homologar volume de <strong>${fmt.num(m.volumeConsensadoMm, 2)} MM m³</strong> (${fmt.signed(m.vsAopPct)}% vs AOP) com plano físico viável de <strong>${fmt.num(m.planoRestritoMm, 2)} MM m³</strong>.`,
+            m.melhorCenario
+              ? `<strong>2. Otimização Econômica de Supply:</strong> Adotar estratégia <strong>${esc(m.melhorCenario.cenario)}</strong>, projetando EBITDA de <strong>R$ ${fmt.num(m.melhorCenario.ebitda_mm)} MM</strong> frente ao corte de ${fmt.int(m.gapRestricaoK)} k m³.`
+              : `<strong>2. Otimização Econômica de Supply:</strong> Gerenciar corte residual de ${fmt.int(m.gapRestricaoK)} k m³ preservando margem.`,
             baseFoco
-              ? `<strong>3. Proteção Regulatória ANP:</strong> Monitorar prioritariamente <strong>${baseFoco.base}</strong> (${fmt.num(baseFoco.cobertura_dias)}d de cobertura vs mínimo ANP de ${fmt.num(baseFoco.minimo_anp)}d).`
+              ? `<strong>3. Proteção Regulatória ANP:</strong> Monitorar prioritariamente <strong>${esc(baseFoco.base)}</strong> (${fmt.num(baseFoco.cobertura_dias)}d de cobertura vs mínimo ANP de ${fmt.num(baseFoco.minimo_anp)}d).`
               : `<strong>3. Proteção Regulatória ANP:</strong> Manter cobertura mínima em todas as bases primárias.`
           ];
           decHost.innerHTML = decs.map((txt) => `
@@ -2426,7 +2726,8 @@
       function renderChartWmape(s, metaWmape) {
         const host = document.getElementById("chartWmape");
         if (!host) return;
-        const data = s.series_mensais;
+        const data = getChronologicalSeries(s.series_mensais);
+        if (!data.length) return;
         const w = 520, h = 210, padL = 38, padR = 16, padT = 18, padB = 32;
         const plotW = w - padL - padR;
         const plotH = h - padT - padB;
@@ -2445,7 +2746,7 @@
             <g class="chart-bar" data-idx="${i}">
               <rect x="${cx - barW / 2}" y="${by}" width="${barW}" height="${bh}" rx="4" fill="${fill}" />
               <text x="${cx}" y="${by - 5}" text-anchor="middle" font-size="10" font-family="JetBrains Mono, monospace" font-weight="600" fill="#0F172A">${fmt.num(d.wmape_pct)}%</text>
-              <text x="${cx}" y="${h - 10}" text-anchor="middle" font-size="10" fill="#64748B">${d.mes}</text>
+              <text x="${cx}" y="${h - 10}" text-anchor="middle" font-size="10" fill="#64748B">${esc(d.mes)}</text>
             </g>`;
         });
 
@@ -2474,19 +2775,19 @@
         const ult = data[data.length - 1];
         setBind(
           "leitura_wmape",
-          `Média do período em <strong>${fmt.num(mediaWmape)}%</strong> (${acimaMeta} de ${data.length} meses acima da meta de ${fmt.num(metaWmape)}%). No fechamento <strong>${ult.mes}</strong>, o erro ficou em <strong>${fmt.num(ult.wmape_pct)}%</strong>.`,
+          `Média do período em <strong>${fmt.num(mediaWmape)}%</strong> (${acimaMeta} de ${data.length} meses acima da meta de ${fmt.num(metaWmape)}%). No fechamento <strong>${esc(ult.mes)}</strong>, o erro ficou em <strong>${fmt.num(ult.wmape_pct)}%</strong>.`,
           true
         );
       }
 
-      function renderBridge(s) {
+      function renderBridge(s, m) {
         const host = document.getElementById("bridgeHost");
         if (!host) return;
         const k = s.kpis;
         const base = k.forecast_base_k_m3;
         const ajCom = k.ajuste_comercial_k_m3;
         const ajPromo = k.efeito_promocional_k_m3;
-        const total = Math.round(k.volume_mm_m3 * 1000);
+        const total = Math.round(m.volumeConsensadoMm * 1000);
         const residual = total - (base + ajCom + ajPromo);
 
         const rows = [
@@ -2497,16 +2798,17 @@
         if (residual !== 0) {
           rows.push({ cls: residual >= 0 ? "bridge-plus" : "bridge-minus", label: "Ajuste Fino de Fechamento S&OP", val: `${residual >= 0 ? "+" : ""}${fmt.int(residual)} k m³` });
         }
-        rows.push({ cls: "bridge-total", label: "Volume Consensado Final (S&OP)", val: `${fmt.int(total)} k m³ (${fmt.num(k.volume_mm_m3, 2)} MM m³)` });
+        rows.push({ cls: "bridge-total", label: "Volume Consensado Final (S&OP)", val: `${fmt.int(total)} k m³ (${fmt.num(m.volumeConsensadoMm, 2)} MM m³)` });
 
         host.innerHTML = rows.map((r) => `
           <div class="bridge-row ${r.cls}">
-            <span class="br-label">${r.label}</span>
-            <span class="br-value">${r.val}</span>
+            <span class="br-label">${esc(r.label)}</span>
+            <span class="br-value">${esc(r.val)}</span>
           </div>`).join("");
       }
 
       function renderRegionais(s, m) {
+        setBind("regionais_badge", `${m.regComDesvio.length} Regionais`);
         const tbody = document.getElementById("tbodyRegionais");
         if (!tbody) return;
         tbody.innerHTML = m.regComDesvio.map((r) => {
@@ -2518,22 +2820,24 @@
               : `<span class="badge badge-crit">Desvio Alto</span>`;
           return `
             <tr>
-              <td><strong>${r.regional}</strong></td>
+              <td><strong>${esc(r.regional)}</strong></td>
               <td class="num">${fmt.int(r.realizado_k)}</td>
               <td class="num">${fmt.int(r.consenso_k)}</td>
               <td class="num" style="font-weight:600;color:${absD > 3 ? "var(--warn)" : "var(--text-primary)"};">${fmt.signed(r.desvioPct)}%</td>
-              <td class="num">${fmt.signed(r.bias_pct)}%</td>
+              <td class="num">${fmt.signed(r.biasOficialPct)}%</td>
               <td>${badge}</td>
             </tr>`;
         }).join("");
 
         const md = m.maiorDesvioReg;
         const aderentes = m.regComDesvio.filter((r) => Math.abs(r.desvioPct) <= 3.0).length;
-        setBind(
-          "leitura_regionais",
-          `<strong>${aderentes} de ${m.regComDesvio.length} regionais</strong> operaram dentro da banda de ±3,0%. O maior desvio concentrou-se na regional <strong>${md.regional}</strong> (${fmt.signed(md.desvioPct)}%; realizado ${fmt.int(md.realizado_k)}k vs. consenso ${fmt.int(md.consenso_k)}k m³).`,
-          true
-        );
+        if (md) {
+          setBind(
+            "leitura_regionais",
+            `<strong>${aderentes} de ${m.regComDesvio.length} regionais</strong> operaram dentro da banda de ±3,0%. O maior desvio concentrou-se na regional <strong>${esc(md.regional)}</strong> (${fmt.signed(md.desvioPct)}%; realizado ${fmt.int(md.realizado_k)}k vs. consenso ${fmt.int(md.consenso_k)}k m³; Bias oficial ${fmt.signed(md.biasOficialPct)}%).`,
+            true
+          );
+        }
       }
 
       function renderRestricoes(s) {
@@ -2545,10 +2849,10 @@
           return `
             <div class="restricao-card">
               <div class="rest-head">
-                <div class="rest-title">${r.titulo}</div>
-                <span class="badge ${cls}">${r.severidade} • -${fmt.int(r.impacto_k_m3)}k m³</span>
+                <div class="rest-title">${esc(r.titulo)}</div>
+                <span class="badge ${cls}">${esc(r.severidade)} • -${fmt.int(r.impacto_k_m3)}k m³</span>
               </div>
-              <div style="font-size:11.5px;color:var(--text-secondary);">${r.detalhe}</div>
+              <div style="font-size:11.5px;color:var(--text-secondary);">${esc(r.detalhe)}</div>
             </div>`;
         }).join("");
       }
@@ -2557,6 +2861,7 @@
         const host = document.getElementById("chartTradeoff");
         if (!host) return;
         const data = s.cenarios_tradeoff;
+        if (!data.length) return;
         const w = 520, h = 210, padL = 46, padR = 20, padT = 22, padB = 34;
         const plotW = w - padL - padR;
         const plotH = h - padT - padB;
@@ -2570,13 +2875,13 @@
           const ratio = maxEb > minEb ? (d.ebitda_mm - minEb) / (maxEb - minEb) : 0.5;
           const bh = Math.max(24, ratio * plotH);
           const by = padT + plotH - bh;
-          const isBest = d.cenario === m.melhorCenario.cenario;
+          const isBest = m.melhorCenario && d.cenario === m.melhorCenario.cenario;
           const color = isBest ? "#059669" : i === 0 ? "#0033A0" : "#D97706";
           svgBars += `
             <g class="chart-bar" data-idx="${i}">
               <rect x="${cx - barW / 2}" y="${by}" width="${barW}" height="${bh}" rx="5" fill="${color}" />
               <text x="${cx}" y="${by - 6}" text-anchor="middle" font-size="10.5" font-family="JetBrains Mono, monospace" font-weight="700" fill="#0F172A">R$ ${fmt.num(d.ebitda_mm)}</text>
-              <text x="${cx}" y="${h - 10}" text-anchor="middle" font-size="10" fill="#475569" font-weight="600">${d.cenario}</text>
+              <text x="${cx}" y="${h - 10}" text-anchor="middle" font-size="10" fill="#475569" font-weight="600">${esc(d.cenario)}</text>
             </g>`;
         });
 
@@ -2598,18 +2903,21 @@
         });
 
         const baseCen = data[0];
-        const ganho = m.melhorCenario.ebitda_mm - baseCen.ebitda_mm;
-        setBind(
-          "leitura_tradeoff",
-          `O cenário <strong>${m.melhorCenario.cenario}</strong> maximiza o resultado operacional em <strong>R$ ${fmt.num(m.melhorCenario.ebitda_mm)} MM</strong> (${ganho >= 0 ? "+" : ""}R$ ${fmt.num(ganho)} MM vs. ${baseCen.cenario}), preservando margem frente ao custo logístico extra.`,
-          true
-        );
+        if (m.melhorCenario && baseCen) {
+          const ganho = m.melhorCenario.ebitda_mm - baseCen.ebitda_mm;
+          setBind(
+            "leitura_tradeoff",
+            `O cenário <strong>${esc(m.melhorCenario.cenario)}</strong> maximiza o resultado operacional em <strong>R$ ${fmt.num(m.melhorCenario.ebitda_mm)} MM</strong> (${ganho >= 0 ? "+" : ""}R$ ${fmt.num(ganho)} MM vs. ${esc(baseCen.cenario)}), preservando margem frente ao custo logístico extra.`,
+            true
+          );
+        }
       }
 
       function renderChartAnp(s, m) {
         const host = document.getElementById("chartAnp");
         if (!host) return;
         const data = m.basesOrdenadas;
+        if (!data.length) return;
         const rowH = 34;
         const w = 560, h = data.length * rowH + 34, padL = 148, padR = 45, padT = 10;
         const plotW = w - padL - padR;
@@ -2624,7 +2932,7 @@
           const fill = isCrit ? "#DC2626" : d.folga < 1.5 ? "#F59E0B" : "#0033A0";
           rowsSvg += `
             <g class="chart-bar" data-idx="${i}">
-              <text x="${padL - 8}" y="${y + 17}" text-anchor="end" font-size="11" font-weight="600" fill="#0F172A">${d.base}</text>
+              <text x="${padL - 8}" y="${y + 17}" text-anchor="end" font-size="11" font-weight="600" fill="#0F172A">${esc(d.base)}</text>
               <rect x="${padL}" y="${y + 5}" width="${plotW}" height="18" rx="4" fill="#F1F5F9" />
               <rect x="${padL}" y="${y + 5}" width="${bw}" height="18" rx="4" fill="${fill}" />
               <line x1="${xAnp}" y1="${y + 2}" x2="${xAnp}" y2="${y + 26}" stroke="#DC2626" stroke-width="2" />
@@ -2654,7 +2962,7 @@
         const maior = data[data.length - 1];
         setBind(
           "leitura_bases",
-          `<strong>${m.basesAbaixo.length} de ${data.length} bases</strong> estão abaixo do piso ANP. Menor cobertura em <strong>${menor.base}</strong> (${fmt.num(menor.cobertura_dias)}d vs. mínimo ${fmt.num(menor.minimo_anp)}d) e maior folga em <strong>${maior.base}</strong> (${fmt.num(maior.cobertura_dias)}d).`,
+          `<strong>${m.basesAbaixo.length} de ${data.length} bases</strong> estão abaixo do piso ANP. Menor cobertura em <strong>${esc(menor.base)}</strong> (${fmt.num(menor.cobertura_dias)}d vs. mínimo ${fmt.num(menor.minimo_anp)}d) e maior folga em <strong>${esc(maior.base)}</strong> (${fmt.num(maior.cobertura_dias)}d).`,
           true
         );
       }
@@ -2669,10 +2977,10 @@
             exHost.innerHTML = m.viagensAtrasadas.map((v) => `
               <div class="excecao-card">
                 <div class="ex-head">
-                  <div class="ex-title">${v.id} • ${v.rota}</div>
+                  <div class="ex-title">${esc(v.id)} • ${esc(v.rota)}</div>
                   <span class="badge badge-crit">+${fmt.num(v.atraso_h)}h</span>
                 </div>
-                <div style="font-size:11.5px;color:var(--text-secondary);">${v.produto} (${fmt.int(v.volume_m3)} m³) — ${v.causa}</div>
+                <div style="font-size:11.5px;color:var(--text-secondary);">${esc(v.produto)} (${fmt.int(v.volume_m3)} m³) — ${esc(v.causa)}</div>
               </div>`).join("");
           }
         }
@@ -2685,7 +2993,7 @@
               <div class="prio-row">
                 <div class="prio-rank ${rankCls}">${idx + 1}</div>
                 <div class="prio-info">
-                  <div class="prio-title">${b.base} (${b.regiao})</div>
+                  <div class="prio-title">${esc(b.base)} (${esc(b.regiao)})</div>
                   <div class="prio-sub">Estoque: ${fmt.num(b.estoque_k_m3)} k m³ • Piso ANP: ${fmt.num(b.minimo_anp)}d</div>
                 </div>
                 <div class="prio-metric">
@@ -2701,27 +3009,29 @@
         const tbody = document.getElementById("tbodyViagens");
         if (!tbody) return;
         tbody.innerHTML = s.viagens.map((v) => {
-          const isOk = v.status === "No Prazo";
+          const isOk = m.viagemResultados[String(v.id)] === true;
+          const statusText = String(v.status || "Não avaliada").trim();
           const badge = isOk
-            ? `<span class="badge badge-ok">No Prazo</span>`
-            : `<span class="badge badge-crit">${v.status}</span>`;
+            ? `<span class="badge badge-ok">${m.otifMode === "verified" ? "OTIF" : "No Prazo"}</span>`
+            : `<span class="badge badge-crit">${esc(statusText || "Pendente")}</span>`;
           return `
             <tr>
-              <td style="font-family:var(--font-mono);font-weight:600;">${v.id}</td>
-              <td><strong>${v.rota}</strong></td>
-              <td>${v.produto}</td>
+              <td style="font-family:var(--font-mono);font-weight:600;">${esc(v.id)}</td>
+              <td><strong>${esc(v.rota)}</strong></td>
+              <td>${esc(v.produto)}</td>
               <td class="num">${fmt.int(v.volume_m3)}</td>
               <td>${badge}</td>
               <td class="num" style="color:${v.atraso_h > 0 ? "var(--crit)" : "var(--text-muted)"};">${fmt.num(v.atraso_h)}h</td>
-              <td>${v.causa}</td>
+              <td>${esc(v.causa)}</td>
             </tr>`;
         }).join("");
 
-        const volTotal = s.viagens.reduce((a, v) => a + v.volume_m3, 0);
-        const noPrazo = s.viagens.length - m.viagensAtrasadas.length;
+        const volTotal = s.viagens.reduce((a, v) => a + toNum(v.volume_m3, 0), 0);
+        const conformes = m.viagensConformes.length;
+        const metricLabel = m.otifMode === "verified" ? "OTIF real" : "pontualidade proxy (status; sem comprovação In-Full)";
         setBind(
           "leitura_viagens",
-          `Amostra de <strong>${s.viagens.length} viagens</strong> (${fmt.int(volTotal)} m³): <strong>${noPrazo} no prazo</strong> (${fmt.num(m.otifCalculado)}% OTIF na amostra) e <strong>${m.viagensAtrasadas.length} com desvio</strong> de janela ou carregamento.`,
+          `Amostra de <strong>${s.viagens.length} viagens</strong> (${fmt.int(volTotal)} m³): <strong>${conformes} conformes</strong> (${fmt.num(m.otifOperacionalPct)}% — ${metricLabel}) e <strong>${m.viagensAtrasadas.length} com desvio/pendência</strong>.`,
           true
         );
       }
@@ -2729,7 +3039,8 @@
       function renderChartEvolucao(s) {
         const host = document.getElementById("chartEvolucao");
         if (!host) return;
-        const data = s.series_mensais;
+        const data = getChronologicalSeries(s.series_mensais);
+        if (!data.length) return;
         const w = 960, h = 230, padL = 48, padR = 48, padT = 22, padB = 34;
         const plotW = w - padL - padR;
         const plotH = h - padT - padB;
@@ -2754,7 +3065,7 @@
           bars += `
             <g class="chart-bar" data-idx="${i}">
               <rect x="${cx - barW / 2}" y="${by}" width="${barW}" height="${bh}" rx="4" fill="#0033A0" opacity="0.88" />
-              <text x="${cx}" y="${h - 10}" text-anchor="middle" font-size="10.5" fill="#475569" font-weight="600">${d.mes}</text>
+              <text x="${cx}" y="${h - 10}" text-anchor="middle" font-size="10.5" fill="#475569" font-weight="600">${esc(d.mes)}</text>
             </g>`;
         });
 
@@ -2796,7 +3107,7 @@
         const varVol = first.realizado_mm ? ((last.realizado_mm / first.realizado_mm) - 1) * 100 : 0;
         setBind(
           "leitura_evolucao",
-          `De <strong>${first.mes}</strong> a <strong>${last.mes}</strong>, o volume realizado variou <strong>${fmt.signed(varVol)}%</strong> (de ${fmt.num(first.realizado_mm, 2)} para ${fmt.num(last.realizado_mm, 2)} MM m³), encerrando o último mês com WMAPE de <strong>${fmt.num(last.wmape_pct)}%</strong>.`,
+          `De <strong>${esc(first.mes)}</strong> a <strong>${esc(last.mes)}</strong>, o volume realizado variou <strong>${fmt.signed(varVol)}%</strong> (de ${fmt.num(first.realizado_mm, 2)} para ${fmt.num(last.realizado_mm, 2)} MM m³), encerrando o último mês com WMAPE de <strong>${fmt.num(last.wmape_pct)}%</strong>.`,
           true
         );
       }
@@ -2804,40 +3115,45 @@
       function renderScorecard(s, m) {
         const k = s.kpis;
         const rows = [
-          { pilar: "IBP / Negócio", ind: "Volume Consensado (MM m³)", real: `${fmt.num(k.volume_mm_m3, 2)}`, meta: `${fmt.num(k.aop_mm_m3, 2)} (AOP)`, gap: `${fmt.signed(m.vsAopPct)}%`, ok: k.volume_mm_m3 >= k.aop_mm_m3 },
+          { pilar: "IBP / Negócio", ind: "Volume Consensado (MM m³)", real: `${fmt.num(m.volumeConsensadoMm, 2)}`, meta: `${fmt.num(k.aop_mm_m3, 2)} (AOP)`, gap: `${fmt.signed(m.vsAopPct)}%`, ok: m.volumeConsensadoMm >= k.aop_mm_m3 },
           { pilar: "IBP / Financeiro", ind: "EBITDA Projetado (R$ MM)", real: `R$ ${fmt.num(k.ebitda_mm)}`, meta: `R$ ${fmt.num(k.aop_ebitda_mm)}`, gap: `${fmt.num(m.aopEbitdaPct)}% AOP`, ok: k.ebitda_mm >= k.aop_ebitda_mm },
-          { pilar: "S&OP / Demanda", ind: "WMAPE Consolidado", real: `${fmt.num(k.wmape_pct)}%`, meta: `≤ ${fmt.num(k.meta_wmape_pct)}%`, gap: `${fmt.signed(k.wmape_pct - k.meta_wmape_pct)} p.p.`, ok: k.wmape_pct <= k.meta_wmape_pct },
-          { pilar: "S&OP / Demanda", ind: "Bias de Previsão", real: `${fmt.signed(k.bias_pct)}%`, meta: "± 2,0%", gap: Math.abs(k.bias_pct) <= 2 ? "Na banda" : "Fora", ok: Math.abs(k.bias_pct) <= 2.0 },
+          { pilar: "S&OP / Demanda", ind: "WMAPE Consolidado", real: `${fmt.num(m.wmapeAtualPct)}%`, meta: `≤ ${fmt.num(k.meta_wmape_pct)}%`, gap: `${fmt.signed(m.wmapeAtualPct - k.meta_wmape_pct)} p.p.`, ok: m.wmapeAtualPct <= k.meta_wmape_pct },
+          { pilar: "S&OP / Demanda", ind: "Bias de Previsão", real: `${fmt.signed(m.biasConsolidadoPct)}%`, meta: "± 2,0%", gap: Math.abs(m.biasConsolidadoPct) <= 2 ? "Na banda" : "Fora", ok: Math.abs(m.biasConsolidadoPct) <= 2.0 },
           { pilar: "Supply Restrito", ind: "Atendimento Físico ao Consenso", real: `${fmt.num(m.atendimentoPct)}%`, meta: "≥ 95,0%", gap: `${fmt.signed(m.atendimentoPct - 95)} p.p.`, ok: m.atendimentoPct >= 95.0 },
-          { pilar: "S&OE / Estoque", ind: "Cobertura Média de Estoque", real: `${fmt.num(k.cobertura_dias, 2)} dias`, meta: `${fmt.num(k.meta_cobertura_dias)} dias`, gap: `${fmt.signed(k.cobertura_dias - k.meta_cobertura_dias, 2)}d`, ok: m.basesAbaixo.length === 0 },
-          { pilar: "S&OE / Nível Serviço", ind: "OTIF Operacional", real: `${fmt.num(k.otif_pct)}%`, meta: `≥ ${fmt.num(k.meta_otif_pct)}%`, gap: `${fmt.signed(k.otif_pct - k.meta_otif_pct)} p.p.`, ok: k.otif_pct >= k.meta_otif_pct },
+          { pilar: "S&OE / Estoque", ind: "Cobertura Média Ponderada", real: `${fmt.num(m.coberturaMediaPonderada, 2)} dias`, meta: `${fmt.num(k.meta_cobertura_dias)} dias`, gap: `${fmt.signed(m.coberturaMediaPonderada - k.meta_cobertura_dias, 2)}d`, ok: m.basesAbaixo.length === 0 && m.coberturaMediaPonderada >= k.meta_cobertura_dias },
+          { pilar: "S&OE / Nível Serviço", ind: m.otifMode === "verified" ? "OTIF Operacional" : "Pontualidade (proxy OTIF)", real: `${fmt.num(m.otifOperacionalPct)}%`, meta: m.otifMode === "verified" ? `≥ ${fmt.num(k.meta_otif_pct)}%` : "Dados In-Full pendentes", gap: m.otifMode === "verified" ? `${fmt.signed(m.otifOperacionalPct - k.meta_otif_pct)} p.p.` : "Não comparável", ok: m.otifMode === "verified" ? m.otifOperacionalPct >= k.meta_otif_pct : null },
           { pilar: "Governança IBP", ind: "Aderência ao Cronograma", real: `${fmt.int(k.aderencia_cronograma_pct)}%`, meta: "100%", gap: `${fmt.int(k.aderencia_cronograma_pct - 100)} p.p.`, ok: k.aderencia_cronograma_pct >= 100 }
         ];
 
-        const okCount = rows.filter((r) => r.ok).length;
-        setBind("scorecard_badge", `${okCount} de ${rows.length} na meta`);
+        const okCount = rows.filter((r) => r.ok === true).length;
+        const pendingCount = rows.filter((r) => r.ok === null).length;
+        setBind("scorecard_badge", `${okCount} de ${rows.length - pendingCount} avaliados na meta${pendingCount ? ` • ${pendingCount} pendente(s)` : ""}`);
 
         const tbody = document.getElementById("tbodyScorecard");
         if (!tbody) return;
-        tbody.innerHTML = rows.map((r) => `
+        tbody.innerHTML = rows.map((r) => {
+          const statusColor = r.ok === true ? "var(--ok)" : (r.ok === false ? "var(--warn)" : "var(--text-muted)");
+          const statusLabel = r.ok === true ? "Na Meta" : (r.ok === false ? "Plano de Ação" : "Dados Pendentes");
+          return `
           <tr>
-            <td><span class="badge badge-neutral">${r.pilar}</span></td>
-            <td><strong>${r.ind}</strong></td>
-            <td class="num" style="font-weight:700;">${r.real}</td>
-            <td class="num">${r.meta}</td>
-            <td class="num" style="color:${r.ok ? "var(--ok)" : "var(--warn)"};font-weight:600;">${r.gap}</td>
-            <td><span class="semaforo" style="background:${r.ok ? "var(--ok)" : "var(--warn)"};"></span>${r.ok ? "Na Meta" : "Plano de Ação"}</td>
-          </tr>`).join("");
+            <td><span class="badge badge-neutral">${esc(r.pilar)}</span></td>
+            <td><strong>${esc(r.ind)}</strong></td>
+            <td class="num" style="font-weight:700;">${esc(r.real)}</td>
+            <td class="num">${esc(r.meta)}</td>
+            <td class="num" style="color:${statusColor};font-weight:600;">${esc(r.gap)}</td>
+            <td><span class="semaforo" style="background:${statusColor};"></span>${statusLabel}</td>
+          </tr>`;
+        }).join("");
       }
 
       function renderPdcal(s, m) {
         const k = s.kpis;
         const items = [
-          { letter: "P", color: "#0033A0", title: "Plan (Planejar)", text: `Consenso travado em ${fmt.num(k.volume_mm_m3, 2)} MM m³ (${fmt.signed(m.vsAopPct)}% vs AOP) e plano restrito de ${fmt.num(k.plano_restrito_mm_m3, 2)} MM m³.` },
+          { letter: "P", color: "#0033A0", title: "Plan (Planejar)", text: `Consenso travado em ${fmt.num(m.volumeConsensadoMm, 2)} MM m³ (${fmt.signed(m.vsAopPct)}% vs AOP) e plano restrito de ${fmt.num(m.planoRestritoMm, 2)} MM m³.` },
           { letter: "D", color: "#0284C7", title: "Do (Executar)", text: `Programação diária S&OE acompanhando ${s.bases.length} bases primárias e ${s.viagens.length} rotas críticas monitoradas.` },
-          { letter: "C", color: "#D97706", title: "Check (Verificar)", text: `WMAPE em ${fmt.num(k.wmape_pct)}%, OTIF em ${fmt.num(k.otif_pct)}% e ${m.basesAbaixo.length} base(s) abaixo do mínimo ANP.` },
-          { letter: "A", color: "#059669", title: "Act (Agir)", text: `Priorização econômica (${m.melhorCenario.cenario}: R$ ${fmt.num(m.melhorCenario.ebitda_mm)} MM EBITDA) e proteção de estoque regulatório.` },
-          { letter: "L", color: "#7C3AED", title: `Learn (Aprender) <span class="manual-hint" style="margin-left:6px;vertical-align:middle;"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.5 2.5a1.414 1.414 0 0 1 2 2L5 13l-3 1 1-3 8.5-8.5Z"/></svg></span>`, text: s.comentarios.pdcal }
+          { letter: "C", color: "#D97706", title: "Check (Verificar)", text: `WMAPE em ${fmt.num(m.wmapeAtualPct)}%, ${m.otifMode === "verified" ? "OTIF" : "pontualidade proxy"} em ${fmt.num(m.otifOperacionalPct)}% e ${m.basesAbaixo.length} base(s) abaixo do mínimo ANP.` },
+          { letter: "A", color: "#059669", title: "Act (Agir)", text: m.melhorCenario ? `Priorização econômica (${esc(m.melhorCenario.cenario)}: R$ ${fmt.num(m.melhorCenario.ebitda_mm)} MM EBITDA) e proteção de estoque regulatório.` : "Proteção de estoque regulatório e otimização de mix." },
+          { letter: "L", color: "#7C3AED", title: `Learn (Aprender) <span class="manual-hint" style="margin-left:6px;vertical-align:middle;"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.5 2.5a1.414 1.414 0 0 1 2 2L5 13l-3 1 1-3 8.5-8.5Z"/></svg></span>`, text: esc(s.comentarios.pdcal) }
         ];
         const host = document.getElementById("pdcalGridHost");
         if (!host) return;
@@ -2853,25 +3169,25 @@
         const k = s.kpis;
         const cicloLabel = s.meta.ciclo;
         const baseCritDesc = m.basesAbaixo.length
-          ? m.basesAbaixo.map((b) => `${b.base} (${fmt.num(b.cobertura_dias)}d vs. piso ANP ${fmt.num(b.minimo_anp)}d)`).join("; ")
-          : `nenhuma base abaixo do piso ANP (menor cobertura em ${m.basesOrdenadas[0].base} com ${fmt.num(m.basesOrdenadas[0].cobertura_dias)}d)`;
+          ? m.basesAbaixo.map((b) => `${esc(b.base)} (${fmt.num(b.cobertura_dias)}d vs. piso ANP ${fmt.num(b.minimo_anp)}d)`).join("; ")
+          : `nenhuma base abaixo do piso ANP (menor cobertura em ${esc(m.basesOrdenadas[0]?.base)} com ${fmt.num(m.basesOrdenadas[0]?.cobertura_dias)}d)`;
 
         const steps = [
           {
             n: "01 • VISÃO DO CICLO",
-            txt: `Abrimos o ciclo <strong>${cicloLabel}</strong> com demanda consensada de <strong>${fmt.num(k.volume_mm_m3, 2)} MM m³</strong> (${fmt.signed(m.vsAopPct)}% vs. AOP), EBITDA projetado de <strong>R$ ${fmt.num(k.ebitda_mm)} MM</strong> e cronograma em <strong>${fmt.int(k.aderencia_cronograma_pct)}%</strong>.`
+            txt: `Abrimos o ciclo <strong>${esc(cicloLabel)}</strong> com demanda consensada de <strong>${fmt.num(m.volumeConsensadoMm, 2)} MM m³</strong> (${fmt.signed(m.vsAopPct)}% vs. AOP), EBITDA projetado de <strong>R$ ${fmt.num(k.ebitda_mm)} MM</strong> e cronograma em <strong>${fmt.int(k.aderencia_cronograma_pct)}%</strong>.`
           },
           {
             n: "02 • MERCADO & DEMANDA",
-            txt: `O WMAPE consolidado está em <strong>${fmt.num(k.wmape_pct)}%</strong> (meta ≤ ${fmt.num(k.meta_wmape_pct)}%) e Bias em <strong>${fmt.signed(k.bias_pct)}%</strong>. O principal foco de calibração comercial é a regional <strong>${m.maiorDesvioReg.regional}</strong> (${fmt.signed(m.maiorDesvioReg.desvioPct)}% de desvio vs. consenso).`
+            txt: `O WMAPE consolidado está em <strong>${fmt.num(m.wmapeAtualPct)}%</strong> (meta ≤ ${fmt.num(k.meta_wmape_pct)}%) e Bias consolidado em <strong>${fmt.signed(m.biasConsolidadoPct)}%</strong>. O principal foco de calibração comercial é a regional <strong>${esc(m.maiorDesvioReg?.regional)}</strong> (${fmt.signed(m.maiorDesvioReg?.desvioPct)}% de desvio vs. consenso).`
           },
           {
             n: "03 • SUPPLY RESTRITO",
-            txt: `Da demanda irrestrita de ${fmt.num(k.plano_irrestrito_mm_m3, 2)} MM m³, a malha física comporta <strong>${fmt.num(k.plano_restrito_mm_m3, 2)} MM m³</strong> (${fmt.num(m.atendimentoPct)}%). O corte de <strong>${fmt.int(m.gapRestricaoK)} k m³</strong> coloca R$ ${fmt.num(k.impacto_receita_mm, 0)} MM de receita bruta em risco, mitigado pelo cenário <strong>${m.melhorCenario.cenario}</strong>.`
+            txt: `Da demanda irrestrita de ${fmt.num(m.planoIrrestritoMm, 2)} MM m³, a malha física comporta <strong>${fmt.num(m.planoRestritoMm, 2)} MM m³</strong> (${fmt.num(m.atendimentoPct)}%). O corte de <strong>${fmt.int(m.gapRestricaoK)} k m³</strong> coloca R$ ${fmt.num(k.impacto_receita_mm, 0)} MM de receita bruta em risco, mitigado pelo cenário <strong>${esc(m.melhorCenario?.cenario)}</strong>.`
           },
           {
             n: "04 • EXECUÇÃO & GARGALOS (S&OE)",
-            txt: `No curto prazo, acompanhamos <strong>${baseCritDesc}</strong>, com OTIF operacional em <strong>${fmt.num(k.otif_pct)}%</strong> e ${m.viagensAtrasadas.length} exceção(ões) ativa(s) na torre de transporte.`
+            txt: `No curto prazo, acompanhamos <strong>${baseCritDesc}</strong>, com ${m.otifMode === "verified" ? "OTIF" : "pontualidade proxy"} em <strong>${fmt.num(m.otifOperacionalPct)}%</strong> e ${m.viagensAtrasadas.length} exceção(ões) ativa(s) na torre de transporte.`
           },
           {
             n: "05 • INDICADORES & PDCAL",
@@ -2891,23 +3207,23 @@
         const qas = [
           {
             q: "1. Por que parte do volume comercial foi cortada no plano restrito?",
-            a: `Porque o plano irrestrito (${fmt.num(k.plano_irrestrito_mm_m3, 2)} MM m³) excede a capacidade física atual em <strong>${fmt.int(m.gapRestricaoK)} k m³</strong> (${fmt.num(m.gapRestricaoPct)}%), pressionado principalmente por <strong>${m.maiorRestricao ? m.maiorRestricao.titulo : "gargalos de malha"}</strong>. Sem o corte, haveria ruptura de estoque e multa de demurrage.`
+            a: `Porque o plano irrestrito (${fmt.num(m.planoIrrestritoMm, 2)} MM m³) excede a capacidade física atual em <strong>${fmt.int(m.gapRestricaoK)} k m³</strong> (${fmt.num(m.gapRestricaoPct)}%), pressionado principalmente por <strong>${m.maiorRestricao ? esc(m.maiorRestricao.titulo) : "gargalos de malha"}</strong>. Sem o corte, haveria ruptura de estoque e multa de demurrage.`
           },
           {
             q: "2. Por que o acompanhamento rigoroso de WMAPE e Bias por regional?",
-            a: `Hoje o WMAPE está em <strong>${fmt.num(k.wmape_pct)}%</strong> (acima da meta de ${fmt.num(k.meta_wmape_pct)}%) e a regional <strong>${m.maiorDesvioReg.regional}</strong> apresenta desvio de <strong>${fmt.signed(m.maiorDesvioReg.desvioPct)}%</strong>. Superestimar demanda imobiliza capital de giro e tancagem; subestimar gera falta de produto na ponta.`
+            a: `Hoje o WMAPE está em <strong>${fmt.num(m.wmapeAtualPct)}%</strong> (meta ≤ ${fmt.num(k.meta_wmape_pct)}%) e a regional <strong>${esc(m.maiorDesvioReg?.regional)}</strong> apresenta desvio de <strong>${fmt.signed(m.maiorDesvioReg?.desvioPct)}%</strong>. Superestimar demanda imobiliza capital de giro e tancagem; subestimar gera falta de produto na ponta.`
           },
           {
             q: "3. O que acontece se uma campanha puxar venda acima do consenso travado?",
-            a: `Com cobertura média atual de <strong>${fmt.num(k.cobertura_dias, 2)} dias</strong> (meta ${fmt.num(k.meta_cobertura_dias)}d) e ${m.basesAbaixo.length} base(s) abaixo do mínimo ANP, picos não planejados exigem frete spot rodoviário (que reduz EBITDA em cenários não otimizados) ou colocam o piso regulatório em risco.`
+            a: `Com cobertura média ponderada de <strong>${fmt.num(m.coberturaMediaPonderada, 2)} dias</strong> (meta ${fmt.num(k.meta_cobertura_dias)}d) e ${m.basesAbaixo.length} base(s) abaixo do mínimo ANP, picos não planejados exigem frete spot rodoviário ou colocam o piso regulatório em risco.`
           },
           {
             q: "4. Qual a diferença entre o AOP (orçamento) e o Consenso do ciclo?",
-            a: `O AOP (${fmt.num(k.aop_mm_m3, 2)} MM m³) é a meta anual aprovada no orçamento. Já o Consenso (${fmt.num(k.volume_mm_m3, 2)} MM m³, ou <strong>${fmt.signed(m.vsAopPct)}% vs. AOP</strong>) é a leitura viva do mercado atualizada mensalmente com inteligência comercial e promocional.`
+            a: `O AOP (${fmt.num(k.aop_mm_m3, 2)} MM m³) é a meta anual aprovada no orçamento. Já o Consenso (${fmt.num(m.volumeConsensadoMm, 2)} MM m³, ou <strong>${fmt.signed(m.vsAopPct)}% vs. AOP</strong>) é a leitura viva do mercado atualizada mensalmente com inteligência comercial e promocional.`
           },
           {
             q: "5. Como o planejamento de pedidos impacta o OTIF e o custo logístico?",
-            a: `O OTIF atual está em <strong>${fmt.num(k.otif_pct)}%</strong> e o dwell time médio em <strong>${fmt.num(k.dwell_horas)}h</strong>. Pedidos concentrados no fim do mês ou sem janela de descarga confirmada geram filas nas bases e elevam o demurrage (atualmente em <strong>R$ ${fmt.num(k.demurrage_mm, 2)} MM</strong>).`
+            a: `O indicador de ${m.otifMode === "verified" ? "OTIF" : "pontualidade proxy"} está em <strong>${fmt.num(m.otifOperacionalPct)}%</strong> e o dwell time médio em <strong>${fmt.num(k.dwell_horas)}h</strong>. Pedidos concentrados no fim do mês ou sem janela de descarga confirmada geram filas nas bases e elevam o demurrage (atualmente em <strong>R$ ${fmt.num(k.demurrage_mm, 2)} MM</strong>).`
           }
         ];
 
@@ -3001,34 +3317,198 @@
           if (!filtered.length) return "";
           return `
             <div class="glossary-section ${sec.cls}">
-              <h3><span>${sec.cat}</span><span class="badge badge-neutral">${filtered.length} termos</span></h3>
+              <h3><span>${esc(sec.cat)}</span><span class="badge badge-neutral">${filtered.length} termos</span></h3>
               <div class="glossary-grid">
                 ${filtered.map((item) => `
                   <div class="glossary-term">
                     <div>
-                      <h4>${item.t}</h4>
-                      <p>${item.d}</p>
+                      <h4>${esc(item.t)}</h4>
+                      <p>${esc(item.d)}</p>
                     </div>
-                    <div class="formula">${item.f}</div>
+                    <div class="formula">${esc(item.f)}</div>
                   </div>`).join("")}
               </div>
             </div>`;
-        }).join("") || `<p style="color:var(--text-muted);font-size:12.5px;">Nenhum termo encontrado para "${filter}".</p>`;
+        }).join("") || `<p style="color:var(--text-muted);font-size:12.5px;">Nenhum termo encontrado para "${esc(filter)}".</p>`;
       }
 
       /* =====================================================================
-         7. IMPORTAÇÃO E EXPORTAÇÃO (XLSX / CSV)
+         7. EXPORTAÇÃO & VALIDAÇÃO PRÉ-IMPORTAÇÃO COM MODAL INTERATIVO
          ===================================================================== */
+      const SCHEMA_RULES = {
+        KPIs_Ciclo: { required: ["Campo", "Valor"], label: "Parâmetros & KPIs" },
+        Series_Mensais: { required: ["mes", "realizado_mm", "consenso_mm", "wmape_pct"], label: "Séries Mensais" },
+        Regionais: { required: ["regional", "realizado_k", "consenso_k"], label: "Regionais" },
+        Restricoes: { required: ["titulo", "severidade", "impacto_k_m3", "detalhe"], label: "Restrições" },
+        Cenarios_Tradeoff: { required: ["cenario", "volume_mm", "ebitda_mm", "custo_extra_mm"], label: "Cenários Trade-off" },
+        Bases: { required: ["base", "regiao", "cobertura_dias", "minimo_anp", "estoque_k_m3"], label: "Bases ANP" },
+        Viagens: { required: ["id", "rota", "produto", "volume_m3", "status"], label: "Viagens S&OE" },
+        Comentarios: { required: ["chave"], label: "Comentários Executivos" }
+      };
+
+      const OTIF_FIELDS = ["data_prometida", "data_entrega", "volume_pedido_m3", "volume_entregue_m3"];
+      let PENDING_IMPORT = null;
+
+      function formatFileSize(bytes) {
+        if (!bytes) return "0 B";
+        if (bytes < 1024) return `${bytes} B`;
+        if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+        return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+      }
+
+      function parseCsvMatrix(text) {
+        const source = String(text || "").replace(/^\uFEFF/, "").replace(/^sep=[;,]\r?\n/i, "");
+        const firstLine = source.split(/\r?\n/, 1)[0] || "";
+        const countOutsideQuotes = (line, delimiter) => {
+          let quoted = false, count = 0;
+          for (let i = 0; i < line.length; i++) {
+            if (line[i] === '"' && line[i + 1] === '"' && quoted) { i++; continue; }
+            if (line[i] === '"') quoted = !quoted;
+            else if (line[i] === delimiter && !quoted) count++;
+          }
+          return count;
+        };
+        const delimiter = countOutsideQuotes(firstLine, ";") >= countOutsideQuotes(firstLine, ",") ? ";" : ",";
+        const rows = [];
+        let row = [], field = "", quoted = false;
+        for (let i = 0; i < source.length; i++) {
+          const ch = source[i];
+          if (ch === '"') {
+            if (quoted && source[i + 1] === '"') { field += '"'; i++; }
+            else quoted = !quoted;
+          } else if (ch === delimiter && !quoted) {
+            row.push(field); field = "";
+          } else if ((ch === "\n" || ch === "\r") && !quoted) {
+            if (ch === "\r" && source[i + 1] === "\n") i++;
+            row.push(field); field = "";
+            if (row.some((v) => String(v).trim() !== "")) rows.push(row);
+            row = [];
+          } else field += ch;
+        }
+        if (quoted) throw new Error("CSV inválido: existe campo com aspas sem fechamento.");
+        row.push(field);
+        if (row.some((v) => String(v).trim() !== "")) rows.push(row);
+        if (rows.length < 2) throw new Error("CSV sem cabeçalho e registros para importação.");
+        return rows;
+      }
+
+      function matrixToSheetData(matrix) {
+        const headers = (matrix[0] || []).map((h) => String(h ?? "").trim());
+        if (!headers.length || headers.some((h) => !h)) throw new Error("Existem cabeçalhos vazios no arquivo.");
+        if (new Set(headers).size !== headers.length) throw new Error("Existem cabeçalhos duplicados no arquivo.");
+        const rows = matrix.slice(1).filter((values) => values.some((v) => v !== null && v !== undefined && String(v).trim() !== ""))
+          .map((values) => {
+            const obj = {};
+            headers.forEach((header, index) => { obj[header] = values[index] === undefined || values[index] === null ? "" : values[index]; });
+            return obj;
+          });
+        return { headers, rows };
+      }
+
+      function validateImportSheets(sheets) {
+        const errors = [];
+        const warnings = [];
+        const knownNames = Object.keys(SCHEMA_RULES).filter((name) => sheets[name]);
+        if (!knownNames.length) errors.push("Nenhuma tabela padrão IBP foi identificada. CSV deve conter o cabeçalho de uma tabela do modelo; XLSX deve conter ao menos uma aba conhecida.");
+
+        const numericRules = {
+          Series_Mensais: { fields: ["realizado_mm", "consenso_mm", "wmape_pct"], minZero: true },
+          Regionais: { fields: ["realizado_k", "consenso_k"], minZero: true },
+          Restricoes: { fields: ["impacto_k_m3"], minZero: true },
+          Cenarios_Tradeoff: { fields: ["volume_mm", "ebitda_mm", "custo_extra_mm"], minZeroFields: ["volume_mm", "custo_extra_mm"] },
+          Bases: { fields: ["cobertura_dias", "minimo_anp", "estoque_k_m3"], minZero: true },
+          Viagens: { fields: ["volume_m3"], minZero: true }
+        };
+
+        knownNames.forEach((name) => {
+          const data = sheets[name];
+          const rule = SCHEMA_RULES[name];
+          const missing = rule.required.filter((col) => !data.headers.includes(col));
+          if (missing.length) {
+            errors.push(`Aba "${name}": coluna(s) obrigatória(s) ausente(s): ${missing.join(", ")}.`);
+            return;
+          }
+          if (!data.rows.length) {
+            errors.push(`Aba "${name}": não há registros para importar.`);
+            return;
+          }
+          data.rows.forEach((row, idx) => {
+            const line = idx + 2;
+            rule.required.forEach((field) => {
+              if (row[field] === null || row[field] === undefined || String(row[field]).trim() === "") {
+                errors.push(`Aba "${name}", linha ${line}: campo obrigatório "${field}" está vazio.`);
+              }
+            });
+            const numericRule = numericRules[name];
+            if (numericRule) numericRule.fields.forEach((field) => {
+              const value = parsePtNumber(row[field]);
+              if (value === null) errors.push(`Aba "${name}", linha ${line}: "${field}" não é numérico válido.`);
+              else if ((numericRule.minZero === true || numericRule.minZeroFields?.includes(field)) && value < 0) {
+                errors.push(`Aba "${name}", linha ${line}: "${field}" não pode ser negativo.`);
+              }
+            });
+            if (name === "Bases" && toNum(row.estoque_k_m3) > 0 && toNum(row.cobertura_dias) <= 0) {
+              errors.push(`Aba "Bases", linha ${line}: estoque positivo exige cobertura maior que zero.`);
+            }
+            if (name === "Viagens" && data.headers.some((h) => OTIF_FIELDS.includes(h))) {
+              OTIF_FIELDS.forEach((field) => {
+                if (!data.headers.includes(field) || row[field] === "" || row[field] === undefined) {
+                  errors.push(`Aba "Viagens", linha ${line}: para calcular OTIF real, informe os quatro campos: ${OTIF_FIELDS.join(", ")}.`);
+                }
+              });
+              if (OTIF_FIELDS.every((field) => data.headers.includes(field))) {
+                if (!parseIBPDate(row.data_prometida) || !parseIBPDate(row.data_entrega)) {
+                  errors.push(`Aba "Viagens", linha ${line}: datas prometida/entrega inválidas para OTIF.`);
+                }
+                ["volume_pedido_m3", "volume_entregue_m3"].forEach((field) => {
+                  const value = parsePtNumber(row[field]);
+                  if (value === null || value < 0) errors.push(`Aba "Viagens", linha ${line}: "${field}" deve ser numérico e não negativo.`);
+                });
+              }
+            }
+            if (name === "KPIs_Ciclo") {
+              const key = String(row.Campo || "").trim();
+              if (key && Object.prototype.hasOwnProperty.call(DEFAULT_STATE.kpis, key) && parsePtNumber(row.Valor) === null) {
+                errors.push(`Aba "KPIs_Ciclo", linha ${line}: o valor de "${key}" deve ser numérico.`);
+              }
+            }
+          });
+        });
+
+        const checkDuplicate = (sheet, field, label) => {
+          const rows = sheets[sheet]?.rows || [];
+          const values = rows.map((r) => String(r[field] ?? "").trim()).filter(Boolean);
+          const duplicates = values.filter((v, i) => values.indexOf(v) !== i);
+          if (duplicates.length) errors.push(`Aba "${sheet}": ${label} duplicado(s): ${[...new Set(duplicates)].slice(0, 5).join(", ")}.`);
+        };
+        checkDuplicate("Series_Mensais", "mes", "período");
+        checkDuplicate("Regionais", "regional", "regional");
+        checkDuplicate("Bases", "base", "base");
+        checkDuplicate("Viagens", "id", "ID de viagem");
+
+        if (sheets.Regionais?.rows?.length) {
+          const totalReal = sheets.Regionais.rows.reduce((sum, r) => sum + (parsePtNumber(r.realizado_k) ?? 0), 0);
+          if (totalReal <= 0) errors.push("Aba \"Regionais\": o realizado consolidado precisa ser maior que zero para calcular o Bias oficial.");
+        }
+        if (sheets.Series_Mensais?.rows?.length) {
+          const periods = sheets.Series_Mensais.rows.map((r) => periodSortKey(r.mes));
+          if (periods.some((key) => key === null)) errors.push("Series_Mensais: há período(s) não reconhecido(s). Utilize formatos como Jan/26, 01/2026 ou 2026-01 para garantir o último fechamento cronológico.");
+        }
+        return { errors, warnings, knownNames };
+      }
+
       function buildWorkbookFromState(s) {
+        if (typeof XLSX === "undefined") throw new Error("SheetJS não está disponível. XLSX requer conexão ou biblioteca carregada localmente.");
         const wb = XLSX.utils.book_new();
         const k = s.kpis;
+        const m = computeMetrics(s);
 
         const wsMeta = XLSX.utils.aoa_to_sheet([
           ["Campo", "Valor"],
           ["ciclo", s.meta.ciclo],
           ["status_ciclo", s.meta.status_ciclo],
           ["snapshot", s.meta.snapshot],
-          ["volume_mm_m3", k.volume_mm_m3],
+          ["volume_mm_m3", m.volumeConsensadoMm],
           ["aop_mm_m3", k.aop_mm_m3],
           ["forecast_base_k_m3", k.forecast_base_k_m3],
           ["ajuste_comercial_k_m3", k.ajuste_comercial_k_m3],
@@ -3036,19 +3516,19 @@
           ["ebitda_mm", k.ebitda_mm],
           ["aop_ebitda_mm", k.aop_ebitda_mm],
           ["margem_pct", k.margem_pct],
-          ["cobertura_dias", k.cobertura_dias],
+          ["cobertura_dias", m.coberturaMediaPonderada],
           ["meta_cobertura_dias", k.meta_cobertura_dias],
-          ["otif_pct", k.otif_pct],
+          ["otif_pct", m.otifOperacionalPct],
           ["meta_otif_pct", k.meta_otif_pct],
           ["aderencia_cronograma_pct", k.aderencia_cronograma_pct],
-          ["wmape_pct", k.wmape_pct],
+          ["wmape_pct", m.wmapeAtualPct],
           ["meta_wmape_pct", k.meta_wmape_pct],
-          ["bias_pct", k.bias_pct],
+          ["bias_pct", Number(m.biasConsolidadoPct.toFixed(2))],
           ["market_share_pct", k.market_share_pct],
           ["share_var_pp", k.share_var_pp],
           ["mercado_yoy_pct", k.mercado_yoy_pct],
-          ["plano_irrestrito_mm_m3", k.plano_irrestrito_mm_m3],
-          ["plano_restrito_mm_m3", k.plano_restrito_mm_m3],
+          ["plano_irrestrito_mm_m3", m.planoIrrestritoMm],
+          ["plano_restrito_mm_m3", m.planoRestritoMm],
           ["impacto_receita_mm", k.impacto_receita_mm],
           ["impacto_ebitda_mm", k.impacto_ebitda_mm],
           ["ocupacao_tancagem_pct", k.ocupacao_tancagem_pct],
@@ -3083,104 +3563,264 @@
         const lines = [
           ["Secao", "Item", "Valor", "Referencia"],
           ["Ciclo", "Periodo", s.meta.ciclo, s.meta.snapshot],
-          ["KPI", "Volume Consensado (MM m3)", k.volume_mm_m3, `AOP: ${k.aop_mm_m3}`],
+          ["KPI", "Volume Consensado (MM m3)", m.volumeConsensadoMm, `AOP: ${k.aop_mm_m3}`],
           ["KPI", "EBITDA Projetado (R$ MM)", k.ebitda_mm, `AOP: ${k.aop_ebitda_mm}`],
-          ["KPI", "Cobertura Media (dias)", k.cobertura_dias, `Meta: ${k.meta_cobertura_dias}`],
-          ["KPI", "OTIF (%)", k.otif_pct, `Meta: ${k.meta_otif_pct}`],
-          ["KPI", "WMAPE (%)", k.wmape_pct, `Meta: <= ${k.meta_wmape_pct}`],
-          ["KPI", "Bias (%)", k.bias_pct, "Faixa: +-2.0%"],
-          ["Supply", "Plano Restrito (MM m3)", k.plano_restrito_mm_m3, `Atendimento: ${fmt.num(m.atendimentoPct)}%`],
+          ["KPI", "Cobertura Media Ponderada (dias)", m.coberturaMediaPonderada, `Meta: ${k.meta_cobertura_dias}`],
+          ["KPI", m.otifMode === "verified" ? "OTIF verificado (%)" : "Pontualidade proxy (%)", m.otifOperacionalPct, `Meta: ${k.meta_otif_pct}`],
+          ["KPI", "WMAPE (%)", m.wmapeAtualPct, `Meta: <= ${k.meta_wmape_pct}`],
+          ["KPI", "Bias Consolidado (%)", Number(m.biasConsolidadoPct.toFixed(2)), "Faixa: +-2.0%"],
+          ["Supply", "Plano Restrito (MM m3)", m.planoRestritoMm, `Atendimento: ${fmt.num(m.atendimentoPct)}%`],
           ["Supply", "Gap Restricao (k m3)", m.gapRestricaoK, `Receita Risco: R$ ${k.impacto_receita_mm} MM`],
+          ["Supply", "Reconciliação", m.reconciliacaoOK ? "OK" : `Divergente em ${m.diferencaReconciliacaoK} k m3`, "Soma das restrições vs gap informado"],
           ...s.bases.map((b) => ["Base ANP", b.base, `${b.cobertura_dias} dias`, `Min ANP: ${b.minimo_anp} dias`]),
           ...s.regionais.map((r) => ["Regional", r.regional, `Real: ${r.realizado_k} k m3`, `Consenso: ${r.consenso_k} k m3`])
         ];
-        const csv = "\uFEFF" + lines.map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(";")).join("\n");
+        const csvCell = (value) => {
+          let text = String(value ?? "");
+          if (typeof value === "string" && /^[\t\r ]*[=+\-@]/.test(text)) text = "'" + text;
+          return `"${text.replace(/"/g, '""')}"`;
+        };
+        const csv = "\uFEFF" + lines.map((r) => r.map(csvCell).join(";")).join("\r\n");
         const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `Ipiranga_IBP_${s.meta.ciclo.replace("/", "_")}.csv`;
+        a.download = `Ipiranga_IBP_${String(s.meta.ciclo).replace(/[\\/:*?"<>|]/g, "_")}.csv`;
+        document.body.appendChild(a);
         a.click();
-        URL.revokeObjectURL(url);
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
       }
 
-      function handleFileUpload(file) {
-        if (!file || typeof XLSX === "undefined") return;
+      function closeImportModal() {
+        const backdrop = document.getElementById("importModalBackdrop");
+        if (backdrop) backdrop.classList.remove("open");
+        PENDING_IMPORT = null;
+      }
+
+      function renderImportPreviewSheet(sheetName) {
+        const host = document.getElementById("importPreviewTableHost");
+        if (!host || !PENDING_IMPORT) return;
+        document.querySelectorAll(".import-sheet-btn").forEach((btn) => {
+          btn.classList.toggle("active", btn.dataset.sheet === sheetName);
+        });
+        const sheetData = PENDING_IMPORT.sheets[sheetName];
+        if (!sheetData || !sheetData.rows.length) {
+          host.innerHTML = `<div style="padding:14px;font-size:12px;color:var(--text-muted);">Nenhum registro encontrado nesta aba.</div>`;
+          return;
+        }
+        const cols = sheetData.headers;
+        host.innerHTML = `
+          <table>
+            <thead><tr>${cols.map((c) => `<th>${esc(c)}</th>`).join("")}</tr></thead>
+            <tbody>${sheetData.rows.slice(0, 5).map((row) => `
+              <tr>${cols.map((c) => {
+                const val = row[c];
+                const isEmpty = val === undefined || val === null || String(val).trim() === "";
+                return `<td style="${isEmpty ? "background:var(--crit-soft);color:var(--crit);font-style:italic;" : ""}">${isEmpty ? "NULO" : esc(val instanceof Date ? val.toLocaleDateString("pt-BR") : val)}</td>`;
+              }).join("")}</tr>`).join("")}</tbody>
+          </table>`;
+      }
+
+      function showImportFailure(message) {
+        const valBox = document.getElementById("importValidationBox");
+        const footerHint = document.getElementById("importFooterHint");
+        const btnConfirm = document.getElementById("btnConfirmImport");
+        if (valBox) {
+          valBox.className = "import-validation-box error";
+          valBox.innerHTML = `<strong>✕ Importação bloqueada:</strong> ${esc(message)}`;
+        }
+        if (footerHint) footerHint.textContent = "Corrija o arquivo e tente novamente. Nenhum dado foi alterado.";
+        if (btnConfirm) btnConfirm.disabled = true;
+        PENDING_IMPORT = null;
+      }
+
+      function openImportValidationModal(file) {
+        const backdrop = document.getElementById("importModalBackdrop");
+        const metaGrid = document.getElementById("importMetaGrid");
+        const valBox = document.getElementById("importValidationBox");
+        const statsBar = document.getElementById("importStatsBar");
+        const tabsHost = document.getElementById("importSheetTabs");
+        const previewHost = document.getElementById("importPreviewTableHost");
+        const btnConfirm = document.getElementById("btnConfirmImport");
+        const footerHint = document.getElementById("importFooterHint");
+        if (!backdrop || !metaGrid || !valBox || !btnConfirm || !file) return;
+
+        const ext = (file.name.split(".").pop() || "").toLowerCase();
+        const allowedExts = ["xlsx", "xls", "csv"];
+        const modDate = file.lastModified ? new Date(file.lastModified).toLocaleString("pt-BR") : "Não informada";
+        metaGrid.innerHTML = `
+          <div class="import-meta-item"><div class="import-meta-lbl">Arquivo</div><div class="import-meta-val">${esc(file.name)}</div></div>
+          <div class="import-meta-item"><div class="import-meta-lbl">Tamanho</div><div class="import-meta-val">${formatFileSize(file.size)}</div></div>
+          <div class="import-meta-item"><div class="import-meta-lbl">Formato</div><div class="import-meta-val">.${esc(ext.toUpperCase())}</div></div>
+          <div class="import-meta-item"><div class="import-meta-lbl">Modificado em</div><div class="import-meta-val">${esc(modDate)}</div></div>`;
+        btnConfirm.disabled = true;
+        tabsHost.innerHTML = "";
+        if (previewHost) previewHost.innerHTML = "";
+        statsBar.innerHTML = "";
+        PENDING_IMPORT = null;
+        backdrop.classList.add("open");
+
+        if (!allowedExts.includes(ext)) return showImportFailure(`Formato .${ext} não suportado. Utilize .xlsx, .xls ou .csv.`);
+        if (file.size > 20 * 1024 * 1024) return showImportFailure("O arquivo excede o limite de 20 MB para importação nesta aplicação demonstrativa.");
+        if (ext !== "csv" && typeof XLSX === "undefined") {
+          return showImportFailure("SheetJS não foi carregado. Arquivos XLS/XLSX exigem a biblioteca; CSV continua disponível mesmo offline.");
+        }
+
         const reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onerror = () => showImportFailure("Falha de leitura do arquivo pelo navegador.");
+        reader.onabort = () => showImportFailure("Leitura do arquivo cancelada.");
+        reader.onload = (event) => {
           try {
-            const wb = XLSX.read(e.target.result, { type: "array" });
-            const next = JSON.parse(JSON.stringify(IBP_STATE));
-            next.meta.fonte = file.name;
-
-            if (wb.Sheets["KPIs_Ciclo"]) {
-              const rows = XLSX.utils.sheet_to_json(wb.Sheets["KPIs_Ciclo"]);
-              rows.forEach((r) => {
-                const key = String(r.Campo || "").trim();
-                const val = r.Valor;
-                if (!key || val === undefined || val === "") return;
-                if (key in next.meta) next.meta[key] = String(val);
-                else if (key in next.kpis) next.kpis[key] = Number(val);
-              });
-            }
-            if (wb.Sheets["Series_Mensais"]) {
-              const rows = XLSX.utils.sheet_to_json(wb.Sheets["Series_Mensais"]);
-              if (rows.length) {
-                next.series_mensais = rows.map((r) => ({
-                  mes: String(r.mes || ""),
-                  realizado_mm: Number(r.realizado_mm || 0),
-                  consenso_mm: Number(r.consenso_mm || 0),
-                  wmape_pct: Number(r.wmape_pct || 0)
-                }));
+            const sheetsParsed = {};
+            if (ext === "csv") {
+              const decoded = new TextDecoder("utf-8").decode(event.target.result);
+              const matrix = parseCsvMatrix(decoded);
+              const data = matrixToSheetData(matrix);
+              const matching = Object.entries(SCHEMA_RULES).filter(([, rule]) => rule.required.every((col) => data.headers.includes(col)));
+              if (matching.length !== 1) {
+                throw new Error("Não foi possível identificar uma única tabela IBP pelo cabeçalho CSV. Use o cabeçalho de uma aba do template (por exemplo, Series_Mensais ou Bases).");
               }
-            }
-            if (wb.Sheets["Regionais"]) {
-              const rows = XLSX.utils.sheet_to_json(wb.Sheets["Regionais"]);
-              if (rows.length) {
-                next.regionais = rows.map((r) => ({
-                  regional: String(r.regional || ""),
-                  realizado_k: Number(r.realizado_k || 0),
-                  consenso_k: Number(r.consenso_k || 0),
-                  bias_pct: Number(r.bias_pct || 0)
-                }));
-              }
-            }
-            if (wb.Sheets["Restricoes"]) {
-              const rows = XLSX.utils.sheet_to_json(wb.Sheets["Restricoes"]);
-              if (rows.length) next.restricoes = rows;
-            }
-            if (wb.Sheets["Cenarios_Tradeoff"]) {
-              const rows = XLSX.utils.sheet_to_json(wb.Sheets["Cenarios_Tradeoff"]);
-              if (rows.length) next.cenarios_tradeoff = rows;
-            }
-            if (wb.Sheets["Bases"]) {
-              const rows = XLSX.utils.sheet_to_json(wb.Sheets["Bases"]);
-              if (rows.length) next.bases = rows;
-            }
-            if (wb.Sheets["Viagens"]) {
-              const rows = XLSX.utils.sheet_to_json(wb.Sheets["Viagens"]);
-              if (rows.length) next.viagens = rows;
-            }
-            if (wb.Sheets["Comentarios"]) {
-              const rows = XLSX.utils.sheet_to_json(wb.Sheets["Comentarios"]);
-              rows.forEach((r) => {
-                const k = String(r.chave || "").trim();
-                const txt = r.comentario_manual ?? r.comentario;
-                if (k && k in next.comentarios && txt !== undefined && String(txt).trim() !== "") {
-                  next.comentarios[k] = String(txt).trim();
-                }
+              sheetsParsed[matching[0][0]] = data;
+            } else {
+              const wb = XLSX.read(event.target.result, { type: "array", cellDates: true });
+              wb.SheetNames.forEach((sheetName) => {
+                const ws = wb.Sheets[sheetName];
+                const matrix = XLSX.utils.sheet_to_json(ws, { header: 1, defval: "", raw: false, blankrows: false });
+                const nonEmptyMatrix = matrix.filter((row) => Array.isArray(row) && row.some((value) => value !== null && value !== undefined && String(value).trim() !== ""));
+                if (nonEmptyMatrix.length) sheetsParsed[sheetName] = matrixToSheetData(nonEmptyMatrix);
               });
             }
 
-            IBP_STATE = next;
-            window.IBP_STATE = IBP_STATE;
-            saveState(IBP_STATE);
-            renderAll();
+            const validation = validateImportSheets(sheetsParsed);
+            const totalRecords = Object.values(sheetsParsed).reduce((sum, sh) => sum + sh.rows.length, 0);
+            const totalFields = Object.values(sheetsParsed).reduce((sum, sh) => sum + sh.headers.length, 0);
+            const totalNulls = Object.values(sheetsParsed).reduce((sum, sh) => sum + sh.rows.reduce((n, row) => n + sh.headers.filter((h) => row[h] === "" || row[h] === null || row[h] === undefined).length, 0), 0);
+            PENDING_IMPORT = { fileName: file.name, sheets: sheetsParsed, isValid: validation.errors.length === 0 };
+
+            if (validation.errors.length) {
+              valBox.className = "import-validation-box error";
+              valBox.innerHTML = `<strong>✕ Validação bloqueada:</strong><ul class="import-validation-list">${validation.errors.slice(0, 30).map((err) => `<li>${esc(err)}</li>`).join("")}</ul>${validation.errors.length > 30 ? `<p>Mais ${validation.errors.length - 30} erro(s) não exibido(s).</p>` : ""}`;
+              footerHint.textContent = "A importação está bloqueada. Corrija os erros antes de confirmar.";
+              btnConfirm.disabled = true;
+            } else if (validation.warnings.length || totalNulls > 0) {
+              valBox.className = "import-validation-box warn";
+              valBox.innerHTML = `<strong>⚠ Estrutura validada com ressalvas:</strong><ul class="import-validation-list">${[...validation.warnings, ...(totalNulls ? [`${totalNulls} célula(s) vazia(s) em colunas não bloqueantes.`] : [])].map((w) => `<li>${esc(w)}</li>`).join("")}</ul>`;
+              footerHint.textContent = "Revise a prévia. Campos obrigatórios vazios bloqueiam a confirmação.";
+              btnConfirm.disabled = false;
+            } else {
+              valBox.className = "import-validation-box valid";
+              valBox.innerHTML = `<strong>✓ Validação estrutural e numérica concluída:</strong> ${validation.knownNames.length} tabela(s) IBP reconhecida(s). A importação atualizará somente as abas presentes no arquivo.`;
+              footerHint.textContent = "Pronto para aplicar os dados validados ao painel IBP.";
+              btnConfirm.disabled = false;
+            }
+
+            statsBar.innerHTML = `
+              <span class="badge badge-blue">${Object.keys(sheetsParsed).length} aba(s)/tabela(s) lida(s)</span>
+              <span class="badge badge-neutral">${totalRecords} registro(s)</span>
+              <span class="badge badge-neutral">${totalFields} campo(s)</span>
+              <span class="badge ${totalNulls > 0 ? "badge-warn" : "badge-ok"}">${totalNulls} valor(es) vazio(s)</span>`;
+
+            const names = Object.keys(sheetsParsed);
+            const firstSheet = names[0];
+            tabsHost.innerHTML = names.map((name) => `<button type="button" class="import-sheet-btn ${name === firstSheet ? "active" : ""}" data-sheet="${esc(name)}">${esc(name)} (${sheetsParsed[name].rows.length})</button>`).join("");
+            if (firstSheet) renderImportPreviewSheet(firstSheet);
           } catch (err) {
-            alert("Erro ao ler planilha: " + err.message);
+            console.error("Erro na pré-validação IBP:", err);
+            showImportFailure(err?.message || "Erro desconhecido ao interpretar o arquivo.");
           }
         };
         reader.readAsArrayBuffer(file);
+      }
+
+      function validateFullStateBeforeCommit(st) {
+        if (!isValidIBPStateShape(st)) throw new Error("O estado resultante não atende ao schema mínimo do modelo IBP. A base atual foi preservada.");
+        const metrics = computeMetrics(st);
+        if (metrics.coberturaMediaPonderada === null) throw new Error("Cobertura não calculável: existe base com estoque positivo e cobertura ausente/zero.");
+        if (metrics.wmapeAtualPct === null) throw new Error("WMAPE não calculável: nenhum fechamento mensal válido foi encontrado.");
+        if (metrics.biasConsolidadoPct === null) throw new Error("Bias não calculável: realizado consolidado deve ser maior que zero.");
+        if (metrics.otifOperacionalPct === null) throw new Error("Indicador de execução não calculável: a tabela Viagens está vazia.");
+        return metrics;
+      }
+
+      function commitPendingImport() {
+        if (!PENDING_IMPORT || !PENDING_IMPORT.isValid) return;
+        try {
+          const sheets = PENDING_IMPORT.sheets;
+          const next = cloneState(IBP_STATE);
+          next.meta.fonte = PENDING_IMPORT.fileName;
+
+          if (sheets.KPIs_Ciclo) {
+            const importedKpiKeys = new Set(sheets.KPIs_Ciclo.rows.map((r) => String(r.Campo || "").trim()).filter(Boolean));
+            sheets.KPIs_Ciclo.rows.forEach((r) => {
+              const key = String(r.Campo || "").trim();
+              const val = r.Valor;
+              if (!key || val === undefined || val === "") return;
+              if (Object.prototype.hasOwnProperty.call(next.meta, key)) next.meta[key] = String(val).trim();
+              else if (Object.prototype.hasOwnProperty.call(next.kpis, key)) {
+                const parsed = parsePtNumber(val);
+                if (parsed === null) throw new Error(`Valor inválido para KPI "${key}".`);
+                next.kpis[key] = parsed;
+              }
+            });
+            const bridgeKeys = ["forecast_base_k_m3", "ajuste_comercial_k_m3", "efeito_promocional_k_m3"];
+            if (importedKpiKeys.has("volume_mm_m3") && !bridgeKeys.some((key) => importedKpiKeys.has(key))) {
+              next.kpis.forecast_base_k_m3 = Math.round(toNum(next.kpis.volume_mm_m3) * 1000)
+                - toNum(next.kpis.ajuste_comercial_k_m3) - toNum(next.kpis.efeito_promocional_k_m3);
+            }
+            if (bridgeKeys.some((key) => importedKpiKeys.has(key))) {
+              next.kpis.volume_mm_m3 = +((toNum(next.kpis.forecast_base_k_m3) + toNum(next.kpis.ajuste_comercial_k_m3) + toNum(next.kpis.efeito_promocional_k_m3)) / 1000).toFixed(3);
+            }
+          }
+          if (sheets.Series_Mensais) next.series_mensais = sheets.Series_Mensais.rows.map((r) => ({
+            mes: String(r.mes).trim(), realizado_mm: toNum(r.realizado_mm), consenso_mm: toNum(r.consenso_mm), wmape_pct: toNum(r.wmape_pct)
+          }));
+          if (sheets.Regionais) next.regionais = sheets.Regionais.rows.map((r) => {
+            const real = toNum(r.realizado_k), cons = toNum(r.consenso_k);
+            return { regional: String(r.regional).trim(), realizado_k: real, consenso_k: cons, bias_pct: real > 0 ? +(((cons - real) / real) * 100).toFixed(2) : null };
+          });
+          if (sheets.Restricoes) next.restricoes = sheets.Restricoes.rows.map((r) => ({
+            titulo: String(r.titulo).trim(), severidade: String(r.severidade).trim(), impacto_k_m3: toNum(r.impacto_k_m3), detalhe: String(r.detalhe).trim(),
+            ...(r.ativo !== "" && r.ativo !== undefined ? { ativo: String(r.ativo).trim().toLowerCase() === "true" || String(r.ativo).trim() === "1" } : {})
+          }));
+          if (sheets.Cenarios_Tradeoff) next.cenarios_tradeoff = sheets.Cenarios_Tradeoff.rows.map((r) => ({
+            cenario: String(r.cenario).trim(), volume_mm: toNum(r.volume_mm), ebitda_mm: toNum(r.ebitda_mm), custo_extra_mm: toNum(r.custo_extra_mm)
+          }));
+          if (sheets.Bases) next.bases = sheets.Bases.rows.map((r) => ({
+            base: String(r.base).trim(), regiao: String(r.regiao).trim(), cobertura_dias: toNum(r.cobertura_dias), minimo_anp: toNum(r.minimo_anp), estoque_k_m3: toNum(r.estoque_k_m3)
+          }));
+          if (sheets.Viagens) next.viagens = sheets.Viagens.rows.map((r) => ({
+            id: String(r.id).trim(), rota: String(r.rota).trim(), produto: String(r.produto).trim(), volume_m3: toNum(r.volume_m3),
+            status: String(r.status).trim(), atraso_h: r.atraso_h === "" || r.atraso_h === undefined ? 0 : toNum(r.atraso_h), causa: String(r.causa || "").trim(),
+            ...(OTIF_FIELDS.some((field) => Object.prototype.hasOwnProperty.call(r, field)) ? {
+              data_prometida: r.data_prometida, data_entrega: r.data_entrega,
+              volume_pedido_m3: toNum(r.volume_pedido_m3, null), volume_entregue_m3: toNum(r.volume_entregue_m3, null)
+            } : {})
+          }));
+          if (sheets.Comentarios) {
+            sheets.Comentarios.rows.forEach((r) => {
+              const key = String(r.chave || "").trim();
+              const text = r.comentario_manual ?? r.comentario;
+              if (key && Object.prototype.hasOwnProperty.call(next.comentarios, key) && text !== undefined && String(text).trim() !== "") {
+                next.comentarios[key] = String(text).trim();
+              }
+            });
+          }
+
+          const metrics = validateFullStateBeforeCommit(next);
+          IBP_STATE = next;
+          window.IBP_STATE = next;
+          const persisted = saveState(next);
+          closeImportModal();
+          renderAll();
+          if (!metrics.reconciliacaoOK) {
+            alert(`Importação aplicada, mas a reconciliação do Supply diverge em ${fmt.int(metrics.diferencaReconciliacaoK)} k m³. Revise Plano Restrito e Restricoes.`);
+          }
+          if (!persisted) alert("Os dados foram carregados nesta sessão, mas o navegador não permitiu salvá-los no armazenamento local. Exporte uma cópia para não perder as alterações ao fechar a página.");
+        } catch (error) {
+          console.error("Falha no commit de importação IBP:", error);
+          showImportFailure(error?.message || "Falha ao aplicar os dados. A base anterior foi preservada.");
+        }
       }
 
       /* =====================================================================
@@ -3231,30 +3871,51 @@
         }
 
         document.getElementById("btnDownloadTemplate")?.addEventListener("click", () => {
-          if (typeof XLSX === "undefined") return;
-          const wb = buildWorkbookFromState(DEFAULT_STATE);
-          XLSX.writeFile(wb, "Template_IBP_Ipiranga.xlsx");
+          try {
+            const wb = buildWorkbookFromState(DEFAULT_STATE);
+            XLSX.writeFile(wb, "Template_IBP_Ipiranga.xlsx");
+          } catch (error) { alert(error.message || "Não foi possível gerar o template Excel."); }
         });
 
         document.getElementById("btnExportXLSX")?.addEventListener("click", () => {
-          if (typeof XLSX === "undefined") return;
-          const wb = buildWorkbookFromState(IBP_STATE);
-          XLSX.writeFile(wb, `Dados_IBP_Ipiranga_${IBP_STATE.meta.ciclo.replace("/", "_")}.xlsx`);
+          try {
+            const wb = buildWorkbookFromState(IBP_STATE);
+            XLSX.writeFile(wb, `Dados_IBP_Ipiranga_${String(IBP_STATE.meta.ciclo).replace(/[\/:*?"<>|]/g, "_")}.xlsx`);
+          } catch (error) { alert(error.message || "Não foi possível exportar o Excel."); }
         });
 
         document.getElementById("btnExportCSV")?.addEventListener("click", () => exportCSVFromState(IBP_STATE));
         document.getElementById("btnExportTab6")?.addEventListener("click", () => exportCSVFromState(IBP_STATE));
 
         document.getElementById("fileInput")?.addEventListener("change", (e) => {
-          if (e.target.files && e.target.files[0]) handleFileUpload(e.target.files[0]);
+          if (e.target.files && e.target.files[0]) {
+            openImportValidationModal(e.target.files[0]);
+          }
           e.target.value = "";
         });
 
+        document.getElementById("importSheetTabs")?.addEventListener("click", (event) => {
+          const button = event.target.closest(".import-sheet-btn");
+          if (button) renderImportPreviewSheet(button.dataset.sheet);
+        });
+
+        document.getElementById("btnCloseImportModal")?.addEventListener("click", closeImportModal);
+        document.getElementById("btnCancelImport")?.addEventListener("click", closeImportModal);
+        document.getElementById("btnConfirmImport")?.addEventListener("click", commitPendingImport);
+        document.getElementById("importModalBackdrop")?.addEventListener("click", (e) => {
+          if (e.target.id === "importModalBackdrop") closeImportModal();
+        });
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") closeImportModal();
+        });
+
         document.getElementById("btnRestoreData")?.addEventListener("click", () => {
-          try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
-          IBP_STATE = JSON.parse(JSON.stringify(DEFAULT_STATE));
+          try { localStorage.removeItem(STORAGE_KEY); } catch (e) { console.warn("Não foi possível limpar o armazenamento local:", e); }
+          IBP_STATE = cloneState(DEFAULT_STATE);
           window.IBP_STATE = IBP_STATE;
+          const persisted = saveState(IBP_STATE);
           renderAll();
+          if (!persisted) alert("A base padrão foi restaurada nesta sessão, mas não pôde ser persistida pelo navegador.");
         });
 
         document.getElementById("glossarySearch")?.addEventListener("input", (e) => {
